@@ -8,19 +8,12 @@ use Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Psy\Util\Json;
 
 class AuthController extends Controller
 {
     /**
-     * Login user and create token
-     *
-     * @param  [string] email
-     * @param  [string] password
-     * @param  [boolean] remember_me
-     * @return [string] access_token
-     * @return [string] token_type
-     * @return [string] expires_at
+     * @param LoginRequest $request
+     * @return JsonResponse
      */
     public function login(LoginRequest $request)
     {
