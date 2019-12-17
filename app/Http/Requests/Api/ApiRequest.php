@@ -14,7 +14,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class BaseRequest extends FormRequest
+class ApiRequest extends FormRequest
 {
     protected function failedValidation(Validator $validator)
     {

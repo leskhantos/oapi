@@ -5,8 +5,12 @@ namespace App\Exceptions;
 use App\Exceptions\Http\UnauthorizedHttpException;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -51,6 +55,10 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof HttpExceptionInterface) {
             return $this->prepareJsonResponse($request, $exception);
+        }
+
+        if ($exception instanceof ModelNotFoundException) {
+            return new JsonResponse('Model not found', 404);
         }
 
         return parent::render($request, $exception);

@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Api\Auth;
 
-use App\Http\Requests\Api\BaseRequest;
+use App\Http\Requests\Api\ApiRequest;
 
-class LoginRequest extends BaseRequest
+class LoginRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.

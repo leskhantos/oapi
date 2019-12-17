@@ -1,18 +1,25 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: pazgalev
+ * Date: 12/17/19
+ * Time: 1:35 PM
+ */
 
 namespace App\Http\Requests\Api\User;
+
 
 use App\Http\Requests\Api\ApiRequest;
 
 /**
- * Class StoreRequest
+ * Class UpdateRequest
  * @property string $name
  * @property string $surname
  * @property string $login
  * @property string $password
  * @package App\Http\Requests\Api\User
  */
-class StoreRequest extends ApiRequest
+class UpdateRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -32,11 +39,10 @@ class StoreRequest extends ApiRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|min:2|max:255',
-            'surname' => 'required|string|min:2|max:255',
-            'login' => 'required|string|min:6|max:55|unique:users,login',
-            'password' => 'required|string|min:6|max:255',
+            'name' => 'string|min:2|max:255',
+            'surname' => 'string|min:2|max:255',
+            'login' => 'string|min:6|max:55|unique:users,login,' . $this->route()->id,
+            'password' => 'string|min:6|max:255',
         ];
     }
-
 }
