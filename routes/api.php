@@ -37,7 +37,9 @@ Route::group([
 
 
     Route::get('companies', 'CompaniesController@index');
+    Route::get('company/{id}', 'CompaniesController@show');
     Route::post('company', 'CompaniesController@store');
     Route::put('company/{id}', 'CompaniesController@update');
     Route::delete('company/{id}', 'CompaniesController@destroy');
+
 });
