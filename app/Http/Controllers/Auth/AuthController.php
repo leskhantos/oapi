@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Exceptions\Http\UnauthorizedHttpException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Auth\LoginRequest;
 use Auth;
@@ -20,9 +21,7 @@ class AuthController extends Controller
         $credentials = request(['login', 'password']);
 
         if (!Auth::attempt($credentials)) {
-            return new JsonResponse([
-                'message' => 'Unauthorized'
-            ], 401);
+            throw new UnauthorizedHttpException('Unauthorized. Invalid credentials');
         }
 
         $user = $request->user();

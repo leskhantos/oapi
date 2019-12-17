@@ -18,14 +18,12 @@ Route::group([
     'prefix' => 'auth',
 ], function () {
 
-
     Route::post('login', 'Auth\AuthController@login');
 
     Route::group([
         'middleware' => 'auth:api'
     ], function () {
-        Route::get('logout', 'Auth\AuthController@logout');
+        Route::match(['get', 'post'], 'logout', 'Auth\AuthController@logout');
         Route::get('user', 'Auth\AuthController@user');
     });
-
 });
