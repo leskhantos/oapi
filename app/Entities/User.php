@@ -74,4 +74,9 @@ class User extends Authenticatable
     {
         $this->password = Hash::make($password);
     }
+
+    public function company()
+    {
+        return $this->hasOne(Company::class);
+    }
 }

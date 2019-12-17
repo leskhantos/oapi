@@ -34,4 +34,10 @@ Route::group([
     Route::get('users', 'UsersController@index');
     Route::post('user', 'UsersController@store');
     Route::put('user/{id}', 'UsersController@update');
+
+
+    Route::get('companies', 'CompaniesController@index');
+    Route::post('company', 'CompaniesController@store');
+    Route::put('company/{id}', 'CompaniesController@update');
+    Route::delete('company/{id}', 'CompaniesController@destroy');
 });
