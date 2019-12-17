@@ -1,5 +1,6 @@
 <?php
 
+use App\Entities\User;
 use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder
@@ -11,7 +12,14 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\Entities\User::query()->truncate();
-        factory(\App\Entities\User::class, 25)->create();
+        $this->truncate();
+        factory(User::class, 10)->create();
+    }
+
+    private function truncate(): void
+    {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        User::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }
