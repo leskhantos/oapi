@@ -36,7 +36,8 @@ class CompaniesController extends Controller
 
     public function show($id)
     {
-        return new JsonResponse(Company::with('user')->findOrFail($id));
+        $company = Company::with('user')->findOrFail($id);
+        return new JsonResponse($company);
     }
 
 
