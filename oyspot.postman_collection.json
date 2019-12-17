@@ -302,6 +302,52 @@
 					"response": []
 				},
 				{
+					"name": "show",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiMzVhMzRiYWRmZTAxMTJjYjJjZjA2ODQwOTA1NDkwNTYxNTY1NGEwMDIxYmI3NDE1Njk0MjBhNzBhMGVhZTA4Y2Y5MmUyZTMwZGJkNDEyNmIiLCJpYXQiOjE1NzY1OTQxOTIsIm5iZiI6MTU3NjU5NDE5MiwiZXhwIjoxNjA4MjE2NTkyLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.XtaFbKpJfniux27CnW6bfCP_KmAccqOIuq8OVElioUkhv5kHxbBsl4cctXcj1tMP8GksaUkFiPLuIISAeHa4KUoiLCveaVVSJzx0JV7hqKFacd_OnHnzKn0Ec4yBQ3H9qI1j3JI5bmoghqxU9AhSLYBIBzH-FPbDat8TAHOJQmN0m7cwc_PCDeE_yNMMbM9aqQytP0qiusj5tB6qH-0AiJIyLVuDrJ5amXUffaFN02_Sm-ymKltdEhDoChVgC7k1UJZf5NLD7vksYi_cC6GE0ReXnnHYKCNKRTrvbD8ySnJAsEyltBa2ex_JDARITlP90csCWLN_wyH_xIhzN7tIzt7VouIWLMBiM2-1KBkatRYRFsA4wRZ4XgbYvhZznGVvnE0jMxBCduZh6IgULqxfmv0expjpfI0jXoZwkU-YF5tDc215wzyWN5M1Piceg4WUpKb6xlwJ9-CrR2vdXXiKP-TQ_voqZBsm9iRIF2VF_7tpYbNf8bcj28s_GzTa9OG_Gp6zFoaslwbx1hiRbSFkFREkv-iKGwgVrgoL7n2EJbGSHau9MuGTSFRIrN0kW73L7dm5CfIm1kt__Ye9qeyPKQ7lr0ppYKtXbrav9P1YQPfpAJn-HiLefKLY8tYRo2lJuFlaK_wQaGGZfDWGSVmSkKzqG0NyH3vsD417GGAn__0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Иван\",\n    \"surname\": \"Петрович\",\n    \"login\": \"ivan.petrovich2\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/companies",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"companies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "delete",
 					"request": {
 						"auth": {
