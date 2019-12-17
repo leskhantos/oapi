@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Api\User\StoreRequest;
-use App\User;
+use App\Entities\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
-    public function index()
+    public function index(): JsonResponse
     {
         return new JsonResponse(User::all());
     }
 
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): JsonResponse
     {
         $user = User::make($request->all());
         $user->password = Hash::make($request->password);
@@ -23,9 +23,19 @@ class UsersController extends Controller
         return new JsonResponse($user, 201);
     }
 
-    public function update(UpdateRequest $request)
+    //TODO:
+    public function update(StoreRequest $request, int $id): JsonResponse
     {
-        //TODO
+        $user = User::findOrFail($id);
+
+        $attributes = $request->all();
+        if (isset($request->password)) {
+            $attributes['password'] = Hash::make($request->password);
+        }
+
+        $user->update($request->all());
+
+        return new JsonResponse($user, 201);
     }
 
 }

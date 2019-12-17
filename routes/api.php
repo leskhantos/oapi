@@ -27,3 +27,11 @@ Route::group([
         Route::get('user', 'Auth\AuthController@user');
     });
 });
+
+Route::group([
+    'middleware' => 'auth:api'
+], function () {
+    Route::get('users', 'UsersController@index');
+    Route::post('user', 'UsersController@store');
+    Route::put('user/{id}', 'UsersController@update');
+});
