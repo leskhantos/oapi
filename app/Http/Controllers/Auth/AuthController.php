@@ -2,40 +2,38 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Exceptions\Http\UnauthorizedHttpException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Auth\LoginRequest;
-use Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Services\Auth as AuthService;
 
 class AuthController extends Controller
 {
+    /**
+     * @var AuthService
+     */
+    private $authService;
+
+    public function __construct(AuthService $authService)
+    {
+        $this->authService = $authService;
+    }
+
     /**
      * @param LoginRequest $request
      * @return JsonResponse
      */
     public function login(LoginRequest $request)
     {
-        $credentials = request(['login', 'password']);
-
-        if (!Auth::attempt($credentials)) {
-            throw new UnauthorizedHttpException('Unauthorized. Invalid credentials');
-        }
-
-        $user = $request->user();
-        $tokenResult = $user->createToken('Personal Access Token');
-        $token = $tokenResult->token;
-
-        $token->save();
+        $tokenResult = $this->authService->login($request);
 
         return new JsonResponse([
             'access_token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',
-            'expires_at' => Carbon::parse(
-                $tokenResult->token->expires_at
-            )->toDateTimeString()
+            'expires_at' => Carbon::parse($tokenResult->token->expires_at)
+                ->toDateTimeString()
         ]);
     }
 
@@ -45,7 +43,7 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
-        $request->user()->token()->revoke();
+        $this->authService->logout($request->user());
 
         return new JsonResponse([
             'message' => 'Successfully logged out'

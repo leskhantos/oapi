@@ -4,6 +4,12 @@ namespace App\Http\Requests\Api\Auth;
 
 use App\Http\Requests\Api\ApiRequest;
 
+/**
+ * Class LoginRequest
+ * @property string $login
+ * @property string $password
+ * @package App\Http\Requests\Api\Auth
+ */
 class LoginRequest extends ApiRequest
 {
     /**
@@ -26,7 +32,6 @@ class LoginRequest extends ApiRequest
         return [
             'login' => 'required|string',
             'password' => 'required|string',
-            'remember_me' => 'boolean'
         ];
     }
 }

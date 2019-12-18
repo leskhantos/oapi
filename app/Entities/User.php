@@ -35,6 +35,13 @@ use Laravel\Passport\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User whereSurname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string|null $last_login
+ * @property string|null $last_ip
+ * @property int $disabled
+ * @property-read \App\Entities\Company $company
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User whereDisabled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User whereLastIp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User whereLastLogin($value)
  */
 class User extends Authenticatable
 {
