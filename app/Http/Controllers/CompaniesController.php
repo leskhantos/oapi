@@ -2,43 +2,53 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Company;
 use App\Http\Requests\Api\Companies\StoreRequest;
 use App\Http\Requests\Api\Companies\UpdateRequest;
 use Illuminate\Http\JsonResponse;
+use App\Repositories\Company as CompanyRepository;
 
 class CompaniesController extends Controller
 {
-    public function index(): JsonResponse
+    protected $companyRepository;
+
+    public function __construct(CompanyRepository $companyRepository)
     {
-        return new JsonResponse(Company::all());
+        $this->companyRepository = $companyRepository;
     }
 
-    public function destroy($id): JsonResponse
+    public function index(): JsonResponse
     {
-        $company = Company::findOrFail($id);
-        return new JsonResponse($company->delete(), 204);
+        return new JsonResponse($this->companyRepository->all());
+    }
+
+    /**
+     * @param int $id
+     * @return JsonResponse
+     * @throws \Exception
+     */
+    public function destroy(int $id): JsonResponse
+    {
+        return new JsonResponse($this->companyRepository
+            ->destroy($id), 204);
     }
 
     public function store(StoreRequest $request): JsonResponse
     {
-        $company = Company::create($request->all());
-        return new JsonResponse($company, 201);
+        return new JsonResponse($this->companyRepository
+            ->create($request), 201);
     }
 
     public function update(UpdateRequest $request, int $id): JsonResponse
     {
-        $company = Company::findOrFail($id);
-        $company->update($request->all());
+        $company = $this->companyRepository->update($request, $id);
 
         return new JsonResponse($company, 201);
     }
 
-    public function show($id)
+    public function show(int $id): JsonResponse
     {
-        $company = Company::with('user')->findOrFail($id);
-        return new JsonResponse($company);
+        $company = $this->companyRepository->findById($id);
+
+        return new JsonResponse($company->load('user'));
     }
-
-
 }
