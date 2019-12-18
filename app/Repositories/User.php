@@ -43,7 +43,7 @@ class User
      */
     public function update(UpdateRequest $request, int $userId): UserModel
     {
-        $user = UserModel::findOrFail($userId);
+        $user = $this->findById($userId);
 
         $user->fill($request->all());
         if (isset($request->password)) {
@@ -52,5 +52,14 @@ class User
         $user->save();
 
         return $user;
+    }
+
+    /**
+     * @param int $id
+     * @return UserModel
+     */
+    public function findById(int $id): UserModel
+    {
+        return UserModel::findOrFail($id);
     }
 }
