@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Services\Auth as AuthService;
+use Laravel\Passport\PersonalAccessTokenResult;
 
 class AuthController extends Controller
 {
@@ -29,12 +30,7 @@ class AuthController extends Controller
     {
         $tokenResult = $this->authService->login($request);
 
-        return new JsonResponse([
-            'access_token' => $tokenResult->accessToken,
-            'token_type' => 'Bearer',
-            'expires_at' => Carbon::parse($tokenResult->token->expires_at)
-                ->toDateTimeString()
-        ]);
+        return $this->respondWithToken($tokenResult);
     }
 
     /**
@@ -57,5 +53,15 @@ class AuthController extends Controller
     public function user(Request $request)
     {
         return new JsonResponse($request->user());
+    }
+
+    protected function respondWithToken(PersonalAccessTokenResult $tokenResult)
+    {
+        return new JsonResponse([
+            'access_token' => $tokenResult->accessToken,
+            'token_type' => 'Bearer',
+            'expires_at' => Carbon::parse($tokenResult->token->expires_at)
+                ->toDateTimeString()
+        ]);
     }
 }
