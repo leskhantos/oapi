@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\Http\Auth\InvalidToken;
 use App\Exceptions\Http\UnauthorizedHttpException;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
@@ -53,6 +54,17 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof UnauthorizedHttpException) {
+            //1. неверный логин/пароль code 1
+            //2. Неверный токен code 2
+            //3. Токен протух code 3
+            //4. Пользователь отключен code 4
+            return new JsonResponse([
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode(),
+            ], 401);
+        }
+
         if ($exception instanceof HttpExceptionInterface) {
             return $this->prepareJsonResponse($request, $exception);
         }
@@ -61,11 +73,12 @@ class Handler extends ExceptionHandler
             return new JsonResponse('Model not found', 404);
         }
 
+
         return parent::render($request, $exception);
     }
 
     protected function unauthenticated($request, AuthenticationException $exception)
     {
-        throw new UnauthorizedHttpException();
+        throw new InvalidToken();
     }
 }

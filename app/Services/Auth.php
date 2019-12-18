@@ -10,7 +10,7 @@ namespace App\Services;
 
 
 use App\Entities\User;
-use App\Exceptions\Http\UnauthorizedHttpException;
+use App\Exceptions\Http\Auth\InvalidLoginOrPassword;
 use App\Http\Requests\Api\Auth\LoginRequest;
 use Illuminate\Support\Carbon;
 use Laravel\Passport\PersonalAccessTokenResult;
@@ -20,11 +20,7 @@ class Auth
 {
     public function login(LoginRequest $request): PersonalAccessTokenResult
     {
-        $credentials = request(['login','password']);
-
-        if (!AuthFacade::attempt($credentials)) {
-            throw new UnauthorizedHttpException('Unauthorized. Invalid credentials');
-        }
+        $this->tryLogin($request);
 
         $this->updateLastLogin($request->user(), $request->ip());
 
@@ -51,5 +47,20 @@ class Auth
         $token->save();
 
         return $tokenResult;
+    }
+
+    /**
+     * @param LoginRequest $request
+     */
+    private function tryLogin(LoginRequest $request): void
+    {
+        $credentials = [
+            'login' => $request->login,
+            'password' => $request->password
+        ];
+
+        if (!AuthFacade::attempt($credentials)) {
+            throw new InvalidLoginOrPassword();
+        }
     }
 }
