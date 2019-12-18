@@ -23,5 +23,8 @@ $factory->define(User::class, function (Faker $faker) {
         'surname' => $faker->lastName,
         'login' => $faker->userName,
         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+        'last_login' => $faker->date(),
+        'last_ip' => $faker->boolean ? $faker->ipv4 : $faker->ipv6,
+        'disabled' => $faker->boolean
     ];
 });
