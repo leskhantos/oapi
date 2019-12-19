@@ -12,7 +12,8 @@ class AddCreateUserPermissionToPermissionsTable extends Migration
      */
     public function up()
     {
-        Permission::create(['name' => 'create_user']);
+        $permission = Permission::create(['name' => 'create_user']);
+        $permission->assignRole('admin', 'manager');
     }
 
     /**

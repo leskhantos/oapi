@@ -14,6 +14,7 @@ class CompaniesController extends Controller
     public function __construct(CompanyRepository $companyRepository)
     {
         $this->companyRepository = $companyRepository;
+        parent::__construct();
     }
 
     public function index(): JsonResponse

@@ -17,29 +17,21 @@ use Illuminate\Http\Request;
 Route::group([
     'prefix' => 'auth',
 ], function () {
-
     Route::post('login', 'Auth\AuthController@login');
-
-    Route::group([
-        'middleware' => 'auth:api'
-    ], function () {
-        Route::match(['get', 'post'], 'logout', 'Auth\AuthController@logout');
-        Route::get('user', 'Auth\AuthController@user');
-    });
+    Route::match(['get', 'post'], 'logout', 'Auth\AuthController@logout');
+    Route::get('user', 'Auth\AuthController@user');
 });
 
-Route::group([
-    'middleware' => 'auth:api'
-], function () {
-    Route::get('users', 'UsersController@index');
-    Route::post('user', 'UsersController@store');
-    Route::put('user/{id}', 'UsersController@update');
+Route::get('roles', 'RolesController@index');
+
+Route::get('users', 'UsersController@index');
+Route::post('user', 'UsersController@store');
+Route::put('user/{id}', 'UsersController@update');
 
 
-    Route::get('companies', 'CompaniesController@index');
-    Route::get('company/{id}', 'CompaniesController@show');
-    Route::post('company', 'CompaniesController@store');
-    Route::put('company/{id}', 'CompaniesController@update');
-    Route::delete('company/{id}', 'CompaniesController@destroy');
+Route::get('companies', 'CompaniesController@index');
+Route::get('company/{id}', 'CompaniesController@show');
+Route::post('company', 'CompaniesController@store');
+Route::put('company/{id}', 'CompaniesController@update');
+Route::delete('company/{id}', 'CompaniesController@destroy');
 
-});

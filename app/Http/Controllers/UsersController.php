@@ -6,14 +6,17 @@ use App\Http\Requests\Api\User\StoreRequest;
 use App\Http\Requests\Api\User\UpdateRequest;
 use Illuminate\Http\JsonResponse;
 use App\Repositories\User as UsersRepository;
+use App\Repositories\Company as CompaniesRepository;
 
 class UsersController extends Controller
 {
     private $usersRepository;
 
-    public function __construct(UsersRepository $repository)
+    public function __construct(UsersRepository $usersRepository, CompaniesRepository $companiesRepository)
     {
-        $this->usersRepository = $repository;
+        $this->usersRepository = $usersRepository;
+//        $this->middleware('permission:create-user')->only('store');
+        parent::__construct();
     }
 
     public function index(): JsonResponse

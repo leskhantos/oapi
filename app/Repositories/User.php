@@ -29,8 +29,8 @@ class User
      */
     public function create(StoreRequest $request): UserModel
     {
-        $user = UserModel::make($request->all());
-        $user->setPassword($request->password);
+        $user = UserModel::make($request->user);
+        $user->setPassword($request->user['password']);
         $user->save();
 
         return $user;

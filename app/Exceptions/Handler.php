@@ -66,11 +66,16 @@ class Handler extends ExceptionHandler
             ], 401);
         }
 
-        if ($exception instanceof ForbiddenHttpException) {
+        if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
             return new JsonResponse([
                 'message' => $exception->getMessage(),
-                'code' => $exception->getCode(),
             ], 403);
+        }
+
+        if ($exception instanceof \Spatie\Permission\Exceptions\RoleDoesNotExist) {
+            return new JsonResponse([
+                'message' => $exception->getMessage(),
+            ], 400);
         }
 
         if ($exception instanceof HttpExceptionInterface) {

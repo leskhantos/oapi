@@ -2,6 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
+use App\Entities\Company;
 use App\Entities\User;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
@@ -25,6 +26,7 @@ $factory->define(User::class, function (Faker $faker) {
         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
         'last_login' => $faker->date(),
         'last_ip' => $faker->boolean ? $faker->ipv4 : $faker->ipv6,
-        'disabled' => $faker->boolean
+        'disabled' => $faker->boolean,
+        'company_id' => $faker->boolean ? factory(Company::class) : null
     ];
 });
