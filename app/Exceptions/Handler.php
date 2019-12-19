@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use App\Exceptions\Http\Auth\InvalidToken;
+use App\Exceptions\Http\ForbiddenHttpException;
 use App\Exceptions\Http\UnauthorizedHttpException;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
@@ -63,6 +64,13 @@ class Handler extends ExceptionHandler
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode(),
             ], 401);
+        }
+
+        if ($exception instanceof ForbiddenHttpException) {
+            return new JsonResponse([
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode(),
+            ], 403);
         }
 
         if ($exception instanceof HttpExceptionInterface) {
