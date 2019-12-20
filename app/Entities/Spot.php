@@ -80,22 +80,6 @@ class Spot extends Model
         return $this->belongsTo(Company::class);
     }
 
-//    /**
-//     * Create and return an un-saved model instance.
-//     *
-//     * @param  array $attributes
-//     * @return \Illuminate\Database\Eloquent\Model|static
-//     */
-//    public function make(array $attributes = [])
-//    {
-//
-//        /** @var self $instance */
-//        $instance = $this->newModelInstance($attributes);
-//        $instance->settings = $instance->type ? $this->setSettings() : null;
-//        return $this->newModelInstance($attributes);
-//    }
-
-
     public function updateSettings(): void
     {
         $settings = null;
@@ -120,6 +104,4 @@ class Spot extends Model
     {
 
     }
-
-
 }
