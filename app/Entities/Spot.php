@@ -43,37 +43,10 @@ use Monolog\Formatter\JsonFormatter;
  */
 class Spot extends Model
 {
-    const SMS_TYPE = 'sms';
-    const SMS_API_TYPE = 'sms-api';
-    const TICKET_TYPE = 'ticket';
-    const PROFILE_TYPE = 'profile';
-    const NO_PASS_TYPE = 'nopass';
-    const CALL_TYPE = 'call';
-    const CUSTOM_TYPE = 'custom';
-
-
-    const SMS_PAGE_TYPE = 'sms';
-    const CALL_PAGE_TYPE = 'call';
-    const TICKET_PAGE_TYPE = 'ticket';
-    const DATA_PAGE_TYPE = 'data';
-
     protected $fillable = [
-        'name', 'address', 'type', 'interface',
+        'name', 'address', 'interface', 'auth_type_id',
         'page_type', 'settings', 'last_activity', 'disabled'
     ];
-
-    public static function types(): array
-    {
-        return [
-            self::SMS_TYPE,
-            self::SMS_API_TYPE,
-            self::TICKET_TYPE,
-            self::PROFILE_TYPE,
-            self::NO_PASS_TYPE,
-            self::CALL_TYPE,
-            self::CUSTOM_TYPE,
-        ];
-    }
 
     public function company()
     {
@@ -100,8 +73,8 @@ class Spot extends Model
             json_encode($settings, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) : null;
     }
 
-    public function setPageType()
+    public function authType()
     {
-
+        return $this->hasOne(AuthType::class);
     }
 }

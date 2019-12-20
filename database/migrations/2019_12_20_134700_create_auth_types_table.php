@@ -16,15 +16,22 @@ class CreateAuthTypesTable extends Migration
     {
         Schema::create('auth_types', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 20);
+            $table->string('name', 60);
+            $table->string('code', 20);
             $table->timestamps();
         });
 
-        $types = ['call', 'sms', 'sms-api', 'code', 'profile', 'nopass', 'custom'];
 
-        DB::table('auth_types')->insert(array_map(function ($type) {
-            return ['name' => $type, 'created_at' => now(), 'updated_at' => now()];
-        }, $types));
+        $rows[] = $this->row('Анкета', 'profile');
+        $rows[] = $this->row('СМС', 'sms');
+        $rows[] = $this->row('Код', 'code');
+        $rows[] = $this->row('Кастомная авторизация', 'custom');
+        $rows[] = $this->row('Звонок', 'call');
+        $rows[] = $this->row('СМС-API', 'sms-api');
+        $rows[] = $this->row('Без пароля', 'nopass');
+
+
+        DB::table('auth_types')->insert($rows);
     }
 
     /**
@@ -35,5 +42,10 @@ class CreateAuthTypesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('auth_types');
+    }
+
+    private function row(string $name, string $code): array
+    {
+        return ['name' => $name, 'code' => $code, 'created_at' => now(), 'updated_at' => now()];
     }
 }

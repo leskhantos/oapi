@@ -34,4 +34,9 @@ class Company extends Model
     {
         return $this->hasMany(Spot::class);
     }
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }

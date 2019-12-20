@@ -477,7 +477,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"company\": {\n    \"name\": \"Шушарские разводные мосты\"\n  },\n  \"spot\": {\n    \"name\": \"Имя спота/зоны\",\n    \"address\": \"Шушары\",\n    \"interface\": \"Не знаю что это такое, но это строка\",\n    \"type\": \"sms\"\n  }\n}",
+							"raw": "{\n  \"company\": {\n    \"name\": \"Шушарские разводные мосты\"\n  },\n  \"spot\": {\n    \"name\": \"Имя спота/зоны\",\n    \"address\": \"Шушары\",\n    \"interface\": \"Не знаю что это такое, но это строка\",\n    \"auth_type_id\": 1\n  }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -587,6 +587,60 @@
 							],
 							"path": [
 								"roles"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "authType",
+			"item": [
+				{
+					"name": "index",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Иван\",\n    \"surname\": \"Петрович\",\n    \"login\": \"ivan.petrovich2\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/spot/auth/types",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"spot",
+								"auth",
+								"types"
 							]
 						}
 					},

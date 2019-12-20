@@ -91,8 +91,8 @@ class User extends Authenticatable
         $this->password = Hash::make($password);
     }
 
-    public function company()
+    public function companies()
     {
-        return $this->hasOne(Company::class);
+        return $this->belongsTo(Company::class);
     }
 }

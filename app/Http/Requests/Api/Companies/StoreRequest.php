@@ -37,7 +37,7 @@ class StoreRequest extends ApiRequest
 
             'spot.name' => 'required|string|min:4|max:50',
             'spot.address' => 'required|string|min:4|max:160',
-            'spot.type' => ['required', Rule::in(Spot::types())],
+            'spot.auth_type_id' => 'required|integer|exists:auth_types,id',
             'spot.interface' => 'required|string|min:4|max:50',
         ];
     }
