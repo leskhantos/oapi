@@ -200,7 +200,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Иван\",\n    \"surname\": \"Петрович\",\n    \"login\": \"ivan.petrovich\",\n    \"password\": \"password\"\n}",
+							"raw": "{\n  \"user\": {\n    \"name\": \"Иван\",\n    \"surname\": \"Петрович\",\n    \"login\": \"ivan.petrovich\",\n    \"password\": \"password\",\n    \"role\": \"manager\"\n  },\n  \"company\": {\n    \"name\":\"Рога и копыта\"\n  }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -477,7 +477,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"user_id\": 1,\n    \"name\": \"Рога и копыта\"\n}",
+							"raw": "{\n  \"company\": {\n    \"name\": \"Шушарские разводные мосты\"\n  },\n  \"spot\": {\n    \"name\": \"Имя спота/зоны\",\n    \"address\": \"Шушары\",\n    \"interface\": \"Не знаю что это такое, но это строка\",\n    \"type\": \"sms\"\n  }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
