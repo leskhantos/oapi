@@ -36,3 +36,4 @@ Route::post('company', 'CompaniesController@store');
 Route::put('company/{id}', 'CompaniesController@update');
 Route::delete('company/{id}', 'CompaniesController@destroy');
 
+Route::post('company/spot', 'SpotController@store');
