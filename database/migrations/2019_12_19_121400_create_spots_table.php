@@ -18,7 +18,6 @@ class CreateSpotsTable extends Migration
             $table->unsignedBigInteger('company_id');
             $table->string('name', 50);
             $table->string('address', 160);
-            $table->enum('type', ['sms', 'sms-api', 'ticket', 'data', 'nopass', 'call', 'custom']);
             $table->string('interface', 50);
             $table->string('ip', 30)->nullable();
             $table->enum('page_type', ['sms', 'call', 'ticket', 'data']);
