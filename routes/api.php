@@ -23,6 +23,7 @@ Route::group([
 });
 
 Route::get('roles', 'RolesController@index');
+Route::get('spot/auth/types', 'AuthTypeController@index');
 
 Route::get('users', 'UsersController@index');
 Route::post('user', 'UsersController@store');
