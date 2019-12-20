@@ -6,14 +6,18 @@ use App\Http\Requests\Api\Companies\StoreRequest;
 use App\Http\Requests\Api\Companies\UpdateRequest;
 use Illuminate\Http\JsonResponse;
 use App\Repositories\Company as CompanyRepository;
+use App\Services\Company as CompaniesService;
+use App\Repositories\Spot as SpotsRepository;
 
 class CompaniesController extends Controller
 {
     protected $companyRepository;
+    protected $companiesService;
 
-    public function __construct(CompanyRepository $companyRepository)
+    public function __construct(CompanyRepository $companyRepository, SpotsRepository $spotsRepository)
     {
         $this->companyRepository = $companyRepository;
+        $this->companiesService = new CompaniesService($companyRepository, $spotsRepository);
         parent::__construct();
     }
 
@@ -35,8 +39,7 @@ class CompaniesController extends Controller
 
     public function store(StoreRequest $request): JsonResponse
     {
-        return new JsonResponse($this->companyRepository
-            ->create($request), 201);
+        return new JsonResponse($this->companiesService->create($request), 201);
     }
 
     public function update(UpdateRequest $request, int $id): JsonResponse
@@ -50,6 +53,6 @@ class CompaniesController extends Controller
     {
         $company = $this->companyRepository->findById($id);
 
-        return new JsonResponse($company->load('user'));
+        return new JsonResponse($company);
     }
 }

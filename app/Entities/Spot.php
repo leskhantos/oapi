@@ -33,6 +33,12 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Spot whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Spot whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $name
+ * @property string|null $ip
+ * @property string|null $debug_key
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Spot whereDebugKey($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Spot whereIp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Spot whereName($value)
  */
 class Spot extends Model
 {
@@ -44,13 +50,32 @@ class Spot extends Model
     const CALL_TYPE = 'call';
     const CUSTOM_TYPE = 'custom';
 
+
     const SMS_PAGE_TYPE = 'sms';
     const CALL_PAGE_TYPE = 'call';
     const TICKET_PAGE_TYPE = 'ticket';
     const DATA_PAGE_TYPE = 'data';
 
     protected $fillable = [
-        'company_id', 'address', 'type', 'interface',
+        'name', 'company_id', 'address', 'type', 'interface',
         'page_type', 'settings', 'last_activity', 'disabled'
     ];
+
+    public static function types(): array
+    {
+        return [
+            self::SMS_TYPE,
+            self::SMS_API_TYPE,
+            self::TICKET_TYPE,
+            self::DATA_TYPE,
+            self::NO_PASS_TYPE,
+            self::CALL_TYPE,
+            self::CUSTOM_TYPE,
+        ];
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 }

@@ -39,7 +39,7 @@ class Company
 
     public function create(StoreRequest $request): CompanyModel
     {
-        return CompanyModel::create($request->all());
+        return CompanyModel::create($request->company);
     }
 
     public function update(UpdateRequest $request, int $companyId): CompanyModel

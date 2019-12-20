@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Company query()
  * @mixin \Eloquent
  * @property int $id
- * @property int $user_id
  * @property string $name
  * @property int $disabled
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -28,11 +27,11 @@ use Illuminate\Database\Eloquent\Model;
 class Company extends Model
 {
     protected $fillable = [
-        'user_id', 'name'
+        'name'
     ];
 
-    public function user()
+    public function spots()
     {
-        return $this->hasOne(User::class,'id','user_id');
+        return $this->hasMany(Spot::class);
     }
 }

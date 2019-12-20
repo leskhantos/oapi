@@ -49,6 +49,8 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read int|null $roles_count
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User permission($permissions)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User role($roles, $guard = null)
+ * @property int|null $company_id
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User whereCompanyId($value)
  */
 class User extends Authenticatable
 {
@@ -91,6 +93,6 @@ class User extends Authenticatable
 
     public function company()
     {
-//        return $this->belongsTo()
+        return $this->hasOne(Company::class);
     }
 }
