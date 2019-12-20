@@ -18,4 +18,4 @@
 That's it. Good luck, dude.
 
 ## API docs
-Api docs stores in postman collection `oyspot.postman_collection.json` in root of repository. Import the file into postman and use.
+Api docs stores in postman collection `oyspot.postman_collection.json` in root of the repository. For use import the file into <a href="https://www.getpostman.com/">postman</a>.
