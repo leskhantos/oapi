@@ -17,12 +17,8 @@ class Spot
     {
         $spot = SpotModel::make($request->all());
         $spot->company_id = $company_id;
-
-
         $spot->updateSettings();
 //        $spot->page_type=
-
-
         $spot->save();
 
         return $spot;
