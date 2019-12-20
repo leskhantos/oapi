@@ -23,6 +23,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Company whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Company whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Company whereUserId($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Spot[] $spots
+ * @property-read int|null $spots_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\User[] $users
+ * @property-read int|null $users_count
  */
 class Company extends Model
 {

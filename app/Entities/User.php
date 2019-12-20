@@ -51,6 +51,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User role($roles, $guard = null)
  * @property int|null $company_id
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User whereCompanyId($value)
+ * @property-read \App\Entities\Company $companies
  */
 class User extends Authenticatable
 {

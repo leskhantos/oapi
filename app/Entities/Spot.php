@@ -40,6 +40,10 @@ use Monolog\Formatter\JsonFormatter;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Spot whereDebugKey($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Spot whereIp($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Spot whereName($value)
+ * @property int $auth_type_id
+ * @property-read \App\Entities\AuthType $authType
+ * @property-read \App\Entities\Company $company
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Spot whereAuthTypeId($value)
  */
 class Spot extends Model
 {
@@ -56,15 +60,16 @@ class Spot extends Model
     public function updateSettings(): void
     {
         $settings = null;
-        switch ($this->type) {
-            case self::SMS_TYPE:
+
+        switch ($this->auth_type_id) {
+            case AuthType::SMS_TYPE:
                 $settings = [
                     'lf-sessions' => 48,
                     'country' => 'off',
                     'link' => env('OYSTER_REDIRECT_LINK')
                 ];
                 break;
-            case self::PROFILE_TYPE:
+            case AuthType::PROFILE_TYPE:
                 $settings = ['multi-lang' => 'off', 'country' => 'off'];
                 break;
         }
