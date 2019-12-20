@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Monolog\Formatter\JsonFormatter;
 
 /**
  * App\Entities\Spot
@@ -45,7 +46,7 @@ class Spot extends Model
     const SMS_TYPE = 'sms';
     const SMS_API_TYPE = 'sms-api';
     const TICKET_TYPE = 'ticket';
-    const DATA_TYPE = 'data';
+    const PROFILE_TYPE = 'profile';
     const NO_PASS_TYPE = 'nopass';
     const CALL_TYPE = 'call';
     const CUSTOM_TYPE = 'custom';
@@ -57,7 +58,7 @@ class Spot extends Model
     const DATA_PAGE_TYPE = 'data';
 
     protected $fillable = [
-        'name', 'company_id', 'address', 'type', 'interface',
+        'name', 'address', 'type', 'interface',
         'page_type', 'settings', 'last_activity', 'disabled'
     ];
 
@@ -67,7 +68,7 @@ class Spot extends Model
             self::SMS_TYPE,
             self::SMS_API_TYPE,
             self::TICKET_TYPE,
-            self::DATA_TYPE,
+            self::PROFILE_TYPE,
             self::NO_PASS_TYPE,
             self::CALL_TYPE,
             self::CUSTOM_TYPE,
@@ -78,4 +79,47 @@ class Spot extends Model
     {
         return $this->belongsTo(Company::class);
     }
+
+//    /**
+//     * Create and return an un-saved model instance.
+//     *
+//     * @param  array $attributes
+//     * @return \Illuminate\Database\Eloquent\Model|static
+//     */
+//    public function make(array $attributes = [])
+//    {
+//
+//        /** @var self $instance */
+//        $instance = $this->newModelInstance($attributes);
+//        $instance->settings = $instance->type ? $this->setSettings() : null;
+//        return $this->newModelInstance($attributes);
+//    }
+
+
+    public function updateSettings(): void
+    {
+        $settings = null;
+        switch ($this->type) {
+            case self::SMS_TYPE:
+                $settings = [
+                    'lf-sessions' => 48,
+                    'country' => 'off',
+                    'link' => env('OYSTER_REDIRECT_LINK')
+                ];
+                break;
+            case self::PROFILE_TYPE:
+                $settings = ['multi-lang' => 'off', 'country' => 'off'];
+                break;
+        }
+
+        $this->settings = is_array($settings) ?
+            json_encode($settings, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) : null;
+    }
+
+    public function setPageType()
+    {
+
+    }
+
+
 }
