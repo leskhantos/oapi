@@ -15,5 +15,7 @@
 4. Run `php artisan migrate`.
 5. Run `php artisan passport:install`.
 
+That's it. Good luck, dude.
+
 ## API docs
 Api docs stores in postman collection `oyspot.postman_collection.json` in root of repository. Import the file into postman and use.
