@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Api\Spot\StoreRequest;
 use Illuminate\Http\JsonResponse;
 use App\Repositories\Spot as SpotsRepository;
+use Illuminate\Http\Request;
 
 class SpotController extends Controller
 {
