@@ -15,6 +15,7 @@ class UsersController extends Controller
     public function __construct(UserManageService $service)
     {
         $this->service = $service;
+        $this->middleware(['role:admin|manager']);
         parent::__construct();
     }
 
@@ -31,7 +32,7 @@ class UsersController extends Controller
 
     public function update(UpdateRequest $request, int $id): JsonResponse
     {
-        $user = $this->service->update($request,$id);
+        $user = $this->service->update($request, $id);
         return new JsonResponse($user, 201);
     }
 

@@ -12,7 +12,7 @@ class AddCreateUserPermissionToPermissionsTable extends Migration
      */
     public function up()
     {
-        $permission = Permission::create(['name' => 'create_user']);
+        $permission = Permission::create(['name' => 'user.create']);
         $permission->assignRole('admin', 'manager');
     }
 
@@ -23,7 +23,7 @@ class AddCreateUserPermissionToPermissionsTable extends Migration
      */
     public function down()
     {
-        $permission = Permission::findByName('create_user');
+        $permission = Permission::findByName('user.create');
         $permission->delete();
     }
 }

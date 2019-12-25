@@ -26,6 +26,7 @@ class UserManageService
         $user = User::findOrFail($userId);
         $user->fill($request->all());
 
+
         if (isset($request->password)) {
             $user->setPassword($request->password);
         }
