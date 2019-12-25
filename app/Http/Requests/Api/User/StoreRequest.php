@@ -10,6 +10,7 @@ use App\Http\Requests\Api\ApiRequest;
  * @property string $surname
  * @property string $login
  * @property string $password
+ * @property int $role_id
  * @package App\Http\Requests\Api\User
  */
 class StoreRequest extends ApiRequest
@@ -36,6 +37,7 @@ class StoreRequest extends ApiRequest
             'surname' => 'required|string|min:2|max:255',
             'login' => 'required|string|min:6|max:55|unique:users,login',
             'password' => 'required|string|min:6|max:255',
+            'role_id' => 'required|integer|exists:roles,id',
         ];
     }
 
