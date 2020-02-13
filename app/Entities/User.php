@@ -7,7 +7,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
 
 /**
  * App\User
@@ -36,7 +35,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User whereSurname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User whereUpdatedAt($value)
  * @mixin \Eloquent
- * @property string|null $last_login
+ * @property string|null $last_online
  * @property string|null $last_ip
  * @property int $disabled
  * @property-read \App\Entities\Company $company
@@ -55,7 +54,7 @@ use Spatie\Permission\Traits\HasRoles;
  */
 class User extends Authenticatable
 {
-    use Notifiable, HasApiTokens, HasRoles;
+    use Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -66,7 +65,7 @@ class User extends Authenticatable
     public $timestamps=false;
 
     protected $fillable = [
-        'name', 'login', 'password','ip','online'
+        'name', 'login', 'password','last_ip','last_online'
     ];
 
     /**

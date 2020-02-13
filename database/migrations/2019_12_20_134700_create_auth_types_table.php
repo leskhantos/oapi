@@ -41,7 +41,10 @@ class CreateAuthTypesTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('auth_types');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
+
     }
 
     private function row(string $name, string $code): array

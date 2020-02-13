@@ -33,6 +33,8 @@ class CreateSpotsTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('spots');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

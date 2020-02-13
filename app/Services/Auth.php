@@ -34,7 +34,7 @@ class Auth
 
     private function updateLastLogin(User $user, string $ip): void
     {
-        $user->last_login = Carbon::now();
+        $user->last_online = Carbon::now();
         $user->last_ip = $ip;
 
         $user->save();

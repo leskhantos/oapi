@@ -25,10 +25,7 @@ Route::group([
 Route::get('roles', 'RolesController@index');
 Route::get('spot/auth/types', 'AuthTypeController@index');
 
-Route::get('users', 'UsersController@index');
-Route::post('user', 'UsersController@store');
-Route::put('user/{id}', 'UsersController@update');
-
+Route::apiResource('users','UsersController')->except('destroy');
 
 Route::get('companies', 'CompaniesController@index');
 Route::get('company/{id}', 'CompaniesController@show');

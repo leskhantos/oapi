@@ -19,8 +19,8 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('login', 55)->unique();
             $table->string('password');
-            $table->dateTime('online')->nullable();
-            $table->string('ip', 60)->nullable();
+            $table->dateTime('last_online')->nullable();
+            $table->string('last_ip', 60)->nullable();
             $table->boolean('enabled')->default(true);
 
         });
