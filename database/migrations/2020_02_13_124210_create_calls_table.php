@@ -3,9 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Spatie\Permission\Models\Role;
 
-class AddDefaultRolesToRolesTable extends Migration
+class CreateCallsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,10 +13,11 @@ class AddDefaultRolesToRolesTable extends Migration
      */
     public function up()
     {
-        $roles = ['admin', 'manager', 'support', 'company'];
-        foreach ($roles as $role) {
-            Role::create(['name' => $role]);
-        }
+        Schema::create('calls', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('phone');
+            $table->timestamp('datetime');
+        });
     }
 
     /**
@@ -27,6 +27,6 @@ class AddDefaultRolesToRolesTable extends Migration
      */
     public function down()
     {
-        DB::table('roles')->truncate();
+        Schema::dropIfExists('calls');
     }
 }

@@ -15,7 +15,7 @@ class AddCompanyIdToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->unsignedBigInteger('company_id')
-                ->after('last_ip')
+                ->after('ip')
                 ->nullable();
 
 

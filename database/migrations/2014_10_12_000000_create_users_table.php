@@ -15,15 +15,14 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->enum('type', ['admin', 'manager', 'support']);
             $table->string('name');
-            $table->string('surname');
             $table->string('login', 55)->unique();
             $table->string('password');
-            $table->dateTime('last_login')->nullable();
-            $table->string('last_ip', 60)->nullable();
-            $table->boolean('disabled')->default(false);
+            $table->dateTime('online')->nullable();
+            $table->string('ip', 60)->nullable();
+            $table->boolean('enabled')->default(true);
 
-            $table->timestamps();
         });
     }
 

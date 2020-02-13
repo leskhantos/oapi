@@ -48,8 +48,8 @@ use Monolog\Formatter\JsonFormatter;
 class Spot extends Model
 {
     protected $fillable = [
-        'name', 'address', 'interface', 'auth_type_id',
-        'page_type', 'settings', 'last_activity', 'disabled'
+        'company_id', 'address', 'type', 'Ident',
+        'Page', 'last_activity', 'Key'
     ];
 
     public function company()
@@ -81,5 +81,10 @@ class Spot extends Model
     public function authType()
     {
         return $this->hasOne(AuthType::class);
+    }
+
+    public function spotType()
+    {
+        return $this->hasMany(SpotType::class);
     }
 }

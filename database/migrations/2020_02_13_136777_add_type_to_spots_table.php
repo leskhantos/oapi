@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddAuthTypeIdToSpotsTable extends Migration
+class AddTypeToSpotsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,11 +14,11 @@ class AddAuthTypeIdToSpotsTable extends Migration
     public function up()
     {
         Schema::table('spots', function (Blueprint $table) {
-            $table->unsignedBigInteger('auth_type_id')->after('name');
+            $table->unsignedBigInteger('type')->after('company_id');
 
-            $table->foreign('auth_type_id')
+            $table->foreign('type')
                 ->references('id')
-                ->on('auth_types')
+                ->on('spots_types')
                 ->onDelete('cascade');
         });
     }
@@ -31,7 +31,7 @@ class AddAuthTypeIdToSpotsTable extends Migration
     public function down()
     {
         Schema::table('spots', function (Blueprint $table) {
-            $table->dropForeign('spots_auth_type_id_foreign');
+//            $table->dropForeign('s');
         });
     }
 }

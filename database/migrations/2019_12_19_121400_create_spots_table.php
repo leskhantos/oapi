@@ -16,21 +16,13 @@ class CreateSpotsTable extends Migration
         Schema::create('spots', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('company_id');
-            $table->string('name', 50);
-            $table->string('address', 160);
-            $table->string('interface', 50);
-            $table->string('ip', 30)->nullable();
-            $table->enum('page_type', ['sms', 'call', 'ticket', 'data']);
-            $table->json('settings')->nullable();
-            $table->dateTime('last_activity')->nullable();
-            $table->boolean('disabled')->default(false);
-            $table->string('debug_key', 50)->nullable();
-            $table->timestamps();
-
-            $table->foreign('company_id')
-                ->references('id')
-                ->on('companies')
-                ->onDelete('cascade');
+            $table->string('address', 150);
+//            $table->integer('type');
+            $table->string('ident', 150);
+            $table->integer('page]');
+            $table->timestamp('last_activity');
+            $table->string('key', 50);
+            $table->boolean('enabled')->default(true);
         });
     }
 
