@@ -2,39 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Entities\User;
 use App\Http\Requests\Api\User\StoreRequest;
 use App\Http\Requests\Api\User\UpdateRequest;
+use App\Services\UserManageService;
 use Illuminate\Http\JsonResponse;
-use App\Repositories\User as UsersRepository;
-use App\Repositories\Company as CompaniesRepository;
 
 class UsersController extends Controller
 {
-    private $usersRepository;
+    private UserManageService $service;
 
-    public function __construct(UsersRepository $usersRepository, CompaniesRepository $companiesRepository)
+    public function __construct(UserManageService $service)
     {
-        $this->usersRepository = $usersRepository;
-//        $this->middleware('permission:create-user')->only('store');
+        $this->service = $service;
+        $this->middleware(['role:admin|manager']);
         parent::__construct();
     }
 
     public function index(): JsonResponse
     {
-        return new JsonResponse($this->usersRepository->all());
+        return new JsonResponse(User::all());
     }
 
     public function store(StoreRequest $request): JsonResponse
     {
-        $user = $this->usersRepository->create($request);
-
+        $user = $this->service->create($request);
         return new JsonResponse($user, 201);
     }
 
     public function update(UpdateRequest $request, int $id): JsonResponse
     {
-        $user = $this->usersRepository->update($request, $id);
-
+        $user = $this->service->update($request, $id);
         return new JsonResponse($user, 201);
     }
 

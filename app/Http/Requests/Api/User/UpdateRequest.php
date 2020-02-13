@@ -17,6 +17,7 @@ use App\Http\Requests\Api\ApiRequest;
  * @property string $surname
  * @property string $login
  * @property string $password
+ * @property integer $role_id
  * @package App\Http\Requests\Api\User
  */
 class UpdateRequest extends ApiRequest
@@ -43,6 +44,7 @@ class UpdateRequest extends ApiRequest
             'surname' => 'string|min:2|max:255',
             'login' => 'string|min:6|max:55|unique:users,login,' . $this->route()->id,
             'password' => 'string|min:6|max:255',
+            'role_id' => 'integer|exists:roles,id'
         ];
     }
 }
