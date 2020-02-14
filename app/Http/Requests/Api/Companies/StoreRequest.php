@@ -33,12 +33,12 @@ class StoreRequest extends ApiRequest
     public function rules()
     {
         return [
-            'company.name' => 'required|string|min:3|max:150',
-
-            'spot.name' => 'required|string|min:4|max:50',
-            'spot.address' => 'required|string|min:4|max:160',
-            'spot.auth_type_id' => 'required|integer|exists:auth_types,id',
-            'spot.interface' => 'required|string|min:4|max:50',
+            'name' => 'required|string|min:3|max:150',
+//
+//            'spot.name' => 'required|string|min:4|max:50',
+//            'spot.address' => 'required|string|min:4|max:160',
+//            'spot.auth_type_id' => 'required|integer|exists:auth_types,id',
+//            'spot.interface' => 'required|string|min:4|max:50',
         ];
     }
 }

@@ -21,7 +21,7 @@ use Illuminate\Support\Str;
 $factory->define(User::class, function (Faker $faker) {
     return [
         'name' => $faker->firstName,
-        'login' => $faker->userName,
+        'login' => 'pbragina',
         'password' => 'password', // password
         'last_online' => $faker->date(),
         'last_ip' =>  $faker->ipv4 ,

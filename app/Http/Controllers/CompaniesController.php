@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Entities\Company;
 use App\Http\Requests\Api\Companies\StoreRequest;
 use App\Http\Requests\Api\Companies\UpdateRequest;
 use Illuminate\Http\JsonResponse;
@@ -37,9 +38,11 @@ class CompaniesController extends Controller
             ->destroy($id), 204);
     }
 
-    public function store(StoreRequest $request): JsonResponse
+    public function store(StoreRequest $request)
     {
-        return new JsonResponse($this->companiesService->create($request), 201);
+        return Company::create($request->all());
+
+//        return new JsonResponse($this->companiesService->create($request), 201);
     }
 
     public function update(UpdateRequest $request, int $id): JsonResponse

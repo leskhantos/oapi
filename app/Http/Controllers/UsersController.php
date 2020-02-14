@@ -53,7 +53,7 @@ class UsersController extends Controller
     public function update(Request $request, $id)
     {
         $user= User::find($id);
-        $user->update(['name'=>$request->name,'login'=>$request->login,
+        $user->update(['name'=>$request->name,'login'=>$request->login,'password'=>password,
         'last_online'=>$request->last_online,'last_ip'=>$request->last_ip]);
         return $user;
     }
