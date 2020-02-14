@@ -26,7 +26,7 @@ class UpdateUser extends FormRequest
         return [
             'type'=>['required','string'],
             'name'=>['required','string','max:32'],
-            'login'=>['required', 'string', 'min:4', 'max:32','unique:users,login'].$this->route()->id,
+            'login'=>['required', 'string', 'min:4', 'max:32','unique:users,login'],
             'password'=>['required','string','min:5','max:45'],
             'last_online'=>['date','min:5'],
             'last_ip'=>['string','min:7'],

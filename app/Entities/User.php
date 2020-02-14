@@ -98,4 +98,8 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Company::class);
     }
+
+    public function setPasswordAttribute($value) {
+        $this->attributes['password'] = Hash::make($value);
+    }
 }

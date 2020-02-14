@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Api\User\UpdateUser;
 use Illuminate\Http\Request;
 use App\Entities\User;
 use App\Http\Requests\Api\User\StoreUser;
@@ -51,10 +52,10 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $f= User::find($id);
-        $f->update(['name'=>$request->name,'login'=>$request->login,
+        $user= User::find($id);
+        $user->update(['name'=>$request->name,'login'=>$request->login,
         'last_online'=>$request->last_online,'last_ip'=>$request->last_ip]);
-        return $f;
+        return $user;
     }
 
     /**
