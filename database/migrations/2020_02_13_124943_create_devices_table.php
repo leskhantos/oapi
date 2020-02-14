@@ -24,11 +24,10 @@ class CreateDevicesTable extends Migration
             $table->smallInteger('screen_h')->nullable();
             $table->string('info',300);
             $table->integer('sessions')->default(0);
-            $table->timestamp('online');
-            $table->timestamp('session')->nullable();
-            $table->string('spot',50);
+            $table->string('spot_ident',50);
+            $table->timestamp('last_online');
+            $table->timestamp('last_session')->nullable();
             $table->string('comment',300);
-            $table->tinyInteger('update') ->default(10);
             $table->tinyInteger('blocked') ->default(0);
         });
     }

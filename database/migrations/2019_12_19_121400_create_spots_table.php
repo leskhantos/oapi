@@ -19,9 +19,9 @@ class CreateSpotsTable extends Migration
             $table->string('address', 150);
 //            $table->integer('type');
             $table->string('ident', 150);
-            $table->integer('page]');
-            $table->timestamp('last_activity');
-            $table->string('key', 50);
+            $table->integer('page_id');
+            $table->timestamp('last_active');
+            $table->string('debug_key', 50);
             $table->boolean('enabled')->default(true);
         });
     }

@@ -17,12 +17,13 @@ class CreatePagesTable extends Migration
             $table->bigIncrements('id');
             $table->integer('company_id');
             $table->string('name',30);
+            $table->integer('type');
             $table->string('title',20);
             $table->string('logo',40);
             $table->json('background')->nullable();
             $table->json('style')->nullable();
             $table->json('banner')->nullable();
-            $table->string('key',40)->nullable();
+            $table->string('debug_key',40)->nullable();
             $table->timestamps();
         });
     }

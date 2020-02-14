@@ -15,6 +15,7 @@ class CreateSpotsTypesTable extends Migration
     {
         Schema::create('spots_types', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('code',15);
             $table->string('name',15);
         });
     }
