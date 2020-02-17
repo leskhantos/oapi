@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCallsTable extends Migration
+class CreateSessionsAuthTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,15 @@ class CreateCallsTable extends Migration
      */
     public function up()
     {
-        Schema::create('calls', function (Blueprint $table) {
+        Schema::create('sessions_auth', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('spot_id');
             $table->timestamp('created');
-            $table->string('phone',20);
+            $table->timestamp('expiration')->nullable();
+            $table->timestamp('used')->nullable();
+            $table->string('device_mac',30);
+            $table->string('signature',40);
+            $table->integer('counter')->default(1);
         });
     }
 
@@ -27,6 +32,6 @@ class CreateCallsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('calls');
+        Schema::dropIfExists('sessions_auth');
     }
 }

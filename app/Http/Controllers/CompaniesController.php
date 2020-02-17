@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Entities\Company;
+use App\Entities\Spot;
+use Illuminate\Http\Request;
 use App\Http\Requests\Api\Companies\StoreRequest;
 use App\Http\Requests\Api\Companies\UpdateRequest;
 use Illuminate\Http\JsonResponse;
@@ -22,9 +24,11 @@ class CompaniesController extends Controller
         parent::__construct();
     }
 
-    public function index(): JsonResponse
+    public function index()
     {
-        return new JsonResponse($this->companyRepository->all());
+        return Company::select('companies.name as company_name','spots_types.name','address','ident','code')
+            ->leftJoin('spots','companies.id','=','spots.company_id')
+            ->leftJoin('spots_types','spots.type','=','spots_types.id')->get();
     }
 
     /**
@@ -42,14 +46,29 @@ class CompaniesController extends Controller
     {
         return Company::create($request->all());
 
+//        dd($request->company_name);
+//        Company::insert($request->company_name);
+//        dd(1);
+//        Spot::insert($request->all()->exist('company_name'));
+//
+//        return Company::select('companies.name as company_name','spots_types.name','address','ident','code')
+//            ->leftJoin('spots','companies.id','=','spots.company_id')
+//            ->leftJoin('spots_types','spots.type','=','spots_types.id')->get();
+//            create($request->all())->get();
+
 //        return new JsonResponse($this->companiesService->create($request), 201);
     }
 
-    public function update(UpdateRequest $request, int $id): JsonResponse
+//    public function update(UpdateRequest $request, int $id): JsonResponse
+    public function update(Request $request, $id)
     {
-        $company = $this->companyRepository->update($request, $id);
+//        $company = $this->companyRepository->update($request, $id);
+//        return new JsonResponse($company, 201);
 
-        return new JsonResponse($company, 201);
+        $company = Company::find($id);
+        $company->update(['enabled'=>$request->enabled]);
+        return $company;
+
     }
 
     public function show(int $id): JsonResponse

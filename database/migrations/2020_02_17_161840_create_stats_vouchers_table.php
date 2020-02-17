@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCallsTable extends Migration
+class CreateStatsVouchersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,13 @@ class CreateCallsTable extends Migration
      */
     public function up()
     {
-        Schema::create('calls', function (Blueprint $table) {
+        Schema::create('stats_vouchers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->timestamp('created');
-            $table->string('phone',20);
+            $table->timestamp('date')->nullable();
+            $table->integer('company_id');
+            $table->integer('spot_id');
+            $table->integer('all')->default(0);
+            $table->integer('auth')->default(0);
         });
     }
 
@@ -27,6 +30,6 @@ class CreateCallsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('calls');
+        Schema::dropIfExists('stats_vouchers');
     }
 }

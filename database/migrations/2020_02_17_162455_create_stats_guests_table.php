@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGuestCallsTable extends Migration
+class CreateStatsGuestsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,15 @@ class CreateGuestCallsTable extends Migration
      */
     public function up()
     {
-        Schema::create('guest_calls', function (Blueprint $table) {
+        Schema::create('stats_guests', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->timestamp('created')->nullable();
-            $table->timestamp('expiration')->nullable();
-            $table->string('phone',20)->nullable();
-            $table->string('device_mac',30);
+            $table->timestamp('date')->nullable();
+            $table->integer('company_id');
             $table->integer('spot_id');
-            $table->tinyInteger('checked')->default('0');
+            $table->integer('load')->default(0);
+            $table->integer('auth')->default(0);
+            $table->integer('new')->default(0);
+            $table->integer('old')->default(0);
         });
     }
 
@@ -31,6 +32,6 @@ class CreateGuestCallsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('guest_calls');
+        Schema::dropIfExists('stats_guests');
     }
 }

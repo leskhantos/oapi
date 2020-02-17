@@ -16,13 +16,12 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->enum('type', ['admin', 'manager', 'support']);
-            $table->string('name');
-            $table->string('login', 55)->unique();
+            $table->string('name',150);
+            $table->string('login', 20)->unique();
             $table->string('password');
             $table->dateTime('last_online')->nullable();
-            $table->string('last_ip', 60)->nullable();
+            $table->string('last_ip', 50)->nullable();
             $table->boolean('enabled')->default(true);
-
         });
     }
 

@@ -15,9 +15,8 @@ class CreateSpotsTable extends Migration
     {
         Schema::create('spots', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('company_id');
-            $table->string('address', 150);
-//            $table->integer('type');
+            $table->integer('company_id');
+            $table->string('address', 200);
             $table->string('ident', 150);
             $table->json('settings');
             $table->integer('page_id')->nullable();

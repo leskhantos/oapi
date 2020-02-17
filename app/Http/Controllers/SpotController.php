@@ -29,7 +29,9 @@ class SpotController extends Controller
     public function index(Request $request)
     {
         $company = $request->company;
-        return Spot::join('companies','spots.company_id','=','companies.id')
+        return Spot::select('spots.id','company_id','type','address',
+            'ident','settings','page_id','last_active','debug_key','spots.enabled','name')
+            ->join('companies','spots.company_id','=','companies.id')
             ->where('company_id','=',"$company")
             ->get();
     }

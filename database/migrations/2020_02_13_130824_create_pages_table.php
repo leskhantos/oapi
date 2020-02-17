@@ -19,12 +19,11 @@ class CreatePagesTable extends Migration
             $table->string('name',30);
             $table->integer('type');
             $table->string('title',20);
-            $table->string('logo',40);
+            $table->string('logo',40)->nullable();
             $table->json('background')->nullable();
             $table->json('style')->nullable();
             $table->json('banner')->nullable();
             $table->string('debug_key',40)->nullable();
-            $table->timestamps();
         });
     }
 

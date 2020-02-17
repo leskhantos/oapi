@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateVouchersTable extends Migration
+class CreateGuestCallTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateVouchersTable extends Migration
      */
     public function up()
     {
-        Schema::create('vouchers', function (Blueprint $table) {
+        Schema::create('guest_call', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->timestamp('created')->nullable();
+            $table->timestamp('expiration')->nullable();
+            $table->string('phone',20)->nullable();
+            $table->string('device_mac',30);
             $table->integer('spot_id');
-            $table->string('room',6)->nullable();
-            $table->string('code',10);
-            $table->timestamp('dt_start')->nullable();
-            $table->timestamp('dt_end')->nullable();
-            $table->smallInteger('can_used')->default(0);
+            $table->tinyInteger('checked')->default('0');
         });
     }
 
@@ -31,6 +31,6 @@ class CreateVouchersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vouchers');
+        Schema::dropIfExists('guest_call');
     }
 }
