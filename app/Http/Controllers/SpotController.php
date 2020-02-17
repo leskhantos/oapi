@@ -21,6 +21,10 @@ class SpotController extends Controller
         parent::__construct();
     }
 
+    public function index(){
+        return Spot::all();
+    }
+
     public function store(StoreRequest $request)
     {
 //        dd($request->all());

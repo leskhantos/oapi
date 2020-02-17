@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class GuestSms extends Model
 {
     public $timestamps=false;
+
     protected $fillable =[
         'created','expiration','phone',
         'code','device_mac','spot_id',

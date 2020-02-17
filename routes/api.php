@@ -36,4 +36,17 @@ Route::post('company', 'CompaniesController@store');
 Route::put('company/{id}', 'CompaniesController@update');
 Route::delete('company/{id}', 'CompaniesController@destroy');
 
+Route::get('spot','SpotController@index');
 Route::post('company/spot', 'SpotController@store');
+
+Route::get('user/info','UserAgentController@index');
+Route::get('user/info/{id}','UserAgentController@show');
+Route::post('user/info','UserAgentController@store');
+
+Route::get('guest/call','GuestCallController@index');
+Route::get('guest/call/{id}','GuestCallController@show');
+Route::post('guest/call','GuestCallController@store');
+
+Route::get('guest/sms','GuestSmsController@index');
+Route::get('guest/sms/{id}','GuestSmsController@show');
+Route::post('guest/sms','GuestSmsController@store');
