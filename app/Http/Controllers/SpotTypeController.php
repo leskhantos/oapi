@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Entities\SpotsType;
+use App\Http\Requests\Api\SpotsType\StoreRequest;
 use Illuminate\Http\Request;
-use App\Entities\User;
-use App\Http\Requests\Api\User\StoreUser;
 
-class UsersController extends Controller
+class SpotTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,17 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $user = User::get();
-        return $user;
+                return SpotsType::get();
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
     }
 
     /**
@@ -25,10 +34,10 @@ class UsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreUser $request)
-    {
-        return User::create($request->all());
-    }
+
+        public function store(StoreRequest $request){
+            return SpotsType::create($request->all());
+        }
 
     /**
      * Display the specified resource.
@@ -38,8 +47,18 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $user=User::find($id);
-        return $user;
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
     }
 
     /**
@@ -51,10 +70,7 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user= User::find($id);
-        $user->update(['name'=>$request->name,'login'=>$request->login,'password'=>password,
-        'last_online'=>$request->last_online,'last_ip'=>$request->last_ip]);
-        return $user;
+        //
     }
 
     /**
@@ -63,5 +79,8 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
+    public function destroy($id)
+    {
+        //
+    }
 }

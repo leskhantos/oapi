@@ -47,9 +47,11 @@ use Monolog\Formatter\JsonFormatter;
  */
 class Spot extends Model
 {
+    public $timestamps=false;
+
     protected $fillable = [
-        'company_id', 'address', 'type', 'Ident',
-        'Page', 'last_activity', 'Key'
+        'company_id', 'address', 'type', 'ident',
+        'last_activity', 'settings'
     ];
 
     public function company()
@@ -85,6 +87,6 @@ class Spot extends Model
 
     public function spotType()
     {
-        return $this->hasMany(SpotType::class);
+        return $this->belongsTo(SpotsType::class);
     }
 }

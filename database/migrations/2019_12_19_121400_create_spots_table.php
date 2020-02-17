@@ -19,9 +19,10 @@ class CreateSpotsTable extends Migration
             $table->string('address', 150);
 //            $table->integer('type');
             $table->string('ident', 150);
-            $table->integer('page_id');
-            $table->timestamp('last_active');
-            $table->string('debug_key', 50);
+            $table->json('settings');
+            $table->integer('page_id')->nullable();
+            $table->timestamp('last_active')->nullable();
+            $table->string('debug_key', 50)->nullable();
             $table->boolean('enabled')->default(true);
         });
     }
@@ -33,8 +34,8 @@ class CreateSpotsTable extends Migration
      */
     public function down()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+//        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('spots');
-        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
+//        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

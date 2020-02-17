@@ -3,9 +3,7 @@
 namespace App\Http\Requests\Api\Spot;
 
 use App\Adapters\StoreSpotRepositoryInterface;
-use App\Entities\Spot;
 use App\Http\Requests\Api\ApiRequest;
-use Illuminate\Validation\Rule;
 
 /**
  * Class StoreRequest
@@ -37,10 +35,13 @@ class StoreRequest extends ApiRequest implements StoreSpotRepositoryInterface
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
-            'name' => 'required|string|min:4|max:50',
             'address' => 'required|string|min:4|max:160',
-            'auth_type_id' => 'required|integer|exists:auth_types,id',
-            'interface' => 'required|string|min:4|max:50',
+            'type' => 'required|integer|exists:spots_types,id',
+            'ident' => 'required|string|min:4|max:50',
+            'settings' => 'required|json',
+            'page_id' => 'integer',
+            'last_active'=>'date',
+            'debug_key'=>'string|max:50'
         ];
     }
 }

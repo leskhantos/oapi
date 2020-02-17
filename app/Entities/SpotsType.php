@@ -4,7 +4,7 @@ namespace App\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SpotType extends Model
+class SpotsType extends Model
 {
     //
 
@@ -12,11 +12,11 @@ class SpotType extends Model
 
 
     protected $fillable = [
-        'name'
+        'name','code'
     ];
 
     public function spot()
     {
-        return $this->belongsTo(Spot::class);
+        return $this->hasMany(Spot::class);
     }
 }

@@ -27,6 +27,9 @@ Route::get('spot/auth/types', 'AuthTypeController@index');
 
 Route::apiResource('users','UsersController')->except('destroy');
 
+Route::get('spots/types','SpotTypeController@index');
+Route::post('spots/types','SpotTypeController@store');
+
 Route::get('companies', 'CompaniesController@index');
 Route::get('company/{id}', 'CompaniesController@show');
 Route::post('company', 'CompaniesController@store');

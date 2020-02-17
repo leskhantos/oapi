@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Api\Companies;
 
-use App\Entities\Spot;
 use App\Http\Requests\Api\ApiRequest;
 use Illuminate\Validation\Rule;
 

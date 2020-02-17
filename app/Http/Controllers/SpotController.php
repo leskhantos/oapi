@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Entities\Spot;
 use App\Http\Requests\Api\Spot\StoreRequest;
 use Illuminate\Http\JsonResponse;
 use App\Repositories\Spot as SpotsRepository;
@@ -20,9 +21,9 @@ class SpotController extends Controller
         parent::__construct();
     }
 
-    public function store(StoreRequest $request): JsonResponse
+    public function store(StoreRequest $request)
     {
-        $spot = $this->spotRepository->create($request, $request->company_id);
-        return new JsonResponse($spot, 201);
+//        dd($request->all());
+        return Spot::create($request->all());
     }
 }
