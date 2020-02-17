@@ -21,13 +21,16 @@ class SpotController extends Controller
         parent::__construct();
     }
 
-    public function index(){
-        return Spot::all();
-    }
-
     public function store(StoreRequest $request)
     {
-//        dd($request->all());
         return Spot::create($request->all());
+    }
+
+    public function index(Request $request)
+    {
+        $company = $request->company;
+        return Spot::join('companies','spots.company_id','=','companies.id')
+            ->where('company_id','=',"$company")
+            ->get();
     }
 }
