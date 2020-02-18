@@ -59,6 +59,39 @@ class Spot extends Model
         return $this->belongsTo(Company::class);
     }
 
+    public function spotType(){
+        return $this->belongsTo(SpotsType::class);
+    }
+
+    public function vouchers(){
+        return $this->hasMany(Voucher::class,'id','spot_id');
+    }
+
+    public function stats(){
+        return $this->hasMany(ParentStats::class,'id','spot_id');
+    }
+
+    public function guests(){
+        return $this->hasMany(ParentGuest::class,'id','spot_id');
+    }
+
+    public function session(){
+        return $this->hasMany(ParentSession::class,'id','spot_id');
+    }
+
+    public function stages(){
+        return $this->hasMany(Stage::class,'id','spot_id');
+    }
+
+    public function devices(){
+        return $this->hasMany(Device::class,'id','spot_id');
+    }
+
+    public function pages(){
+        return $this->hasMany(Page::class,'id','spot_id');
+    }
+
+
     public function updateSettings(): void
     {
         $settings = null;
@@ -78,15 +111,5 @@ class Spot extends Model
 
         $this->settings = is_array($settings) ?
             json_encode($settings, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) : null;
-    }
-
-    public function authType()
-    {
-        return $this->hasOne(AuthType::class);
-    }
-
-    public function spotType()
-    {
-        return $this->belongsTo(SpotsType::class);
     }
 }

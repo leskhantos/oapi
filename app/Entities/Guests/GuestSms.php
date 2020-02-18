@@ -4,12 +4,12 @@ namespace App\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-class GuestCall extends Model
+class GuestSms extends ParentGuest
 {
-    public $timestamps=false;
 
     protected $fillable =[
         'created','expiration','phone',
-        'device_mac','spot_id'
+        'code','device_mac','spot_id',
+        'count_sessions','count_sms','last_sms'
     ];
 }

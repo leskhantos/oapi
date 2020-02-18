@@ -12,4 +12,12 @@ class Page extends Model
         'company','name','title','logo',
         'background','style','banner','key'
     ];
+
+    public function companies(){
+        return $this->hasMany(Company::class);
+    }
+
+    public function spot(){
+        return $this->belongsTo(Spot::class);
+    }
 }

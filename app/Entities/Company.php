@@ -36,13 +36,16 @@ class Company extends Model
         'name','enabled'
     ];
 
-    public function spots()
-    {
-        return $this->hasMany(Spot::class);
+    public function spots(){
+        return $this->hasMany(Spot::class,'id','company_id');
     }
 
-    public function users()
-    {
-        return $this->hasMany(User::class);
+    public function stats(){
+        return $this->hasMany(ParentStats::class,'id','company_id');
     }
+
+    public function pages(){
+        return $this->belongsTo(Page::class);
+    }
+
 }

@@ -13,4 +13,8 @@ class Device extends Model
         'created','mac','type','os','os_version','screen_w','screen_h',
         'info','sessions','online','session','spot','comment','update'
     ];
+
+    public function spots(){
+        return $this->belongsTo(Spot::class);
+    }
 }

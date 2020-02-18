@@ -11,4 +11,8 @@ class Voucher extends Model
         'spot_id','room','code',
         'dt_start','dt_end','can_used'
     ];
+
+    public function spots(){
+        $this->belongsTo(Spot::class);
+    }
 }

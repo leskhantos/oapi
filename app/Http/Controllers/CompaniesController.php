@@ -44,17 +44,7 @@ class CompaniesController extends Controller
 
     public function store(StoreRequest $request)
     {
-        return Company::create($request->all());
-
-//        dd($request->company_name);
-//        Company::insert($request->company_name);
-//        dd(1);
-//        Spot::insert($request->all()->exist('company_name'));
-//
-//        return Company::select('companies.name as company_name','spots_types.name','address','ident','code')
-//            ->leftJoin('spots','companies.id','=','spots.company_id')
-//            ->leftJoin('spots_types','spots.type','=','spots_types.id')->get();
-//            create($request->all())->get();
+        //
 
 //        return new JsonResponse($this->companiesService->create($request), 201);
     }

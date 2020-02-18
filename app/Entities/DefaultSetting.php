@@ -14,5 +14,8 @@ class DefaultSetting extends Model
         'call_wait_timer','call_allow_country','enable_monitoring',
         'alert_monitoring_timer'
     ];
-    //
+
+    public function users(){
+        return $this->belongsTo(User::class);
+    }
 }
