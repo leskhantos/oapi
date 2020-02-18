@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Spot::class, function (Faker $faker) {
     return [
-        'company_id' => 3,
+        'company_id' => 1,
         'address' => $faker->address,
         'type' => 1,
         'ident' => $faker->domainName,
