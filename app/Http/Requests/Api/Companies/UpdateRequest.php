@@ -30,9 +30,8 @@ class UpdateRequest extends ApiRequest
     public function rules()
     {
         return [
-//            'user_id' => 'exists:users,id',
-//            'name' => 'string|min:3|max:150',
-        'enabled' =>''
+            'name' => 'string|min:3|max:150',
+            'enabled' =>'boolean'
         ];
     }
 }

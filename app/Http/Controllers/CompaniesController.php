@@ -26,7 +26,7 @@ class CompaniesController extends Controller
 
     public function index()
     {
-        return Company::select('companies.name as company_name','spots_types.name','address','ident','code')
+        return Company::select('companies.name as company_name','spots_types.name as spot_name','address','ident','code')
             ->leftJoin('spots','companies.id','=','spots.company_id')
             ->leftJoin('spots_types','spots.type','=','spots_types.id')->get();
     }
@@ -36,29 +36,17 @@ class CompaniesController extends Controller
      * @return JsonResponse
      * @throws \Exception
      */
-    public function destroy(int $id): JsonResponse
-    {
-        return new JsonResponse($this->companyRepository
-            ->destroy($id), 204);
-    }
 
     public function store(StoreRequest $request)
     {
-        //
-
-//        return new JsonResponse($this->companiesService->create($request), 201);
+        return Company::create($request->all());
     }
 
-//    public function update(UpdateRequest $request, int $id): JsonResponse
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
-//        $company = $this->companyRepository->update($request, $id);
-//        return new JsonResponse($company, 201);
-
         $company = Company::find($id);
-        $company->update(['enabled'=>$request->enabled]);
+        $company->update(['name'=>$request->name,'enabled'=>$request->enabled]);
         return $company;
-
     }
 
     public function show(int $id): JsonResponse

@@ -26,8 +26,8 @@ class StoreRequest extends FormRequest implements StoreSpotRepositoryInterface
     public function rules()
     {
         return [
-            'code'=>'string|max:15',
-            'name'=>'string|max:15'
+            'code'=>'required|string|max:15',
+            'name'=>'required|string|max:15'
         ];
     }
 }

@@ -32,12 +32,7 @@ class StoreRequest extends ApiRequest
     public function rules()
     {
         return [
-            'company_name' => 'required|string|min:3|max:150',
-//
-            'name' => 'required|string|min:4|max:50',
-            'address' => 'required|string|min:4|max:160',
-//            'auth_type_id' => 'required|integer',
-//            'ident' => 'required|string|min:4|max:50',
+            'name' => 'required|string|min:3|max:150',
         ];
     }
 }
