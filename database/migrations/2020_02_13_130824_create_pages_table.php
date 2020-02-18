@@ -15,7 +15,7 @@ class CreatePagesTable extends Migration
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('company_id');
+            $table->integer('company_id')->references('id')->on('companies');
             $table->string('name',30);
             $table->integer('type');
             $table->string('title',20);

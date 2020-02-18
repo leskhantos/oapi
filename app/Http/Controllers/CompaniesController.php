@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Entities\Company;
-use App\Entities\Spot;
-use Illuminate\Http\Request;
 use App\Http\Requests\Api\Companies\StoreRequest;
 use App\Http\Requests\Api\Companies\UpdateRequest;
 use Illuminate\Http\JsonResponse;
@@ -26,9 +24,10 @@ class CompaniesController extends Controller
 
     public function index()
     {
-        return Company::select('companies.name as company_name','spots_types.name as spot_name','address','ident','code')
+        return Company::select('companies.id','companies.name as company_name','spots_types.name as spot_name','address','ident','code')
             ->leftJoin('spots','companies.id','=','spots.company_id')
-            ->leftJoin('spots_types','spots.type','=','spots_types.id')->get();
+            ->leftJoin('spots_types','spots.type','=','spots_types.id')
+            ->orderBy('id')->get();
     }
 
     /**
@@ -45,7 +44,7 @@ class CompaniesController extends Controller
     public function update(UpdateRequest $request, $id)
     {
         $company = Company::find($id);
-        $company->update(['name'=>$request->name,'enabled'=>$request->enabled]);
+        $company->update([$request->all()]);
         return $company;
     }
 

@@ -15,7 +15,7 @@ class CreateSessionsSpotsTable extends Migration
     {
         Schema::create('sessions_spots', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('spot_id');
+            $table->integer('spot_id')->references('id')->on('spots');
             $table->string('username',50);
             $table->string('device_mac',30);
             $table->bigInteger('bytes_in')->default(0);

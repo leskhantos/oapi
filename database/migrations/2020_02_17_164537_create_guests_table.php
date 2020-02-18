@@ -16,8 +16,8 @@ class CreateGuestsTable extends Migration
         Schema::create('guests', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamp('datetime');
-            $table->integer('company_id');
-            $table->integer('spot_id');
+            $table->integer('company_id')->references('id')->on('companies');
+            $table->integer('spot_id')->references('id')->on('spots');
             $table->integer('spot_type');
             $table->string('device_mac',17);
             $table->string('data_auth',20)->nullable();

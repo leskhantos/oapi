@@ -16,7 +16,7 @@ class CreateDefaultSettingsTable extends Migration
         Schema::create('default_settings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamp('created')->nullable();
-            $table->integer('user_id');
+            $table->integer('user_id')->references('id')->on('users');
             $table->string('redirect_url',200)->default('https://oy2b.ru/wifiok');
             $table->integer('session_auto_timer')->nullable();
             $table->integer('session_timer')->nullable();

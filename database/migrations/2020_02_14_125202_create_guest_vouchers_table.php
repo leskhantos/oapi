@@ -17,9 +17,9 @@ class CreateGuestVouchersTable extends Migration
             $table->bigIncrements('id');
             $table->timestamp('activated')->nullable();
             $table->timestamp('expiration');
-            $table->integer('voucher_id');
+            $table->integer('voucher_id')->references('id')->on('vouchers');
             $table->string('device_mac',30);
-            $table->integer('spot_id');
+            $table->integer('spot_id')->references('id')->on('spots');
         });
     }
 

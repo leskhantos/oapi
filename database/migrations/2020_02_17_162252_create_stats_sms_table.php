@@ -16,8 +16,8 @@ class CreateStatsSmsTable extends Migration
         Schema::create('stats_sms', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamp('date')->nullable();
-            $table->integer('company_id');
-            $table->integer('spot_id');
+            $table->integer('company_id')->references('id')->on('companies');
+            $table->integer('spot_id')->references('id')->on('spots');
             $table->integer('all')->default(0);
             $table->integer('resend')->default(0);
             $table->integer('delivered')->default(0);

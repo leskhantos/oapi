@@ -15,7 +15,7 @@ class CreateSessionsAuthTable extends Migration
     {
         Schema::create('sessions_auth', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('spot_id');
+            $table->integer('spot_id')->references('id')->on('spots');
             $table->timestamp('created');
             $table->timestamp('expiration')->nullable();
             $table->timestamp('used')->nullable();

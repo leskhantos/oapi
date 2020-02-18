@@ -13,9 +13,11 @@ class CreateSpotsTable extends Migration
      */
     public function up()
     {
+        Schema::enableForeignKeyConstraints();
         Schema::create('spots', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('company_id');
+            $table->integer('company_id')->references('id')->on('companies');
+            $table->integer('type')->references('id')->on('spots_types');
             $table->string('address', 200);
             $table->string('ident', 150);
             $table->json('settings');

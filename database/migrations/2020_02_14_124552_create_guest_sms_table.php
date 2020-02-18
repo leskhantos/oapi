@@ -20,7 +20,7 @@ class CreateGuestSmsTable extends Migration
             $table->string('phone',20);
             $table->string('code',40);
             $table->string('device_mac',30);
-            $table->integer('spot_id');
+            $table->integer('spot_id')->references('id')->on('spots');
             $table->smallInteger('count_sessions')->default(0);
             $table->smallInteger('count_sms')->default(0);
             $table->timestamp('last_sms')->nullable();

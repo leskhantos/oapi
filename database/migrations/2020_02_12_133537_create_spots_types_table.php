@@ -27,9 +27,7 @@ class CreateSpotsTypesTable extends Migration
      */
     public function down()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('spots_types');
-        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 
     }
 }

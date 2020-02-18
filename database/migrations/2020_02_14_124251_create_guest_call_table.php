@@ -19,7 +19,7 @@ class CreateGuestCallTable extends Migration
             $table->timestamp('expiration')->nullable();
             $table->string('phone',20)->nullable();
             $table->string('device_mac',30);
-            $table->integer('spot_id');
+            $table->integer('spot_id')->references('id')->on('spots');
             $table->tinyInteger('checked')->default('0');
         });
     }
