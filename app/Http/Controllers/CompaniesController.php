@@ -43,8 +43,8 @@ class CompaniesController extends Controller
 
     public function update(UpdateRequest $request, $id)
     {
-        $company = Company::find($id);
-        $company->update([$request->all()]);
+        $company = $this->companyRepository->update($request, $id);
+
         return $company;
     }
 
