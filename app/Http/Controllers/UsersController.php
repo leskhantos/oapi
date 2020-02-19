@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Auth;
+use App\Http\Requests\Api\User\UserUpdate;
 use Illuminate\Http\Request;
 use App\Entities\User;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Api\User\StoreUser;
-use App\Http\Requests\Api\User\UpdateUser;
+use App\Http\Requests\Api\User\UpdatePassword;
 use Symfony\Component\ErrorHandler\Error\FatalError;
 
 class UsersController extends Controller
@@ -51,7 +51,7 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateUser $request, $id)
+    public function updatePassword(UpdatePassword $request)
     {
         $id = auth()->user()->id;
         $pass=$request->oldPassword;
@@ -67,6 +67,17 @@ class UsersController extends Controller
         }
         else
             return response('Error',402);
+    }
+
+    public function update(UserUpdate $request,$id){
+        $user = User::find($id);
+        $user->update([
+            'type'=>$request->type,
+            'name'=>$request->name,
+            'login'=>$request->login,
+            'enabled'=>$request->enabled,
+        ]);
+        return $user;
     }
 
     /**

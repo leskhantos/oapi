@@ -3,9 +3,8 @@
 namespace App\Http\Requests\Api\User;
 
 use App\Http\Requests\Api\ApiRequest;
-use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUser extends ApiRequest
+class UserUpdate extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +24,12 @@ class UpdateUser extends ApiRequest
     public function rules()
     {
         return [
-            'password'=>'required|string|min:5|max:200',
+            'type'=>'required|in:admin,manager,support',
+            'name'=>'required|string|max:32',
+            'login'=>'required|string|min:4|max:32',
             'last_online'=>'date|min:5',
             'last_ip'=>'string|min:7',
-            'oldPassword'=>'required|string|min:5|max:200',
+            'enabled'=>'boolean',
         ];
     }
 }

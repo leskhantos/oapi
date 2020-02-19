@@ -12,8 +12,6 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-
 Route::group([
     'prefix' => 'auth',
 ], function () {
@@ -26,27 +24,16 @@ Route::get('roles', 'RolesController@index');
 Route::get('spot/auth/types', 'AuthTypeController@index');
 
 Route::apiResource('users','UsersController')->except('destroy');
+Route::put('put-users/{id}/pass','UsersController@updatePassword');
 
 Route::get('spots/types','SpotTypeController@index');
 Route::post('spots/types','SpotTypeController@store');
 
 Route::get('companies', 'CompaniesController@index');
-Route::get('company/{id}', 'CompaniesController@show');
-Route::post('company', 'CompaniesController@store');
-Route::put('company/{id}', 'CompaniesController@update');
-Route::delete('company/{id}', 'CompaniesController@destroy');
+Route::apiResource('company','CompaniesController')->except('index');
 
 Route::get('spot','SpotController@index');
+Route::get('spot/{id}','SpotController@show');
 Route::post('company/spot', 'SpotController@store');
 
-Route::get('user/info','UserAgentController@index');
-Route::get('user/info/{id}','UserAgentController@show');
-Route::post('user/info','UserAgentController@store');
-
-Route::get('guest/call','GuestCallController@index');
-Route::get('guest/call/{id}','GuestCallController@show');
-Route::post('guest/call','GuestCallController@store');
-
-Route::get('guest/sms','GuestSmsController@index');
-Route::get('guest/sms/{id}','GuestSmsController@show');
-Route::post('guest/sms','GuestSmsController@store');
+Route::apiResource('user/info','UserAgentController')->except('destroy','update');
