@@ -24,10 +24,9 @@ class CompaniesController extends Controller
 
     public function index()
     {
-        return Company::select('companies.id','companies.name as company_name','spots_types.name as spot_name','address','ident','code')
-            ->leftJoin('spots','companies.id','=','spots.company_id')
-            ->leftJoin('spots_types','spots.type','=','spots_types.id')
-            ->orderBy('id')->get();
+        return Company::select('companies.id',
+            'companies.name as company_name',
+        )->get();
     }
 
     /**
