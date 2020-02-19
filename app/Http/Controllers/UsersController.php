@@ -59,9 +59,7 @@ class UsersController extends Controller
 
         if(Hash::check($pass,$user->password))
         {
-            $user->update(['name' => $request->name,
-                'login' => $request->login,
-                'type'=>$request->type,
+            $user->update([
                 'password' => $request->password,
                 'last_online' => $request->last_online,
                 'last_ip' => $request->last_ip]);
