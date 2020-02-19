@@ -57,12 +57,14 @@ class UsersController extends Controller
         $pass=$request->oldPassword;
         $user= User::find($id);
 
-//        dd(Hash::check($pass,$user->password));
-
         if(Hash::check($pass,$user->password))
         {
-            $user->update(['name' => $request->name, 'login' => $request->login, 'password' => $request->password,
-                'last_online' => $request->last_online, 'last_ip' => $request->last_ip]);
+            $user->update(['name' => $request->name,
+                'login' => $request->login,
+                'type'=>$request->type,
+                'password' => $request->password,
+                'last_online' => $request->last_online,
+                'last_ip' => $request->last_ip]);
             return response($user,200);
         }
         else

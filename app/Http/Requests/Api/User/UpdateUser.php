@@ -25,13 +25,14 @@ class UpdateUser extends ApiRequest
     public function rules()
     {
         return [
-            'type'=>'required|string',
+            'type'=>'required|in:admin,manager,support',
             'name'=>'required|string|max:32',
             'login'=>'required|string|min:4|max:32',
             'password'=>'required|string|min:5|max:200',
             'last_online'=>'date|min:5',
             'last_ip'=>'string|min:7',
-            'enabled'=>'boolean'
+            'enabled'=>'boolean',
+            'oldPassword'=>'required|string|min:5|max:200',
         ];
     }
 }
