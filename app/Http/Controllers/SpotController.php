@@ -2,23 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Entities\Company;
 use App\Entities\Spot;
 use App\Http\Requests\Api\Spot\StoreRequest;
 use Illuminate\Http\JsonResponse;
-use App\Repositories\Spot as SpotsRepository;
-use Illuminate\Http\Request;
+use App\Repositories\Interfaces\SpotRepositoryInterface;
 
 class SpotController extends Controller
 {
     /**
-     * @var SpotsRepository
+//     * @var SpotRepository
      */
     private $spotRepository;
 
-    public function __construct(SpotsRepository $spotRepository)
+    public function __construct(SpotRepositoryInterface $spotRepository)
     {
         $this->spotRepository = $spotRepository;
         parent::__construct();
+    }
+
+    public function index($id)
+    {
+//        Company::find($id);
+        return $this->spotRepository->spotByCompany($id);
+    }
+
+    public function show($id){
+        return Spot::find($id);
     }
 
     public function store(StoreRequest $request)
@@ -26,13 +36,5 @@ class SpotController extends Controller
         return Spot::create($request->all());
     }
 
-    public function index(Request $request)
-    {
-        $company = $request->company;
-        return Spot::select('spots.id','company_id','type','address',
-            'ident','settings','page_id','last_active','debug_key','spots.enabled','name')
-            ->join('companies','spots.company_id','=','companies.id')
-            ->where('company_id','=',"$company")
-            ->get();
-    }
+
 }

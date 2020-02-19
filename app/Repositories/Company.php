@@ -27,27 +27,11 @@ class Company
      * @return bool|null
      * @throws \Exception
      */
-    public function destroy(int $companyId): ?bool
-    {
-        return $this->findById($companyId)->delete();
-    }
 
     public function findById(int $companyId): CompanyModel
     {
         return CompanyModel::findOrFail($companyId);
     }
 
-    public function create(StoreRequest $request): CompanyModel
-    {
-        return CompanyModel::create($request->company);
-    }
-
-    public function update(UpdateRequest $request, int $companyId): CompanyModel
-    {
-        $company = $this->findById($companyId);
-        $company->update($request->all());
-
-        return $company;
-    }
 
 }

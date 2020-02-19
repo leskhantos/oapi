@@ -27,7 +27,6 @@ Route::apiResource('users','UsersController')->except('destroy');
 Route::put('put-users/{id}/pass','UsersController@updatePassword');
 
 Route::get('spots/types','SpotTypeController@index');
-Route::post('spots/types','SpotTypeController@store');
 
 Route::get('companies', 'CompaniesController@index');
 Route::apiResource('company','CompaniesController')->except('index');
