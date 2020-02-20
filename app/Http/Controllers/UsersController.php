@@ -61,6 +61,8 @@ class UsersController extends Controller
             return response($user,200);
         }
         else
-            return response('The oldPassword is invalid',402);
+            return response([
+                'password' => ['The oldPassword is invalid']
+            ],422);
     }
 }

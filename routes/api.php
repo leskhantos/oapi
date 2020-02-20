@@ -31,8 +31,12 @@ Route::get('spots/types','SpotTypeController@index');
 Route::get('companies', 'CompaniesController@index');
 Route::apiResource('company','CompaniesController')->except('index');
 
-Route::get('spot','SpotController@index');
+Route::get('company/{id}/spots','SpotController@index');
 Route::get('spot/{id}','SpotController@show');
 Route::post('company/spot', 'SpotController@store');
+
+Route::get('all/stats','StatController@getAllStat');
+
+Route::post('device','DeviceController@store');
 
 Route::apiResource('user/info','UserAgentController')->except('destroy','update');
