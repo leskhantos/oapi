@@ -20,23 +20,21 @@ Route::group([
     Route::get('user', 'Auth\AuthController@user');
 });
 
-Route::get('roles', 'RolesController@index');
-Route::get('spot/auth/types', 'AuthTypeController@index');
-
 Route::apiResource('users','UsersController')->except('destroy');
 Route::put('put-users/{id}/pass','UsersController@updatePassword');
 
-Route::get('spots/types','SpotTypeController@index');
+Route::get('spots/types','SpotTypeController@index'); // hz
 
 Route::get('companies', 'CompaniesController@index');
 Route::apiResource('company','CompaniesController')->except('index');
 
-Route::get('company/{id}/spots','SpotController@index');
+Route::get('company/{id}/spots','SpotController@spotsByCompany');
 Route::get('spot/{id}','SpotController@show');
 Route::post('company/spot', 'SpotController@store');
+
+Route::get('company/{id}/pages','PageController@show');
+Route::post('page','PageController@store');
 
 Route::get('all/stats','StatController@getAllStat');
 
 Route::post('device','DeviceController@store');
-
-Route::apiResource('user/info','UserAgentController')->except('destroy','update');

@@ -22,12 +22,12 @@ class CreateDevicesTable extends Migration
             $table->string('os_version')->nullable();
             $table->smallInteger('screen_w')->nullable();
             $table->smallInteger('screen_h')->nullable();
-            $table->string('info',300);
+            $table->string('info',300)->default('');
             $table->integer('sessions')->default(0);
-            $table->integer('spot_id');
-            $table->timestamp('last_online');
+            $table->integer('spot_id')->nullable();
+            $table->timestamp('last_online')->nullable();
             $table->timestamp('last_session')->nullable();
-            $table->string('comment',300);
+            $table->string('comment',300)->default('');
             $table->tinyInteger('blocked') ->default(0);
         });
     }

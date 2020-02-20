@@ -5,14 +5,10 @@ namespace App\Http\Controllers;
 use App\Entities\Company;
 use App\Entities\Spot;
 use App\Http\Requests\Api\Spot\StoreRequest;
-use Illuminate\Http\JsonResponse;
 use App\Repositories\Interfaces\SpotRepositoryInterface;
 
 class SpotController extends Controller
 {
-    /**
-//     * @var SpotRepository
-     */
     private $spotRepository;
 
     public function __construct(SpotRepositoryInterface $spotRepository)
@@ -21,7 +17,7 @@ class SpotController extends Controller
         parent::__construct();
     }
 
-    public function index($id)
+    public function spotsByCompany($id)
     {
 //        Company::find($id);
         return $this->spotRepository->spotByCompany($id);

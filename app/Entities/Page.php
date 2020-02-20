@@ -9,8 +9,8 @@ class Page extends Model
     public $timestamps=false;
 
     protected $fillable =[
-        'company','name','title','logo',
-        'background','style','banner','key'
+        'company_id','name','type','title','logo',
+        'background','style','banner','debug_key'
     ];
 
     public function companies(){
