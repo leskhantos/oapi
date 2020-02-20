@@ -72,10 +72,6 @@ class User extends Authenticatable
      * The attributes that should be hidden for arrays.
      *
      * @var array
-     */
-    protected $hidden = [
-        'password',
-    ];
 
     /**
      * The attributes that should be cast to native types.
@@ -89,11 +85,6 @@ class User extends Authenticatable
     /**
      * @param string $password
      */
-    public function setPassword(string $password): void
-    {
-        $this->password = Hash::make($password);
-    }
-
 
     public function setPasswordAttribute($value) {
         $this->attributes['password'] = Hash::make($value);

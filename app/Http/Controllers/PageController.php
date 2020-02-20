@@ -10,10 +10,11 @@ class PageController extends Controller
 {
     public function show($id)
     {
-        return Page::where('pages.company_id','=',$id)->get();
+        return Page::where('pages.company_id', '=', $id)->get();
     }
 
-    public function store(StoreRequest $request){
+    public function store(StoreRequest $request)
+    {
         return Page::create($request->all());
     }
 }

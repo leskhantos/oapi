@@ -7,7 +7,8 @@ use App\Repositories\Interfaces\UserRepositoryInterface;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function all(){
+    public function all()
+    {
         return User::all();
     }
 

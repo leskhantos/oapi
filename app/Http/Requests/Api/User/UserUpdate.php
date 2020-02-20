@@ -24,12 +24,12 @@ class UserUpdate extends ApiRequest
     public function rules()
     {
         return [
-            'type'=>'required|in:admin,manager,support',
-            'name'=>'required|string|max:32',
-            'login'=>'required|string|min:4|max:32',
-            'last_online'=>'date|min:5',
-            'last_ip'=>'string|min:7',
-            'enabled'=>'boolean',
+            'type' => 'required|in:admin,manager,support',
+            'name' => 'required|string|max:32',
+            'login' => 'required|string|min:4|max:32',
+            'last_online' => 'date|min:5',
+            'last_ip' => 'string|min:7',
+            'enabled' => 'boolean',
         ];
     }
 }

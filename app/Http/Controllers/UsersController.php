@@ -22,7 +22,7 @@ class UsersController extends Controller
 
     public function index()
     {
-       return $this->userRepository->all();
+        return $this->userRepository->all();
     }
 
     public function store(StoreUser $request)
@@ -32,16 +32,17 @@ class UsersController extends Controller
 
     public function show($id)
     {
-        return  $this->userRepository->getUserById($id);
+        return $this->userRepository->getUserById($id);
     }
 
-    public function update(UserUpdate $request,$id){
+    public function update(UserUpdate $request, $id)
+    {
         $user = User::find($id);
         $user->update([
-            'type'=>$request->type,
-            'name'=>$request->name,
-            'login'=>$request->login,
-            'enabled'=>$request->enabled,
+            'type' => $request->type,
+            'name' => $request->name,
+            'login' => $request->login,
+            'enabled' => $request->enabled,
         ]);
         return $user;
     }
@@ -49,20 +50,18 @@ class UsersController extends Controller
     public function updatePassword(UpdatePassword $request)
     {
         $id = auth()->user()->id;
-        $pass=$request->oldPassword;
-        $user= User::find($id);
+        $pass = $request->oldPassword;
+        $user = User::find($id);
 
-        if(Hash::check($pass,$user->password))
-        {
+        if (Hash::check($pass, $user->password)) {
             $user->update([
                 'password' => $request->password,
                 'last_online' => $request->last_online,
                 'last_ip' => $request->last_ip]);
-            return response($user,200);
-        }
-        else
+            return response($user, 200);
+        } else
             return response([
                 'password' => ['The oldPassword is invalid']
-            ],422);
+            ], 422);
     }
 }

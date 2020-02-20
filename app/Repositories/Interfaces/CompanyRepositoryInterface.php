@@ -2,10 +2,15 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Entities\Company;
-
 interface CompanyRepositoryInterface
 {
     public function all();
-    public function getCompanyById($id);
+
+    public function getCompanyById($company_id);
+
+    public function guestsByCompany($company_id);
+
+    public function callsByCompany($company_id);
+
+    public function accountsByCompany($company_id);
 }

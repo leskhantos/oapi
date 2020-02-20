@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Entities\Company;
 use App\Entities\Spot;
-use App\Http\Requests\Api\Spot\StoreRequest;
+use App\Http\Requests\Api\Spot\SpotsStoreRequest;
 use App\Repositories\Interfaces\SpotRepositoryInterface;
 
 class SpotController extends Controller
@@ -23,11 +23,12 @@ class SpotController extends Controller
         return $this->spotRepository->spotByCompany($id);
     }
 
-    public function show($id){
+    public function show($id)
+    {
         return Spot::find($id);
     }
 
-    public function store(StoreRequest $request)
+    public function store(SpotsStoreRequest $request)
     {
         return Spot::create($request->all());
     }

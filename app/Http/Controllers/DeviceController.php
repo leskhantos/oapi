@@ -11,17 +11,9 @@ use Illuminate\Http\Request;
 
 class DeviceController extends Controller
 {
-//    private $statRepository;
-//
-//    public function __construct(StatRepositoryInterface $statRepository)
-//    {
-//        $this->statRepository = $statRepository;
-//        parent::__construct();
-//    }
 
     public function store(Request $request)
     {
-//        return $this->statRepository->getAllStats();
         return Device::create($request->all());
     }
 }

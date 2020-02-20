@@ -27,6 +27,9 @@ Route::get('spots/types','SpotTypeController@index'); // hz
 
 Route::get('companies', 'CompaniesController@index');
 Route::apiResource('company','CompaniesController')->except('index');
+Route::get('company/{id}/guests','CompaniesController@guestsByCompany');
+Route::get('company/{id}/calls','CompaniesController@callsByCompany');
+Route::get('company/{id}/accounts','CompaniesController@accountsByCompany');
 
 Route::get('company/{id}/spots','SpotController@spotsByCompany');
 Route::get('spot/{id}','SpotController@show');
@@ -38,3 +41,8 @@ Route::post('page','PageController@store');
 Route::get('all/stats','StatController@getAllStat');
 
 Route::post('device','DeviceController@store');
+
+Route::post('account','AccountsController@store');
+
+Route::get('settings','DefaultSettingController@index');
+Route::post('settings','DefaultSettingController@store');

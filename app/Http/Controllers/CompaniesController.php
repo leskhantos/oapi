@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Entities\Company;
-use App\Http\Requests\Api\Companies\StoreRequest;
+use App\Entities\Guest;
+use App\Http\Requests\Api\Companies\CompanyStoreRequest;
 use App\Http\Requests\Api\Companies\UpdateRequest;
 use Illuminate\Http\JsonResponse;
 use App\Repositories\Interfaces\CompanyRepositoryInterface;
+use Illuminate\Http\Request;
 
 
 class CompaniesController extends Controller
@@ -24,7 +26,7 @@ class CompaniesController extends Controller
         return $this->companyRepository->all();
     }
 
-    public function store(StoreRequest $request)
+    public function store(CompanyStoreRequest $request)
     {
         return Company::create($request->all());
     }
@@ -33,8 +35,8 @@ class CompaniesController extends Controller
     {
         $company = Company::find($id);
         $company->update([
-            'name'=>$request->name,
-            'enabled'=>$request->enabled
+            'name' => $request->name,
+            'enabled' => $request->enabled
         ]);
         return $company;
     }
@@ -44,5 +46,20 @@ class CompaniesController extends Controller
         $company = $this->companyRepository->getCompanyById($id);
 
         return new JsonResponse($company);
+    }
+
+    public function guestsByCompany($id)
+    {
+        return $this->companyRepository->guestsByCompany($id);
+    }
+
+    public function test(Request $request)
+    {
+        return Guest::create($request->all());
+    }
+
+    public function accountsByCompany($id)
+    {
+        return $this->companyRepository->accountsByCompany($id);
     }
 }

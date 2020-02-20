@@ -37,7 +37,7 @@ class Company extends Model
     ];
 
     public function spots(){
-        return $this->hasMany(Spot::class,'id','company_id');
+        return $this->hasMany(Spot::class);
     }
 
     public function stats(){
@@ -46,6 +46,10 @@ class Company extends Model
 
     public function pages(){
         return $this->belongsTo(Page::class);
+    }
+
+    public function accounts(){
+        return $this->belongsTo(Account::class);
     }
 
 }

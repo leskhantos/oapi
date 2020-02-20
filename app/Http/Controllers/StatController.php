@@ -16,7 +16,8 @@ class StatController extends Controller
         parent::__construct();
     }
 
-    public function getAllStat(){
+    public function getAllStat()
+    {
         return $this->statRepository->getAllStats();
     }
 }

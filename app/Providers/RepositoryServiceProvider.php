@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Repositories\AccountRepository;
 use App\Repositories\CompanyRepository;
+use App\Repositories\Interfaces\AccountRepositoryInterface;
 use App\Repositories\Interfaces\CompanyRepositoryInterface;
 use App\Repositories\Interfaces\SpotRepositoryInterface;
 use App\Repositories\Interfaces\StatRepositoryInterface;
@@ -29,10 +31,10 @@ class RepositoryServiceProvider extends ServiceProvider
             );
         $this->app->bind(
             CompanyRepositoryInterface::class, CompanyRepository::class,
-        );
+            );
         $this->app->bind(
-            StatRepositoryInterface::class,StatRepository::class,
-        );
+            StatRepositoryInterface::class, StatRepository::class,
+            );
     }
 
     /**

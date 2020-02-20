@@ -25,10 +25,10 @@ class UpdatePassword extends ApiRequest
     public function rules()
     {
         return [
-            'password'=>'required|string|min:5|max:200',
-            'last_online'=>'date|min:5',
-            'last_ip'=>'string|min:7',
-            'oldPassword'=>'required|string|min:5|max:200',
+            'password' => 'required|string|min:5|max:200',
+            'last_online' => 'date|min:5',
+            'last_ip' => 'string|min:7',
+            'oldPassword' => 'required|string|min:5|max:200',
         ];
     }
 }

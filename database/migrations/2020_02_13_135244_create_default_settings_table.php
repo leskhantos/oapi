@@ -27,6 +27,7 @@ class CreateDefaultSettingsTable extends Migration
             $table->tinyInteger('sms_allow_country')->nullable();
             $table->integer('call_wait_timer')->nullable();
             $table->tinyInteger('call_allow_country')->nullable();
+            $table->integer('voucher_max_devices')->nullable();
             $table->tinyInteger('monitoring_enabled')->nullable();
             $table->integer('monitoring_alert_timer')->nullable();
         });

@@ -8,9 +8,10 @@ use App\Repositories\Interfaces\SpotRepositoryInterface;
 
 class SpotRepository implements SpotRepositoryInterface
 {
-    public function spotByCompany($id){
-        $company=Company::find($id);
-        return Spot::where("company_id","=","$company->id")->get();
+    public function spotByCompany($id)
+    {
+        $company = Company::find($id);
+        return Spot::where("company_id", "=", "$company->id")->get();
     }
 
 }

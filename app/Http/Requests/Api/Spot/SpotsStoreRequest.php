@@ -14,23 +14,14 @@ use App\Http\Requests\Api\ApiRequest;
  * @property int $company_id
  * @package App\Http\Requests\Api\Spot
  */
-class StoreRequest extends ApiRequest implements StoreSpotRepositoryInterface
+class SpotsStoreRequest extends ApiRequest implements StoreSpotRepositoryInterface
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
+
     public function authorize()
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules()
     {
         return [
@@ -40,8 +31,8 @@ class StoreRequest extends ApiRequest implements StoreSpotRepositoryInterface
             'ident' => 'required|string|min:4|max:50',
             'settings' => 'required|json',
             'page_id' => 'integer',
-            'last_active'=>'date',
-            'debug_key'=>'string|max:50'
+            'last_active' => 'date',
+            'debug_key' => 'string|max:50'
         ];
     }
 }
