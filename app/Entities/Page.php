@@ -9,7 +9,7 @@ class Page extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'company_id', 'name', 'type', 'title', 'logo',
+        'id','company_id', 'name', 'type', 'title', 'logo',
         'background', 'style', 'banner', 'debug_key'
     ];
 

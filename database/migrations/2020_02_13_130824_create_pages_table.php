@@ -17,7 +17,7 @@ class CreatePagesTable extends Migration
             $table->bigIncrements('id');
             $table->integer('company_id')->references('id')->on('companies');
             $table->string('name',30);
-            $table->integer('type');
+            $table->integer('type')->references('type')->on('spots');
             $table->string('title',20);
             $table->string('logo',40)->nullable();
             $table->json('background')->nullable();

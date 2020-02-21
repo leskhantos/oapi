@@ -13,7 +13,6 @@ class CreateSpotsTable extends Migration
      */
     public function up()
     {
-        Schema::enableForeignKeyConstraints();
         Schema::create('spots', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('company_id')->references('id')->on('companies');
@@ -21,7 +20,7 @@ class CreateSpotsTable extends Migration
             $table->string('address', 200);
             $table->string('ident', 150)->index();
             $table->json('settings');
-            $table->integer('page_id')->nullable();
+            $table->integer('page_id')->default(0);
             $table->timestamp('last_active')->nullable();
             $table->string('debug_key', 50)->nullable()->index();
             $table->boolean('enabled')->default(true);
@@ -35,8 +34,6 @@ class CreateSpotsTable extends Migration
      */
     public function down()
     {
-//        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('spots');
-//        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }
