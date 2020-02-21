@@ -12,5 +12,6 @@ $factory->define(Spot::class, function (Faker $faker) {
         'type' => 1,
         'ident' => $faker->domainName,
         'settings' => json_encode(123),
+        'page_id' => 1,
     ];
 });

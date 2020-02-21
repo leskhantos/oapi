@@ -17,7 +17,7 @@ class StoreRequest extends ApiRequest
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'name' => 'required|string|max:30',
-            'type' => 'required|integer',
+            'type' => 'required|integer|exists:spots,type',
             'title' => 'required|string',
             'logo' => 'string|max:40',
             'background' => 'json',
