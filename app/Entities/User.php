@@ -62,18 +62,18 @@ class User extends Authenticatable
      * @var array
      */
 
-    public $timestamps=false;
+    public $timestamps = false;
 
     protected $fillable = [
-        'name', 'login', 'password','last_ip','last_online','type','enabled'
+        'name', 'login', 'password', 'last_ip', 'last_online', 'type', 'enabled'
     ];
 
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
-
-    /**
+     *
+     * /**
      * The attributes that should be cast to native types.
      *
      * @var array
@@ -86,11 +86,13 @@ class User extends Authenticatable
      * @param string $password
      */
 
-    public function setPasswordAttribute($value) {
+    public function setPasswordAttribute($value)
+    {
         $this->attributes['password'] = Hash::make($value);
     }
 
-    public function defaultSettings(){
-        $this->hasMany(DefaultSetting::class,'id','user_id');
+    public function defaultSettings()
+    {
+        $this->hasMany(DefaultSetting::class, 'user_id', 'id');
     }
 }

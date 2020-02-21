@@ -6,17 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class SpotsType extends Model
 {
-    //
-
-    public $timestamps=false;
-
+    public $timestamps = false;
 
     protected $fillable = [
-        'name','code'
+        'name', 'code'
     ];
 
     public function spot()
     {
-        return $this->hasMany(Spot::class);
+        return $this->belongsTo(Spot::class);
     }
 }

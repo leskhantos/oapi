@@ -5,53 +5,13 @@ namespace App\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Monolog\Formatter\JsonFormatter;
 
-/**
- * App\Entities\Spot
- *
- * @property int $id
- * @property int $company_id
- * @property string $address
- * @property string $type
- * @property string $interface
- * @property string $page_type
- * @property mixed|null $settings
- * @property string|null $last_activity
- * @property int $disabled
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Spot newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Spot newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Spot query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Spot whereAddress($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Spot whereCompanyId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Spot whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Spot whereDisabled($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Spot whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Spot whereInterface($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Spot whereLastActivity($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Spot wherePageType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Spot whereSettings($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Spot whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Spot whereUpdatedAt($value)
- * @mixin \Eloquent
- * @property string $name
- * @property string|null $ip
- * @property string|null $debug_key
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Spot whereDebugKey($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Spot whereIp($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Spot whereName($value)
- * @property int $auth_type_id
- * @property-read \App\Entities\AuthType $authType
- * @property-read \App\Entities\Company $company
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Spot whereAuthTypeId($value)
- */
 class Spot extends Model
 {
-    public $timestamps=false;
+    public $timestamps = false;
 
     protected $fillable = [
         'company_id', 'address', 'type', 'ident',
-        'last_activity', 'settings'
+        'last_activity', 'settings','page_id'
     ];
 
     public function company()
@@ -59,57 +19,68 @@ class Spot extends Model
         return $this->belongsTo(Company::class);
     }
 
-    public function spotType(){
-        return $this->belongsTo(SpotsType::class);
-    }
-
-    public function vouchers(){
-        return $this->hasMany(Voucher::class,'id','spot_id');
-    }
-
-    public function stats(){
-        return $this->hasMany(ParentStats::class,'id','spot_id');
-    }
-
-    public function guests(){
-        return $this->hasMany(ParentGuest::class,'id','spot_id');
-    }
-
-    public function session(){
-        return $this->hasMany(ParentSession::class,'id','spot_id');
-    }
-
-    public function stages(){
-        return $this->hasMany(Stage::class,'id','spot_id');
-    }
-
-    public function devices(){
-        return $this->hasMany(Device::class,'id','spot_id');
-    }
-
-    public function pages(){
-        return $this->hasMany(Page::class,'id','spot_id');
-    }
-
-
-    public function updateSettings(): void
+    public function spotType()
     {
-        $settings = null;
-
-        switch ($this->auth_type_id) {
-            case AuthType::SMS_TYPE:
-                $settings = [
-                    'lf-sessions' => 48,
-                    'country' => 'off',
-                    'link' => env('OYSTER_REDIRECT_LINK')
-                ];
-                break;
-            case AuthType::PROFILE_TYPE:
-                $settings = ['multi-lang' => 'off', 'country' => 'off'];
-                break;
-        }
-
-        $this->settings = is_array($settings) ?
-            json_encode($settings, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) : null;
+        return $this->hasMany(SpotsType::class, 'spot_id', 'id');
     }
+
+    public function vouchers()
+    {
+        return $this->hasMany(Voucher::class, 'spot_id', 'id');
+    }
+
+    public function stats()
+    {
+        return $this->hasMany(ParentStats::class, 'spot_id', 'id');
+    }
+
+    public function guests()
+    {
+        return $this->hasMany(ParentGuest::class, 'spot_id', 'id');
+    }
+
+    public function session()
+    {
+        return $this->hasMany(ParentSession::class, 'spot_id', 'id');
+    }
+
+    public function stages()
+    {
+        return $this->hasMany(Stage::class, 'spot_id', 'id');
+    }
+
+    public function devices()
+    {
+        return $this->hasMany(Device::class, 'spot_id', 'id');
+    }
+
+    public function countCompanies()
+    {
+        $companies = Spot::withCount('company')->get();
+
+        foreach ($companies as $company) {
+            $count_company = $company->company_count;
+        }
+        return $count_company;
+    }
+
+    public function countDevices()
+    {
+        $devices = Spot::withCount('devices')->get();
+
+        foreach ($devices as $device){
+            $count_device = $device->devices_count;
+        }
+        return $count_device;
+    }
+
+    public function countDevicesForMonth()
+    {
+        $date = new \DateTime();
+        $date = $date->format('m');
+        $new_devices = Device::whereMonth('created','=',$date)->count();
+
+        return $new_devices;
+    }
+
 }

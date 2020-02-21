@@ -6,9 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Stage extends Model
 {
-    protected $timestamps=false;
+    public $timestamps = false;
 
-    public function spots(){
+    public function spots()
+    {
         $this->belongsTo(Spot::class);
     }
 }

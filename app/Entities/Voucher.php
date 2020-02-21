@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Voucher extends Model
 {
-    public $timestamps=false;
-    protected $fillable =[
-        'spot_id','room','code',
-        'dt_start','dt_end','can_used'
+    public $timestamps = false;
+
+    protected $fillable = [
+        'spot_id', 'room', 'code',
+        'dt_start', 'dt_end', 'can_used'
     ];
 
-    public function spots(){
+    public function spots()
+    {
         $this->belongsTo(Spot::class);
     }
 }

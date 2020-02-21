@@ -6,18 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Page extends Model
 {
-    public $timestamps=false;
+    public $timestamps = false;
 
-    protected $fillable =[
-        'company_id','name','type','title','logo',
-        'background','style','banner','debug_key'
+    protected $fillable = [
+        'company_id', 'name', 'type', 'title', 'logo',
+        'background', 'style', 'banner', 'debug_key'
     ];
 
-    public function companies(){
-        return $this->hasMany(Company::class);
+    public function companies()
+    {
+        return $this->belongsTo(Company::class);
     }
 
-    public function spot(){
+    public function spot()
+    {
         return $this->belongsTo(Spot::class);
     }
 }

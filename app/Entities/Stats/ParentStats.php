@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ParentStats extends Model
 {
-
     public $timestamps=false;
 
     public function companies(){
@@ -14,6 +13,6 @@ class ParentStats extends Model
     }
 
     public function spots(){
-        return $this->hasMany(Spot::class,'spot_id','id');
+        return $this->belongsTo(Spot::class);
     }
 }
