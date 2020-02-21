@@ -11,7 +11,7 @@ class Spot extends Model
 
     protected $fillable = [
         'company_id', 'address', 'type', 'ident',
-        'last_activity', 'settings','page_id'
+        'last_activity', 'settings', 'page_id'
     ];
 
     public function company()
@@ -39,9 +39,14 @@ class Spot extends Model
         return $this->hasMany(ParentGuest::class, 'spot_id', 'id');
     }
 
-    public function session()
+    public function session_spots()
     {
-        return $this->hasMany(ParentSession::class, 'spot_id', 'id');
+        return $this->hasMany(SessionsAuth::class, 'spot_id', 'id');
+    }
+
+    public function session_auth()
+    {
+        return $this->hasMany(SessionsSpot::class, 'spot_id', 'id');
     }
 
     public function stages()
@@ -53,34 +58,4 @@ class Spot extends Model
     {
         return $this->hasMany(Device::class, 'spot_id', 'id');
     }
-
-    public function countCompanies()
-    {
-        $companies = Spot::withCount('company')->get();
-
-        foreach ($companies as $company) {
-            $count_company = $company->company_count;
-        }
-        return $count_company;
-    }
-
-    public function countDevices()
-    {
-        $devices = Spot::withCount('devices')->get();
-
-        foreach ($devices as $device){
-            $count_device = $device->devices_count;
-        }
-        return $count_device;
-    }
-
-    public function countDevicesForMonth()
-    {
-        $date = new \DateTime();
-        $date = $date->format('m');
-        $new_devices = Device::whereMonth('created','=',$date)->count();
-
-        return $new_devices;
-    }
-
 }

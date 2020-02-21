@@ -17,4 +17,27 @@ class Device extends Model
     {
         return $this->belongsTo(Spot::class);
     }
+
+    public function countDevices()
+    {
+        $count_device = Device::count();
+
+        return $count_device;
+    }
+
+    public function countDevicesForMonth()
+    {
+        $date = new \DateTime();
+        $date = $date->format('m');
+        $new_devices = Device::whereMonth('created','=',$date)->count();
+
+        return $new_devices;
+    }
+
+    public function countAuthUser()
+    {
+        $new_devices = Device::where('sessions','>',0)->count();
+
+        return $new_devices;
+    }
 }
