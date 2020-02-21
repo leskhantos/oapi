@@ -52,4 +52,10 @@ class Company extends Model
         return $count_page;
     }
 
+    public function countCompany()
+    {
+        $count_company = Company::count();
+        return $count_company;
+    }
+
 }

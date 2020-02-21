@@ -18,7 +18,7 @@ class CompanyRepository implements CompanyRepositoryInterface
 
     public function getCompanyById($id)
     {
-        return Company::find($id);
+        return Company::findOrFail($id);
     }
 
     public function guestsByCompany($company_id)
