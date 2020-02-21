@@ -10,8 +10,13 @@ class SpotRepository implements SpotRepositoryInterface
 {
     public function spotByCompany($id)
     {
-        $company = Company::find($id);
-        return Spot::where("company_id", "=", "$company->id")->get();
+        $company = Company::findOrFail($id);
+        return Spot::
+        select('spots.id','spots.company_id','pages.name',
+            'spots.last_active','spots.ident','address','spots.type','page_id')->
+            leftJoin('pages','page_id','=','pages.id')
+            ->where('spots.company_id','=',$company->id)
+            ->get();
     }
 
 }
