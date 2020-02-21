@@ -13,14 +13,14 @@ class CreateSessionsAuthTable extends Migration
      */
     public function up()
     {
-        Schema::create('sessions_auth', function (Blueprint $table) {
+        Schema::create('sessions_auths', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('spot_id')->references('id')->on('spots');
             $table->timestamp('created');
             $table->timestamp('expiration')->nullable();
             $table->timestamp('used')->nullable();
-            $table->string('device_mac',30);
-            $table->string('signature',40);
+            $table->string('device_mac',30)->index();
+            $table->string('signature',40)->index();
             $table->integer('counter')->default(1);
         });
     }
@@ -32,6 +32,6 @@ class CreateSessionsAuthTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sessions_auth');
+        Schema::dropIfExists('sessions_auths');
     }
 }

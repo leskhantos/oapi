@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->enum('type', ['admin', 'manager', 'support']);
             $table->string('name', 150);
-            $table->string('login', 20)->unique();
+            $table->string('login', 20)->unique()->index();
             $table->string('password');
             $table->dateTime('last_online')->nullable();
             $table->string('last_ip', 50)->nullable();

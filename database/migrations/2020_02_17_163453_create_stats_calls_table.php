@@ -15,7 +15,7 @@ class CreateStatsCallsTable extends Migration
     {
         Schema::create('stats_calls', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->timestamp('date')->nullable();
+            $table->timestamp('date')->nullable()->index();
             $table->integer('company_id')->references('id')->on('companies');
             $table->integer('spot_id')->references('id')->on('spots');
             $table->mediumInteger('requests')->default(0);

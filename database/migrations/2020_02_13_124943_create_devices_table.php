@@ -16,7 +16,7 @@ class CreateDevicesTable extends Migration
         Schema::create('devices', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamp('created');
-            $table->string('mac');
+            $table->string('mac')->index();
             $table->string('type')->nullable();
             $table->string('os')->nullable();
             $table->string('os_version')->nullable();
@@ -24,7 +24,7 @@ class CreateDevicesTable extends Migration
             $table->smallInteger('screen_h')->nullable();
             $table->string('info',300)->default('');
             $table->integer('sessions')->default(0);
-            $table->integer('spot_id')->nullable();
+            $table->integer('spot_id')->nullable()->index();
             $table->timestamp('last_online')->nullable();
             $table->timestamp('last_session')->nullable();
             $table->string('comment',300)->default('');

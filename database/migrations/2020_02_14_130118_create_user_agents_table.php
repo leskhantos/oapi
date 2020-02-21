@@ -14,8 +14,8 @@ class CreateUserAgentsTable extends Migration
     public function up()
     {
         Schema::create('user_agents', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('info',300);
+            $table->bigIncrements('uid');
+            $table->string('info',300)->index();
             $table->string('software',30)->nullable();
             $table->string('software_name',30)->nullable();
             $table->string('software_code',30)->nullable();

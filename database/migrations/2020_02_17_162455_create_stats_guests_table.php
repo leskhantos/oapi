@@ -15,7 +15,7 @@ class CreateStatsGuestsTable extends Migration
     {
         Schema::create('stats_guests', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->timestamp('date')->nullable();
+            $table->timestamp('date')->nullable()->index();
             $table->integer('company_id')->references('id')->on('companies');
             $table->integer('spot_id')->references('id')->on('spots');
             $table->integer('load')->default(0);

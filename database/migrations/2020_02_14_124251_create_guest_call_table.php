@@ -17,8 +17,8 @@ class CreateGuestCallTable extends Migration
             $table->bigIncrements('id');
             $table->timestamp('created')->nullable();
             $table->timestamp('expiration')->nullable();
-            $table->string('phone',20)->nullable();
-            $table->string('device_mac',30);
+            $table->string('phone',20)->nullable()->index();
+            $table->string('device_mac',30)->index();
             $table->integer('spot_id')->references('id')->on('spots');
             $table->tinyInteger('checked')->default('0');
         });

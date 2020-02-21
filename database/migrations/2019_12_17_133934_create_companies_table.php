@@ -15,7 +15,7 @@ class CreateCompaniesTable extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 150);
+            $table->string('name', 150)->index();
             $table->boolean('enabled')->default(true);
         });
     }
