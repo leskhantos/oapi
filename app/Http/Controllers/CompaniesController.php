@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Entities\Company;
-use App\Entities\Guest;
 use App\Http\Requests\Api\Companies\CompanyStoreRequest;
 use App\Http\Requests\Api\Companies\UpdateRequest;
 use Illuminate\Http\JsonResponse;
@@ -33,7 +32,7 @@ class CompaniesController extends Controller
 
     public function update(UpdateRequest $request, $id)
     {
-        $company = Company::find($id);
+        $company = Company::findOrFail($id);
         $company->update([
             'name' => $request->name,
             'enabled' => $request->enabled
@@ -51,11 +50,6 @@ class CompaniesController extends Controller
     public function guestsByCompany($id)
     {
         return $this->companyRepository->guestsByCompany($id);
-    }
-
-    public function test(Request $request)
-    {
-        return Guest::create($request->all());
     }
 
     public function accountsByCompany($id)

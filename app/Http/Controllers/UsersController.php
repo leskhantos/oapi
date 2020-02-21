@@ -37,7 +37,7 @@ class UsersController extends Controller
 
     public function update(UserUpdate $request, $id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         $user->update([
             'type' => $request->type,
             'name' => $request->name,
