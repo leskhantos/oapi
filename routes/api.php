@@ -30,7 +30,6 @@ Route::post('add/sms','StatController@addSms');
 Route::get('companies', 'CompaniesController@index');
 Route::apiResource('company','CompaniesController')->except('index');
 Route::get('company/{id}/guests','CompaniesController@guestsByCompany');
-Route::get('company/{id}/calls','CompaniesController@callsByCompany');
 Route::get('company/{id}/accounts','CompaniesController@accountsByCompany');
 
 Route::get('company/{id}/spots','SpotController@spotsByCompany');
@@ -42,6 +41,9 @@ Route::post('page','PageController@store');
 
 Route::get('all/stats','StatController@getAllStat');
 Route::get('sms/stats','StatController@getSmsPerMonth');
+Route::get('calls/stats','StatController@getCallsPerMonth');
+Route::get('company/{id}/calls','StatController@getCallsByCompany');
+Route::get('company/{id}/stats/guest','StatController@getStatsGuestByCompany');
 
 Route::post('device','DeviceController@store');
 

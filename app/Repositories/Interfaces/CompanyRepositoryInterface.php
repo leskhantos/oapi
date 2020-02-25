@@ -10,7 +10,5 @@ interface CompanyRepositoryInterface
 
     public function guestsByCompany($company_id);
 
-    public function callsByCompany($company_id);
-
     public function accountsByCompany($company_id);
 }

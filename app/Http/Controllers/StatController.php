@@ -31,4 +31,19 @@ class StatController extends Controller
     {
         return $this->statRepository->getSmsPerMonth();
     }
+
+    public function getCallsPerMonth()
+    {
+        return $this->statRepository->getCallsPerMonth();
+    }
+
+    public function getCallsByCompany($id)
+    {
+        return $this->statRepository->getCallsByCompany($id);
+    }
+
+    public function getStatsGuestByCompany($id)
+    {
+        return $this->statRepository->getStatsGuestByCompany($id);
+    }
 }

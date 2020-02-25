@@ -29,12 +29,6 @@ class CompanyRepository implements CompanyRepositoryInterface
         //Визиты
     }
 
-    public function callsByCompany($company_id)
-    {
-        dd(123);
-//        return Call::where('call')
-    }
-
     public function accountsByCompany($company_id)
     {
         return Account::select('email')

@@ -5,6 +5,8 @@ namespace App\Repositories;
 use App\Entities\Company;
 use App\Entities\Device;
 use App\Entities\SessionsAuth;
+use App\Entities\StatsCall;
+use App\Entities\StatsGuest;
 use App\Entities\StatsSms;
 use App\Helpers\Helper;
 use App\Repositories\Interfaces\StatRepositoryInterface;
@@ -39,6 +41,18 @@ class StatRepository implements StatRepositoryInterface
         );
     }
 
+    public function getCallsPerMonth()
+    {
+        $new = new Helper();
+        $myDate = $new->currentDate();
+
+        $calls = StatsCall::whereMonth('date', $myDate['month'])
+            ->whereYear('date', $myDate['year'])
+            ->get();
+
+        return response(['calls'=>$calls,'days'=>$myDate['day']]);
+    }
+
     public function getSmsPerMonth()
     {
         $new = new Helper();
@@ -48,7 +62,27 @@ class StatRepository implements StatRepositoryInterface
             ->whereYear('date', $myDate['year'])
             ->get();
 
-        return $sms;
+        return response(['sms'=>$sms,'days'=>$myDate['day']]);
+    }
+
+    public function getCallsByCompany($id)
+    {
+        $new = new Helper();
+        $myDate = $new->currentDate();
+
+        $company = Company::findOrFail($id);
+        $calls = StatsCall::where('company_id',$company->id)->get();
+        return response(['calls'=>$calls,'days'=>$myDate['day']]);
+    }
+
+    public function getStatsGuestByCompany($id)
+    {
+        $new = new Helper();
+        $myDate = $new->currentDate();
+
+        $company = Company::findOrFail($id);
+        $guests = StatsGuest::where('company_id',$company->id)->get();
+        return response(['guest'=>$guests,'days'=>$myDate['day']]);
     }
 
 }
