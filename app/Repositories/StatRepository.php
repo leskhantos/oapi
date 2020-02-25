@@ -5,13 +5,15 @@ namespace App\Repositories;
 use App\Entities\Company;
 use App\Entities\Device;
 use App\Entities\SessionsAuth;
-use App\Entities\Spot;
+use App\Entities\StatsSms;
+use App\Helpers\Helper;
 use App\Repositories\Interfaces\StatRepositoryInterface;
 
 class StatRepository implements StatRepositoryInterface
 {
     public function getAllStats()
     {
+        //Получаем всю статистику
         $company = new Company();
         $count_spots = $company->countSpots();
         $count_pages = $company->countPages();
@@ -36,4 +38,17 @@ class StatRepository implements StatRepositoryInterface
             ]
         );
     }
+
+    public function getSmsPerMonth()
+    {
+        $new = new Helper();
+        $myDate = $new->currentDate();
+
+        $sms = StatsSms::whereMonth('date', $myDate['month'])
+            ->whereYear('date', $myDate['year'])
+            ->get();
+
+        return $sms;
+    }
+
 }

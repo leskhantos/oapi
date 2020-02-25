@@ -24,6 +24,8 @@ Route::apiResource('users','UsersController')->except('destroy');
 Route::put('put-users/{id}/pass','UsersController@updatePassword');
 
 Route::get('spots/types','SpotTypeController@index'); // hz
+Route::post('spots','SpotTypeController@store');
+Route::post('add/sms','StatController@addSms');
 
 Route::get('companies', 'CompaniesController@index');
 Route::apiResource('company','CompaniesController')->except('index');
@@ -39,6 +41,7 @@ Route::get('company/{id}/pages','PageController@show');
 Route::post('page','PageController@store');
 
 Route::get('all/stats','StatController@getAllStat');
+Route::get('sms/stats','StatController@getSmsPerMonth');
 
 Route::post('device','DeviceController@store');
 

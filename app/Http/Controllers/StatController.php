@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\ParentStats;
+use App\Entities\StatsSms;
 use App\Repositories\Interfaces\StatRepositoryInterface;
+use Illuminate\Http\Request;
 
 
 class StatController extends Controller
@@ -19,5 +20,15 @@ class StatController extends Controller
     public function getAllStat()
     {
         return $this->statRepository->getAllStats();
+    }
+
+    public function addSms(Request $request)
+    {
+        return StatsSms::create($request->all());
+    }
+
+    public function getSmsPerMonth()
+    {
+        return $this->statRepository->getSmsPerMonth();
     }
 }
