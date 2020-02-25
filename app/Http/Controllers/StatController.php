@@ -27,9 +27,9 @@ class StatController extends Controller
         return StatsSms::create($request->all());
     }
 
-    public function getSmsPerMonth()
+    public function getSmsPerMonth(Request $request)
     {
-        return $this->statRepository->getSmsPerMonth();
+        return $this->statRepository->getSmsPerMonth($request);
     }
 
     public function getCallsPerMonth()

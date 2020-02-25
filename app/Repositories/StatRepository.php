@@ -10,6 +10,7 @@ use App\Entities\StatsGuest;
 use App\Entities\StatsSms;
 use App\Helpers\Helper;
 use App\Repositories\Interfaces\StatRepositoryInterface;
+use Illuminate\Http\Request;
 
 class StatRepository implements StatRepositoryInterface
 {
@@ -41,48 +42,53 @@ class StatRepository implements StatRepositoryInterface
         );
     }
 
-    public function getCallsPerMonth()
+    public function getCallsPerMonth(Request $request)
     {
         $new = new Helper();
-        $myDate = $new->currentDate();
+        $myDate = $new->currentDate($request);
 
         $calls = StatsCall::whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get();
 
-        return response(['calls'=>$calls,'days'=>$myDate['day']]);
+        return response(['calls' => $calls, 'days' => $myDate['day']]);
     }
 
-    public function getSmsPerMonth()
+    public function getSmsPerMonth(Request $request)
     {
         $new = new Helper();
-        $myDate = $new->currentDate();
-
+        $myDate = $new->currentDate($request);
         $sms = StatsSms::whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get();
 
-        return response(['sms'=>$sms,'days'=>$myDate['day']]);
+        return response(['sms' => $sms, 'days' => $myDate['day']]);
     }
 
-    public function getCallsByCompany($id)
+    public function getCallsByCompany($id, Request $request)
     {
         $new = new Helper();
-        $myDate = $new->currentDate();
-
+        $myDate = $new->currentDate($request);
         $company = Company::findOrFail($id);
-        $calls = StatsCall::where('company_id',$company->id)->get();
-        return response(['calls'=>$calls,'days'=>$myDate['day']]);
+        $calls = StatsCall::where('company_id', $company->id)
+            ->whereMonth('date', $myDate['month'])
+            ->whereYear('date', $myDate['year'])
+            ->get();
+
+        return response(['calls' => $calls, 'days' => $myDate['day']]);
     }
 
-    public function getStatsGuestByCompany($id)
+    public function getStatsGuestByCompany($id, Request $request)
     {
         $new = new Helper();
-        $myDate = $new->currentDate();
-
+        $myDate = $new->currentDate($request);
         $company = Company::findOrFail($id);
-        $guests = StatsGuest::where('company_id',$company->id)->get();
-        return response(['guest'=>$guests,'days'=>$myDate['day']]);
+        $guests = StatsGuest::where('company_id', $company->id)
+            ->whereMonth('date', $myDate['month'])
+            ->whereYear('date', $myDate['year'])
+            ->get();
+
+        return response(['guest' => $guests, 'days' => $myDate['day']]);
     }
 
 }

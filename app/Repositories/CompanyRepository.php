@@ -31,7 +31,7 @@ class CompanyRepository implements CompanyRepositoryInterface
 
     public function accountsByCompany($company_id)
     {
-        return Account::select('email')
+        return Account::select('email','last_ip','last_online')
             ->where('accounts.company_id', '=', $company_id)->get();
     }
 
