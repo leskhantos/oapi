@@ -4,7 +4,9 @@ namespace App\Repositories;
 
 use App\Entities\Company;
 use App\Entities\Device;
+use App\Entities\Page;
 use App\Entities\SessionsAuth;
+use App\Entities\Spot;
 use App\Entities\StatsCall;
 use App\Entities\StatsGuest;
 use App\Entities\StatsSms;
@@ -17,10 +19,10 @@ class StatRepository implements StatRepositoryInterface
     public function getAllStats()
     {
         //Получаем всю статистику
-        $company = new Company();
-        $count_spots = $company->countSpots();
-        $count_pages = $company->countPages();
-        $count_companies = $company->countCompany();
+//        $company = new Company();
+//        $count_spots = $company->countSpots();
+//        $count_pages = $company->countPages();
+//        $count_companies = $company->countCompany();
 
         $device = new Device();
         $count_devices = $device->countDevices();
@@ -29,6 +31,11 @@ class StatRepository implements StatRepositoryInterface
 
         $session = new SessionsAuth();
         $sessions = $session->sessionAuth();
+
+        $count_spots = Spot::count();
+        $count_companies = Company::count();
+        $count_pages = Page::count();
+
 
         return response([
                 'count_company' => $count_companies,
@@ -60,9 +67,33 @@ class StatRepository implements StatRepositoryInterface
         $myDate = $new->currentDate($request);
         $sms = StatsSms::whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
+            ->orderBy('date')
             ->get();
 
-        return response(['sms' => $sms, 'days' => $myDate['day']]);
+        $result = [];
+        foreach ($sms as $smss) {
+            $date = new \DateTime($smss['date']);
+            $day = $date->format('d');
+            //Если числа нет то создать
+            if (!isset($result[$day])) {
+                $result += [
+                    $day => [
+                        'all' => $smss['all'],
+                        'resend' => $smss['resend'],
+                        'delivered' => $smss['delivered']
+                    ],
+                ];
+                // Если дата есть то добавить к массиву данные
+            } else {
+                foreach ($result as $res) {
+                    $res['all'] += $smss['all'];
+                    $res['resend'] += $smss['resend'];
+                    $res['delivered'] += $smss['delivered'];
+                    $result[$day] = $res;
+                }
+            }
+        }
+        return response(['sms'=>$result,'days'=>$myDate['day']]);
     }
 
     public function getCallsByCompany($id, Request $request)
