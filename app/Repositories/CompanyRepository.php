@@ -23,15 +23,20 @@ class CompanyRepository implements CompanyRepositoryInterface
 
     public function guestsByCompany($company_id)
     {
-        $guest = Guest::select('datetime', 'device_mac', 'data_auth')
-            ->where('guests.company_id', '=', $company_id)->get();
+        $guest = Company::
+        leftjoin('spots', 'companies.id', '=', 'spots.company_id')
+            ->leftJoin('stats_guests', 'spots.id', '=', 'stats_guests.spot_id')
+            ->leftJoin('')
+
+//            ->where('stats_guests.company_id', '=', $company_id)
+            ->get();
         return response($guest, '200');
         //Визиты
     }
 
     public function accountsByCompany($company_id)
     {
-        return Account::select('email','last_ip','last_online')
+        return Account::select('email', 'last_ip', 'last_online')
             ->where('accounts.company_id', '=', $company_id)->get();
     }
 

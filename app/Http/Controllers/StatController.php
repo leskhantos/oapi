@@ -43,6 +43,11 @@ class StatController extends Controller
         return $this->statRepository->getCallsPerMonth($request);
     }
 
+    public function getVouchersPerMonth(Request $request)
+    {
+        return $this->statRepository->getVouchersPerMonth($request);
+    }
+
     public function getCallsByCompany($id, Request $request)
     {
         return $this->statRepository->getCallsByCompany($id, $request);

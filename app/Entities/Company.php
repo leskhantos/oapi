@@ -32,26 +32,6 @@ class Company extends Model
         return $this->hasMany(Account::class, 'company_id', 'id');
     }
 
-    public function countSpots()
-    {
-        $spots = Company::withCount('spots')->first();
-
-//        foreach ($spots as $spot) {
-            $count_spots = $spots->spots_count;
-//        }
-        return $count_spots;
-    }
-
-    public function countPages()
-    {
-        $pages = Company::withCount('pages')->get();
-
-        foreach ($pages as $page) {
-            $count_page = $page->pages_count;
-        }
-        return $count_page;
-    }
-
     public function countCompany()
     {
         $count_company = Company::count();

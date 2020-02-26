@@ -45,6 +45,7 @@ Route::get('sms/stats','StatController@getSmsPerMonth');
 Route::get('calls/stats','StatController@getCallsPerMonth');
 Route::get('company/{id}/calls','StatController@getCallsByCompany');
 Route::get('company/{id}/stats/guest','StatController@getStatsGuestByCompany');
+Route::get('company/{id}/vouchers','StatController@getVouchersPerMonth');
 
 Route::post('device','DeviceController@store');
 

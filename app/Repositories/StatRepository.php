@@ -10,6 +10,7 @@ use App\Entities\Spot;
 use App\Entities\StatsCall;
 use App\Entities\StatsGuest;
 use App\Entities\StatsSms;
+use App\Entities\StatsVoucher;
 use App\Helpers\Helper;
 use App\Repositories\Interfaces\StatRepositoryInterface;
 use Illuminate\Http\Request;
@@ -19,11 +20,6 @@ class StatRepository implements StatRepositoryInterface
     public function getAllStats()
     {
         //Получаем всю статистику
-//        $company = new Company();
-//        $count_spots = $company->countSpots();
-//        $count_pages = $company->countPages();
-//        $count_companies = $company->countCompany();
-
         $device = new Device();
         $count_devices = $device->countDevices();
         $count_new_device = $device->countDevicesForMonth();
@@ -55,7 +51,8 @@ class StatRepository implements StatRepositoryInterface
         $calls = StatsCall::whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();
-        $data = $this->noidea($calls, $myDate['day']);
+
+        $data = $this->counter($calls, $myDate['day'], 'requests', 'checked', null, null);
 
         return response(['data' => $data, 'days' => $myDate['day']]);
     }
@@ -66,31 +63,11 @@ class StatRepository implements StatRepositoryInterface
         $myDate = $new->currentDate($request);
         $sms = StatsSms::whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
-            ->get();
+            ->get()->toArray();
 
-        $result = [];
-        for ($i = 1; $i <= $myDate['day']; $i++) {
-            $all = 0;
-            $resend = 0;
-            $delivered = 0;
-            foreach ($sms as $array) {
-                $date = new \DateTime($array['date']);
-                $day = $date->format('d');
-                if ($i == $day) {
-                    $all += $array['all'];
-                    $resend += $array['resend'];
-                    $delivered += $array['delivered'];
-                }
-            }
-            $result += [
-                $i => [
-                    'all' => $all,
-                    'resend' => $resend,
-                    'delivered' => $delivered
-                ],
-            ];
-        }
-        return response(['sms' => $result, 'days' => $myDate['day']]);
+        $data = $this->counter($sms, $myDate['day'], 'all', 'resend', 'delivered', null);
+
+        return response(['data' => $data, 'days' => $myDate['day']]);
     }
 
     public function getCallsByCompany($id, Request $request)
@@ -103,7 +80,7 @@ class StatRepository implements StatRepositoryInterface
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();
 
-        $data = $this->noidea($calls, $myDate['day']);
+        $data = $this->counter($calls, $myDate['day'], 'requests', 'checked', null, null);
 
         return response(['data' => $data, 'days' => $myDate['day']]);
     }
@@ -113,46 +90,73 @@ class StatRepository implements StatRepositoryInterface
         $new = new Helper();
         $myDate = $new->currentDate($request);
         $company = Company::findOrFail($id);
-        $guests = StatsGuest::where('company_id', $company->id)
+        $guests = StatsGuest::whereCompany_id($company->id)
             ->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();
 
-        $data = $this->noidea($guests, $myDate['day']);
+        $data = $this->counter($guests, $myDate['day'], 'requests', 'checked', null, null);
 
-        return response(['guest' => $data, 'days' => $myDate['day']]);
+        return response(['data' => $data, 'days' => $myDate['day']]);
     }
 
-    //@param array $arrays - массив со статистикой для обработки по дням
+    public function getVouchersPerMonth(Request $request)
+    {
+        $new = new Helper();
+        $myDate = $new->currentDate($request);
+        $voucher = StatsVoucher::whereMonth('date', $myDate['month'])
+            ->whereYear('date', $myDate['year'])
+            ->get()->toArray();
+
+        $data = $this->counter($voucher, $myDate['day'], 'all', 'auth', null, null);
+
+        return response(['data' => $data, 'days' => $myDate['day']]);
+    }
+
+    //@param array $arrays - массив со статистикой для обработки
     //@param @number - колличество дней
+    //@param $par1-$par4 - название столбика с массива котороый нам нужно посчитать
     //@return фильтрованный массив со всей статистикой по дням
 
-    public function noidea($arrays, $number)
+    public function counter($arrays, $number, $par1, $par2, $par3, $par4)
     {
         if (!empty($arrays)) {
             $result = [];
             for ($i = 1; $i <= $number; $i++) {
                 $requests = 0;
                 $checked = 0;
+                $count = 0;
+                $count4 = 0;
                 foreach ($arrays as $array) {
                     $date = new \DateTime($array['date']);
                     $day = $date->format('d');
                     if ($i == $day) {
-                        $requests += $array['requests'];
-                        $checked += $array['checked'];
+                        $requests += $array["$par1"];
+                        $checked += $array["$par2"];
+                        if ($par3 !== null) {
+                            $count += $array["$par3"];
+                        }
+                        if ($par4 !== null) {
+                            $count4 += $array["$par4"];
+                        }
                     }
                 }
                 $result += [
                     $i => [
-                        'requests' => $requests,
-                        'checked' => $checked
+                        "$par1" => $requests,
+                        "$par2" => $checked
                     ],
                 ];
+                if ($par3 !== null) {
+                    $result[$i] += ["$par3" => $count];
+                }
+                if ($par4 !== null) {
+                    $result[$i] += ["$par4" => $count4];
+                }
             }
             return ($result);
         } else {
             return (0);
         }
     }
-
 }

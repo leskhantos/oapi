@@ -12,6 +12,8 @@ interface StatRepositoryInterface
 
     public function getCallsPerMonth(Request $request);
 
+    public function getVouchersPerMonth(Request $request);
+
     public function getStatsGuestByCompany($id_company, Request $request);
 
     public function getCallsByCompany($id_company, Request $request);
