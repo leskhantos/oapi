@@ -54,7 +54,7 @@ class StatRepository implements StatRepositoryInterface
         $myDate = $new->currentDate($request);
         $calls = StatsCall::whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
-            ->get();
+            ->get()->toArray();
         $data = $this->noidea($calls, $myDate['day']);
 
         return response(['data' => $data, 'days' => $myDate['day']]);
@@ -66,7 +66,6 @@ class StatRepository implements StatRepositoryInterface
         $myDate = $new->currentDate($request);
         $sms = StatsSms::whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
-            ->orderBy('date')
             ->get();
 
         $result = [];
@@ -99,10 +98,10 @@ class StatRepository implements StatRepositoryInterface
         $new = new Helper();
         $myDate = $new->currentDate($request);
         $company = Company::findOrFail($id);
-        $calls = StatsCall::where('company_id', $company->id)
+        $calls = StatsCall::whereCompany_id($company->id)
             ->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
-            ->get();
+            ->get()->toArray();
 
         $data = $this->noidea($calls, $myDate['day']);
 
@@ -117,7 +116,7 @@ class StatRepository implements StatRepositoryInterface
         $guests = StatsGuest::where('company_id', $company->id)
             ->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
-            ->get();
+            ->get()->toArray();
 
         $data = $this->noidea($guests, $myDate['day']);
 
@@ -130,25 +129,27 @@ class StatRepository implements StatRepositoryInterface
 
     public function noidea($arrays, $number)
     {
-        $result = [];
-        for ($i = 1; $i <= $number; $i++) {
-            $requests = 0;
-            $checked = 0;
-            foreach ($arrays as $array) {
-                $date = new \DateTime($array['date']);
-                $day = $date->format('d');
-                if ($i == $day) {
-                    $requests += $array['requests'];
-                    $checked += $array['checked'];
+        if (!empty($arrays)) {
+            $result = [];
+            for ($i = 1; $i <= $number; $i++) {
+                $requests = 0;
+                $checked = 0;
+                foreach ($arrays as $array) {
+                    $date = new \DateTime($array['date']);
+                    $day = $date->format('d');
+                    if ($i == $day) {
+                        $requests += $array['requests'];
+                        $checked += $array['checked'];
+                    }
                 }
+                $result += [
+                    $i => [
+                        'requests' => $requests,
+                        'checked' => $checked
+                    ],
+                ];
             }
-            $result += [
-                $i => [
-                    'requests' => $requests,
-                    'checked' => $checked
-                ],
-            ];
+            return ($result);
         }
-        return ($result);
     }
 }
