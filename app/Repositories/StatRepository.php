@@ -151,5 +151,9 @@ class StatRepository implements StatRepositoryInterface
             }
             return ($result);
         }
+        else{
+            return(0);
+        }
     }
+
 }
