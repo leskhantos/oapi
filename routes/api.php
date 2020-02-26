@@ -26,6 +26,7 @@ Route::put('put-users/{id}/pass','UsersController@updatePassword');
 Route::get('spots/types','SpotTypeController@index'); // hz
 Route::post('spots','SpotTypeController@store');
 Route::post('add/sms','StatController@addSms');
+Route::post('add/call','StatController@addCall');
 
 Route::get('companies', 'CompaniesController@index');
 Route::apiResource('company','CompaniesController')->except('index');

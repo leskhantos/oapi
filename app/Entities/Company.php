@@ -34,11 +34,11 @@ class Company extends Model
 
     public function countSpots()
     {
-        $spots = Company::withCount('spots')->get();
+        $spots = Company::withCount('spots')->first();
 
-        foreach ($spots as $spot) {
-            $count_spots = $spot->spots_count;
-        }
+//        foreach ($spots as $spot) {
+            $count_spots = $spots->spots_count;
+//        }
         return $count_spots;
     }
 

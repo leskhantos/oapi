@@ -36,7 +36,6 @@ class StatRepository implements StatRepositoryInterface
         $count_companies = Company::count();
         $count_pages = Page::count();
 
-
         return response([
                 'count_company' => $count_companies,
                 'count_spot' => $count_spots,
@@ -53,12 +52,12 @@ class StatRepository implements StatRepositoryInterface
     {
         $new = new Helper();
         $myDate = $new->currentDate($request);
-
         $calls = StatsCall::whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get();
+        $data = $this->noidea($calls, $myDate['day']);
 
-        return response(['calls' => $calls, 'days' => $myDate['day']]);
+        return response(['data' => $data, 'days' => $myDate['day']]);
     }
 
     public function getSmsPerMonth(Request $request)
@@ -71,29 +70,28 @@ class StatRepository implements StatRepositoryInterface
             ->get();
 
         $result = [];
-        foreach ($sms as $smss) {
-            $date = new \DateTime($smss['date']);
-            $day = $date->format('d');
-            //Если числа нет то создать
-            if (!isset($result[$day])) {
-                $result += [
-                    $day => [
-                        'all' => $smss['all'],
-                        'resend' => $smss['resend'],
-                        'delivered' => $smss['delivered']
-                    ],
-                ];
-                // Если дата есть то добавить к массиву данные
-            } else {
-                foreach ($result as $res) {
-                    $res['all'] += $smss['all'];
-                    $res['resend'] += $smss['resend'];
-                    $res['delivered'] += $smss['delivered'];
-                    $result[$day] = $res;
+        for ($i = 1; $i <= $myDate['day']; $i++) {
+            $all = 0;
+            $resend = 0;
+            $delivered = 0;
+            foreach ($sms as $array) {
+                $date = new \DateTime($array['date']);
+                $day = $date->format('d');
+                if ($i == $day) {
+                    $all += $array['all'];
+                    $resend += $array['resend'];
+                    $delivered += $array['delivered'];
                 }
             }
+            $result += [
+                $i => [
+                    'all' => $all,
+                    'resend' => $resend,
+                    'delivered' => $delivered
+                ],
+            ];
         }
-        return response(['sms'=>$result,'days'=>$myDate['day']]);
+        return response(['sms' => $result, 'days' => $myDate['day']]);
     }
 
     public function getCallsByCompany($id, Request $request)
@@ -106,7 +104,9 @@ class StatRepository implements StatRepositoryInterface
             ->whereYear('date', $myDate['year'])
             ->get();
 
-        return response(['calls' => $calls, 'days' => $myDate['day']]);
+        $data = $this->noidea($calls, $myDate['day']);
+
+        return response(['data' => $data, 'days' => $myDate['day']]);
     }
 
     public function getStatsGuestByCompany($id, Request $request)
@@ -119,7 +119,36 @@ class StatRepository implements StatRepositoryInterface
             ->whereYear('date', $myDate['year'])
             ->get();
 
-        return response(['guest' => $guests, 'days' => $myDate['day']]);
+        $data = $this->noidea($guests, $myDate['day']);
+
+        return response(['guest' => $data, 'days' => $myDate['day']]);
     }
 
+    //@param array $arrays - массив со статистикой для обработки по дням
+    //@param @number - колличество дней
+    //@return фильтрованный массив со всей статистикой по дням
+
+    public function noidea($arrays, $number)
+    {
+        $result = [];
+        for ($i = 1; $i <= $number; $i++) {
+            $requests = 0;
+            $checked = 0;
+            foreach ($arrays as $array) {
+                $date = new \DateTime($array['date']);
+                $day = $date->format('d');
+                if ($i == $day) {
+                    $requests += $array['requests'];
+                    $checked += $array['checked'];
+                }
+            }
+            $result += [
+                $i => [
+                    'requests' => $requests,
+                    'checked' => $checked
+                ],
+            ];
+        }
+        return ($result);
+    }
 }
