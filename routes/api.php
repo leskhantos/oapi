@@ -56,21 +56,21 @@ Route::get('company/{id}/stats/calls/month','StatController@getStatsCallsByCompa
 Route::get('company/{id}/stats/guests/month','StatController@getStatsGuestByCompany');
 Route::get('company/{id}/stats/vouchers/month','StatController@getStatsVouchersByCompany');
 
-Route::get('company/{id}/stats/device','StatController@statsByDeviceInCompany');
-Route::get('company/{id}/stats/os','StatController@statsByOsInCompany');
-Route::get('company/{id}/stats/browser','StatController@statsByBrowserInCompany');
-Route::get('company/{id}/stats/calls','StatController@statsByCallsInCompany');
-Route::get('company/{id}/stats/guests','StatController@statsByGuestsInCompany');
+Route::get('company/{id}/stats/device','StatController@getStatsByDeviceInCompany');
+Route::get('company/{id}/stats/os','StatController@getStatsByOsInCompany');
+Route::get('company/{id}/stats/browser','StatController@getStatsByBrowserInCompany');
+Route::get('company/{id}/stats/calls','StatController@getStatsByCallsInCompany');
+Route::get('company/{id}/stats/guests','StatController@getStatsByGuestsInCompany');
 
 Route::get('spot/{id}/stats/calls/month','StatController@getStatsCallsBySpot');
 Route::get('spot/{id}/stats/guests/month','StatController@getStatsGuestBySpot');
 Route::get('spot/{id}/stats/vouchers/month','StatController@getStatsVouchersBySpot');
 
-Route::get('spot/{id}/stats/device','StatController@statsByDeviceInSpot');
-Route::get('spot/{id}/stats/os','StatController@statsByOsInSpot');
-Route::get('spot/{id}/stats/browser','StatController@statsByBrowserInSpot');
-Route::get('spot/{id}/stats/calls','StatController@statsByCallsInSpot');
-Route::get('spot/{id}/stats/guests','StatController@statsByGuestsInSpot');
+Route::get('spot/{id}/stats/device','StatController@getStatsByDeviceInSpot');
+Route::get('spot/{id}/stats/os','StatController@getStatsByOsInSpot');
+Route::get('spot/{id}/stats/browser','StatController@getStatsByBrowserInSpot');
+Route::get('spot/{id}/stats/calls','StatController@getStatsByCallsInSpot');
+Route::get('spot/{id}/stats/guests','StatController@getStatsByGuestsInSpot');
 
 Route::post('device','DeviceController@store');
 
