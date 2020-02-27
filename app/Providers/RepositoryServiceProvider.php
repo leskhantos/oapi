@@ -7,9 +7,11 @@ use App\Repositories\CompanyRepository;
 use App\Repositories\Interfaces\AccountRepositoryInterface;
 use App\Repositories\Interfaces\CompanyRepositoryInterface;
 use App\Repositories\Interfaces\SpotRepositoryInterface;
+use App\Repositories\Interfaces\StatMonthRepositoryInterface;
 use App\Repositories\Interfaces\StatRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\SpotRepository;
+use App\Repositories\StatMonthRepository;
 use App\Repositories\StatRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Support\ServiceProvider;
@@ -35,6 +37,9 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             StatRepositoryInterface::class, StatRepository::class,
             );
+        $this->app->bind(
+            StatMonthRepositoryInterface::class, StatMonthRepository::class,
+        );
     }
 
     /**
