@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Entities\StatsCall;
+use App\Entities\StatsDevice;
 use App\Entities\StatsGuest;
 use App\Entities\StatsSms;
 use App\Entities\StatsVoucher;
@@ -43,6 +44,11 @@ class StatController extends Controller
         return StatsVoucher::create($request->all());
     }
 
+    public function addDevice(Request $request)
+    {
+        return StatsDevice::create($request->all());
+    }
+
     public function getStatsSmsPerMonth(Request $request)
     {
         return $this->statMonthRepository->getStatsSmsPerMonth($request);
@@ -73,7 +79,7 @@ class StatController extends Controller
         return $this->statMonthRepository->getStatsVouchersByCompany($company_id, $request);
     }
 
-    public function getCallsBySpot($spot_id, Request $request)
+    public function getStatsCallsBySpot($spot_id, Request $request)
     {
         return $this->statMonthRepository->getStatsCallsBySpot($spot_id, $request);
     }
@@ -83,7 +89,7 @@ class StatController extends Controller
         return $this->statMonthRepository->getStatsGuestBySpot($spot_id, $request);
     }
 
-    public function getVouchersBySpot($spot_id, Request $request)
+    public function getStatsVouchersBySpot($spot_id, Request $request)
     {
         return $this->statMonthRepository->getStatsVouchersBySpot($spot_id, $request);
     }
@@ -108,28 +114,53 @@ class StatController extends Controller
         return $this->statRepository->getStatsVouchers();
     }
 
-    public function statsByDeviceInCompany($company_id)
+    public function getStatsByDeviceInCompany($company_id)
     {
-        return $this->statRepository->statsByDeviceInCompany($company_id);
+        return $this->statRepository->getStatsByDeviceInCompany($company_id);
     }
 
-    public function statsByOsInCompany($company_id)
+    public function getStatsByOsInCompany($company_id)
     {
-        return $this->statRepository->statsByOsInCompany($company_id);
+        return $this->statRepository->getStatsByOsInCompany($company_id);
     }
 
-    public function statsByBrowserInCompany($company_id)
+    public function getStatsByBrowserInCompany($company_id)
     {
-        return $this->statRepository->statsByBrowserInCompany($company_id);
+        return $this->statRepository->getStatsByBrowserInCompany($company_id);
     }
 
-    public function statsByCallsInCompany($company_id)
+    public function getStatsByCallsInCompany($company_id)
     {
-        return $this->statRepository->statsByCallsInCompany($company_id);
+        return $this->statRepository->getStatsByCallsInCompany($company_id);
     }
 
-    public function statsByGuestsInCompany($company_id)
+    public function getStatsByGuestsInCompany($company_id)
     {
-        return $this->statRepository->statsByGuestsInCompany($company_id);
+        return $this->statRepository->getStatsByGuestsInCompany($company_id);
+    }
+
+    public function getStatsByDeviceInSpot($spot_id)
+    {
+        return $this->statRepository->getStatsByDeviceInSpot($spot_id);
+    }
+
+    public function getStatsByOsInSpot($spot_id)
+    {
+        return $this->statRepository->getStatsByOsInSpot($spot_id);
+    }
+
+    public function getStatsByBrowserInSpot($spot_id)
+    {
+        return $this->statRepository->getStatsByBrowserInSpot($spot_id);
+    }
+
+    public function getStatsByCallsInSpot($spot_id)
+    {
+        return $this->statRepository->getStatsByCallsInSpot($spot_id);
+    }
+
+    public function getStatsByGuestsInSpot($spot_id)
+    {
+        return $this->statRepository->getStatsByGuestsInSpot($spot_id);
     }
 }

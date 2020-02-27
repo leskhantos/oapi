@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -29,6 +27,8 @@ Route::post('add/sms','StatController@addSms');
 Route::post('add/call','StatController@addCall');
 Route::post('add/guest','StatController@addGuest');
 Route::post('add/voucher','StatController@addVoucher');
+Route::post('add/device','StatController@addDevice');
+
 
 Route::get('companies', 'CompaniesController@index');
 Route::apiResource('company','CompaniesController')->except('index');
@@ -52,13 +52,25 @@ Route::get('stats/sms','StatController@getStatsSms');
 Route::get('stats/calls','StatController@getStatsCalls');
 Route::get('stats/vouchers','StatController@getStatsVouchers');
 
-Route::get('company/{id}/stats/calls','StatController@getStatsCallsByCompany');
-Route::get('company/{id}/stats/guests','StatController@getStatsGuestByCompany');
-Route::get('company/{id}/stats/vouchers','StatController@getStatsVouchersByCompany');
+Route::get('company/{id}/stats/calls/month','StatController@getStatsCallsByCompany');
+Route::get('company/{id}/stats/guests/month','StatController@getStatsGuestByCompany');
+Route::get('company/{id}/stats/vouchers/month','StatController@getStatsVouchersByCompany');
 
-Route::get('spot/{id}/stats/calls','StatController@getStatsCallsBySpot');
-Route::get('spot/{id}/stats/guests','StatController@getStatsGuestBySpot');
-Route::get('spot/{id}/stats/vouchers','StatController@getStatsVouchersBySpot');
+Route::get('company/{id}/stats/device','StatController@statsByDeviceInCompany');
+Route::get('company/{id}/stats/os','StatController@statsByOsInCompany');
+Route::get('company/{id}/stats/browser','StatController@statsByBrowserInCompany');
+Route::get('company/{id}/stats/calls','StatController@statsByCallsInCompany');
+Route::get('company/{id}/stats/guests','StatController@statsByGuestsInCompany');
+
+Route::get('spot/{id}/stats/calls/month','StatController@getStatsCallsBySpot');
+Route::get('spot/{id}/stats/guests/month','StatController@getStatsGuestBySpot');
+Route::get('spot/{id}/stats/vouchers/month','StatController@getStatsVouchersBySpot');
+
+Route::get('spot/{id}/stats/device','StatController@statsByDeviceInSpot');
+Route::get('spot/{id}/stats/os','StatController@statsByOsInSpot');
+Route::get('spot/{id}/stats/browser','StatController@statsByBrowserInSpot');
+Route::get('spot/{id}/stats/calls','StatController@statsByCallsInSpot');
+Route::get('spot/{id}/stats/guests','StatController@statsByGuestsInSpot');
 
 Route::post('device','DeviceController@store');
 

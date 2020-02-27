@@ -74,33 +74,33 @@ class StatRepository implements StatRepositoryInterface
     }
 
     //Круги
-    public function statsByDeviceInCompany($id)
+    public function getStatsByDeviceInCompany($id)
     {
         $company = Company::findOrFail($id);
         $devices = StatsDevice::select('mobile', 'tablet', 'computer', 'type_other')
-            ->whereCompanyId($company->id)->get();
+            ->whereCompanyId($company->id)->get()->toArray();
         $keys = ['mobile' => 0, 'tablet' => 0, 'computer' => 0, 'type_other' => 0];
         $data = $this->counter($devices, $keys);
 
         return $data;
     }
 
-    public function statsByOsInCompany($id)
+    public function getStatsByOsInCompany($id)
     {
         $company = Company::findOrFail($id);
         $devices = StatsDevice::select('android', 'ios', 'linux', 'windows', 'windows_phone', 'os_other')
-            ->whereCompanyId($company->id)->get();
+            ->whereCompanyId($company->id)->get()->toArray();
         $keys = ['android' => 0, 'ios' => 0, 'linux' => 0, 'windows' => 0, 'windows_phone' => 0, 'os_other' => 0];
         $data = $this->counter($devices, $keys);
 
         return $data;
     }
 
-    public function statsByBrowserInCompany($id)
+    public function getStatsByBrowserInCompany($id)
     {
         $company = Company::findOrFail($id);
         $devices = StatsDevice::select('android_browser', 'edge', 'firefox', 'chrome', 'opera', 'safari', 'yandex_browser', 'webkit', 'browser_other')
-            ->whereCompanyId($company->id)->get();
+            ->whereCompanyId($company->id)->get()->toArray();
         $keys = ['android_browser' => 0, 'edge' => 0, 'firefox' => 0, 'chrome' => 0, 'opera' => 0,
             'safari' => 0, 'yandex_browser' => 0, 'webkit' => 0, 'browser_other' => 0];
         $data = $this->counter($devices, $keys);
@@ -108,22 +108,78 @@ class StatRepository implements StatRepositoryInterface
         return $data;
     }
 
-    public function statsByCallsInCompany($id)
+    public function getStatsByCallsInCompany($id)
     {
         $company = Company::findOrFail($id);
         $devices = StatsCall::select('requests', 'checked')
-            ->whereCompanyId($company->id)->get();
+            ->whereCompanyId($company->id)->get()->toArray();
         $keys = ['requests' => 0, 'checked' => 0];
         $data = $this->counter($devices, $keys);
 
         return $data;
     }
 
-    public function statsByGuestsInCompany($id)
+    public function getStatsByGuestsInCompany($id)
     {
         $company = Company::findOrFail($id);
         $devices = StatsGuest::select('load', 'auth', 'new', 'old')
-            ->whereCompanyId($company->id)->get();
+            ->whereCompanyId($company->id)->get()->toArray();
+        $keys = ['load' => 0, 'auth' => 0, 'new' => 0, 'old' => 0];
+        $data = $this->counter($devices, $keys);
+
+        return $data;
+    }
+
+    public function getStatsByDeviceInSpot($id)
+    {
+        $spot = Company::findOrFail($id);
+        $devices = StatsDevice::select('mobile', 'tablet', 'computer', 'type_other')
+            ->whereSpotId($spot->id)->get()->toArray();
+        $keys = ['mobile' => 0, 'tablet' => 0, 'computer' => 0, 'type_other' => 0];
+        $data = $this->counter($devices, $keys);
+
+        return $data;
+    }
+
+    public function getStatsByOsInSpot($id)
+    {
+        $spot = Spot::findOrFail($id);
+        $devices = StatsDevice::select('android', 'ios', 'linux', 'windows', 'windows_phone', 'os_other')
+            ->whereSpotId($spot->id)->get()->toArray();
+        $keys = ['android' => 0, 'ios' => 0, 'linux' => 0, 'windows' => 0, 'windows_phone' => 0, 'os_other' => 0];
+        $data = $this->counter($devices, $keys);
+
+        return $data;
+    }
+
+    public function getStatsByBrowserInSpot($id)
+    {
+        $spot = Spot::findOrFail($id);
+        $devices = StatsDevice::select('android_browser', 'edge', 'firefox', 'chrome', 'opera', 'safari', 'yandex_browser', 'webkit', 'browser_other')
+            ->whereSpotId($spot->id)->get()->toArray();
+        $keys = ['android_browser' => 0, 'edge' => 0, 'firefox' => 0, 'chrome' => 0, 'opera' => 0,
+            'safari' => 0, 'yandex_browser' => 0, 'webkit' => 0, 'browser_other' => 0];
+        $data = $this->counter($devices, $keys);
+
+        return $data;
+    }
+
+    public function getStatsByCallsInSpot($id)
+    {
+        $spot = Spot::findOrFail($id);
+        $devices = StatsCall::select('requests', 'checked')
+            ->whereSpotId($spot->id)->get()->toArray();
+        $keys = ['requests' => 0, 'checked' => 0];
+        $data = $this->counter($devices, $keys);
+
+        return $data;
+    }
+
+    public function getStatsByGuestsInSpot($id)
+    {
+        $spot = Spot::findOrFail($id);
+        $devices = StatsGuest::select('load', 'auth', 'new', 'old')
+            ->whereSpotId($spot->id)->get()->toArray();
         $keys = ['load' => 0, 'auth' => 0, 'new' => 0, 'old' => 0];
         $data = $this->counter($devices, $keys);
 

@@ -12,13 +12,23 @@ interface StatRepositoryInterface
 
     public function getStatsVouchers();
 
-    public function statsByDeviceInCompany($company_id);
+    public function getStatsByDeviceInCompany($company_id);
 
-    public function statsByOsInCompany($company_id);
+    public function getStatsByOsInCompany($company_id);
 
-    public function statsByBrowserInCompany($company_id);
+    public function getStatsByBrowserInCompany($company_id);
 
-    public function statsByCallsInCompany($company_id);
+    public function getStatsByCallsInCompany($company_id);
 
-    public function statsByGuestsInCompany($company_id);
+    public function getStatsByGuestsInCompany($company_id);
+
+    public function getStatsByDeviceInSpot($spot_id);
+
+    public function getStatsByOsInSpot($spot_id);
+
+    public function getStatsByBrowserInSpot($spot_id);
+
+    public function getStatsByCallsInSpot($spot_id);
+
+    public function getStatsByGuestsInSpot($spot_id);
 }
