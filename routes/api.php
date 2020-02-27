@@ -23,10 +23,12 @@ Route::group([
 Route::apiResource('users','UsersController')->except('destroy');
 Route::put('put-users/{id}/pass','UsersController@updatePassword');
 
-Route::get('spots/types','SpotTypeController@index'); // hz
+Route::get('spots/types','SpotTypeController@index'); // для теста.
 Route::post('spots','SpotTypeController@store');
 Route::post('add/sms','StatController@addSms');
 Route::post('add/call','StatController@addCall');
+Route::post('add/guest','StatController@addGuest');
+Route::post('add/voucher','StatController@addVoucher');
 
 Route::get('companies', 'CompaniesController@index');
 Route::apiResource('company','CompaniesController')->except('index');
@@ -41,11 +43,18 @@ Route::get('company/{id}/pages','PageController@show');
 Route::post('page','PageController@store');
 
 Route::get('all/stats','StatController@getAllStat');
+
 Route::get('sms/stats','StatController@getSmsPerMonth');
 Route::get('calls/stats','StatController@getCallsPerMonth');
+Route::get('vouchers/stats','StatController@getVouchersPerMonth');
+
 Route::get('company/{id}/calls','StatController@getCallsByCompany');
 Route::get('company/{id}/stats/guest','StatController@getStatsGuestByCompany');
-Route::get('company/{id}/vouchers','StatController@getVouchersPerMonth');
+Route::get('company/{id}/vouchers','StatController@getVouchersByCompany');
+
+Route::get('stats/sms','StatController@statsSms');
+Route::get('stats/calls','StatController@statsCalls');
+Route::get('stats/vouchers','StatController@statsVouchers');
 
 Route::post('device','DeviceController@store');
 

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Entities\StatsCall;
+use App\Entities\StatsGuest;
 use App\Entities\StatsSms;
+use App\Entities\StatsVoucher;
 use App\Repositories\Interfaces\StatRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -18,11 +20,6 @@ class StatController extends Controller
         parent::__construct();
     }
 
-    public function getAllStat()
-    {
-        return $this->statRepository->getAllStats();
-    }
-
     public function addSms(Request $request)
     {
         return StatsSms::create($request->all());
@@ -31,6 +28,16 @@ class StatController extends Controller
     public function addCall(Request $request)
     {
         return StatsCall::create($request->all());
+    }
+
+    public function addGuest(Request $request)
+    {
+        return StatsGuest::create($request->all());
+    }
+
+    public function addVoucher(Request $request)
+    {
+        return StatsVoucher::create($request->all());
     }
 
     public function getSmsPerMonth(Request $request)
@@ -56,5 +63,30 @@ class StatController extends Controller
     public function getStatsGuestByCompany($id, Request $request)
     {
         return $this->statRepository->getStatsGuestByCompany($id, $request);
+    }
+
+    public function getVouchersByCompany($id, Request $request)
+    {
+        return $this->statRepository->getVouchersByCompany($id, $request);
+    }
+
+    public function getAllStat()
+    {
+        return $this->statRepository->getAllStats();
+    }
+
+    public function statsSms()
+    {
+        return $this->statRepository->statsSms();
+    }
+
+    public function statsCalls()
+    {
+        return $this->statRepository->statsCalls();
+    }
+
+    public function statsVouchers()
+    {
+        return $this->statRepository->statsVouchers();
     }
 }

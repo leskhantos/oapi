@@ -17,4 +17,12 @@ interface StatRepositoryInterface
     public function getStatsGuestByCompany($id_company, Request $request);
 
     public function getCallsByCompany($id_company, Request $request);
+
+    public function getVouchersByCompany($id_company, Request $request);
+
+    public function statsSms();
+
+    public function statsCalls();
+
+    public function statsVouchers();
 }
