@@ -43,49 +43,49 @@ class StatController extends Controller
         return StatsVoucher::create($request->all());
     }
 
-    public function getSmsPerMonth(Request $request)
+    public function getStatsSmsPerMonth(Request $request)
     {
         return $this->statMonthRepository->getStatsSmsPerMonth($request);
     }
 
-    public function getCallsPerMonth(Request $request)
+    public function getStatsCallsPerMonth(Request $request)
     {
         return $this->statMonthRepository->getStatsCallsPerMonth($request);
     }
 
-    public function getVouchersPerMonth(Request $request)
+    public function getStatsVouchersPerMonth(Request $request)
     {
         return $this->statMonthRepository->getStatsVouchersPerMonth($request);
     }
 
-    public function getCallsByCompany($id, Request $request)
+    public function getStatsCallsByCompany($company_id, Request $request)
     {
-        return $this->statMonthRepository->getStatsCallsByCompany($id, $request);
+        return $this->statMonthRepository->getStatsCallsByCompany($company_id, $request);
     }
 
-    public function getStatsGuestByCompany($id, Request $request)
+    public function getStatsGuestByCompany($company_id, Request $request)
     {
-        return $this->statMonthRepository->getStatsGuestByCompany($id, $request);
+        return $this->statMonthRepository->getStatsGuestByCompany($company_id, $request);
     }
 
-    public function getVouchersByCompany($id, Request $request)
+    public function getStatsVouchersByCompany($company_id, Request $request)
     {
-        return $this->statMonthRepository->getStatsVouchersByCompany($id, $request);
+        return $this->statMonthRepository->getStatsVouchersByCompany($company_id, $request);
     }
 
-    public function getCallsBySpot($id, Request $request)
+    public function getCallsBySpot($spot_id, Request $request)
     {
-        return $this->statMonthRepository->getStatsCallsBySpot($id, $request);
+        return $this->statMonthRepository->getStatsCallsBySpot($spot_id, $request);
     }
 
-    public function getStatsGuestBySpot($id, Request $request)
+    public function getStatsGuestBySpot($spot_id, Request $request)
     {
-        return $this->statMonthRepository->getStatsGuestBySpot($id, $request);
+        return $this->statMonthRepository->getStatsGuestBySpot($spot_id, $request);
     }
 
-    public function getVouchersBySpot($id, Request $request)
+    public function getVouchersBySpot($spot_id, Request $request)
     {
-        return $this->statMonthRepository->getStatsVouchersBySpot($id, $request);
+        return $this->statMonthRepository->getStatsVouchersBySpot($spot_id, $request);
     }
 
     public function getAllStat()
@@ -93,18 +93,43 @@ class StatController extends Controller
         return $this->statRepository->getAllStats();
     }
 
-    public function statsSms()
+    public function getStatsSms()
     {
         return $this->statRepository->getStatsSms();
     }
 
-    public function statsCalls()
+    public function getStatsCalls()
     {
         return $this->statRepository->getStatsCalls();
     }
 
-    public function statsVouchers()
+    public function getStatsVouchers()
     {
         return $this->statRepository->getStatsVouchers();
+    }
+
+    public function statsByDeviceInCompany($company_id)
+    {
+        return $this->statRepository->statsByDeviceInCompany($company_id);
+    }
+
+    public function statsByOsInCompany($company_id)
+    {
+        return $this->statRepository->statsByOsInCompany($company_id);
+    }
+
+    public function statsByBrowserInCompany($company_id)
+    {
+        return $this->statRepository->statsByBrowserInCompany($company_id);
+    }
+
+    public function statsByCallsInCompany($company_id)
+    {
+        return $this->statRepository->statsByCallsInCompany($company_id);
+    }
+
+    public function statsByGuestsInCompany($company_id)
+    {
+        return $this->statRepository->statsByGuestsInCompany($company_id);
     }
 }

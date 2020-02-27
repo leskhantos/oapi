@@ -8,6 +8,8 @@ use App\Entities\Page;
 use App\Entities\SessionsAuth;
 use App\Entities\Spot;
 use App\Entities\StatsCall;
+use App\Entities\StatsDevice;
+use App\Entities\StatsGuest;
 use App\Entities\StatsSms;
 use App\Entities\StatsVoucher;
 use App\Entities\Voucher;
@@ -46,50 +48,99 @@ class StatRepository implements StatRepositoryInterface
 
     public function getStatsSms()
     {
-        $sms = StatsSms::get();
-        $data = $this->counter($sms, 'all', 'resend', 'delivered');
+        $sms = StatsSms::select('all', 'resend', 'delivered')->get()->toArray();
+        $keys = ['all' => 0, 'resend' => 0, 'delivered' => 0];
+        $data = $this->counter($sms, $keys);
 
         return $data;
     }
 
     public function getStatsCalls()
     {
-        $calls = StatsCall::get();
-        $data = $this->counter($calls, 'requests', 'checked', null);
+        $calls = StatsCall::select('requests', 'checked')->get()->toArray();
+        $keys = ['requests' => 0, 'checked' => 0];
+        $data = $this->counter($calls, $keys);
 
         return $data;
     }
 
     public function getStatsVouchers()
     {
-        $vouchers = StatsVoucher::get();
-        $data = $this->counter($vouchers, 'all', 'auth', null);
+        $vouchers = StatsVoucher::select('all', 'auth')->get()->toArray();
+        $keys = ['all' => 0, 'auth' => 0];
+        $data = $this->counter($vouchers, $keys);
+
+        return $data;
+    }
+
+    //Круги
+    public function statsByDeviceInCompany($id)
+    {
+        $company = Company::findOrFail($id);
+        $devices = StatsDevice::select('mobile', 'tablet', 'computer', 'type_other')
+            ->whereCompanyId($company->id)->get();
+        $keys = ['mobile' => 0, 'tablet' => 0, 'computer' => 0, 'type_other' => 0];
+        $data = $this->counter($devices, $keys);
+
+        return $data;
+    }
+
+    public function statsByOsInCompany($id)
+    {
+        $company = Company::findOrFail($id);
+        $devices = StatsDevice::select('android', 'ios', 'linux', 'windows', 'windows_phone', 'os_other')
+            ->whereCompanyId($company->id)->get();
+        $keys = ['android' => 0, 'ios' => 0, 'linux' => 0, 'windows' => 0, 'windows_phone' => 0, 'os_other' => 0];
+        $data = $this->counter($devices, $keys);
+
+        return $data;
+    }
+
+    public function statsByBrowserInCompany($id)
+    {
+        $company = Company::findOrFail($id);
+        $devices = StatsDevice::select('android_browser', 'edge', 'firefox', 'chrome', 'opera', 'safari', 'yandex_browser', 'webkit', 'browser_other')
+            ->whereCompanyId($company->id)->get();
+        $keys = ['android_browser' => 0, 'edge' => 0, 'firefox' => 0, 'chrome' => 0, 'opera' => 0,
+            'safari' => 0, 'yandex_browser' => 0, 'webkit' => 0, 'browser_other' => 0];
+        $data = $this->counter($devices, $keys);
+
+        return $data;
+    }
+
+    public function statsByCallsInCompany($id)
+    {
+        $company = Company::findOrFail($id);
+        $devices = StatsCall::select('requests', 'checked')
+            ->whereCompanyId($company->id)->get();
+        $keys = ['requests' => 0, 'checked' => 0];
+        $data = $this->counter($devices, $keys);
+
+        return $data;
+    }
+
+    public function statsByGuestsInCompany($id)
+    {
+        $company = Company::findOrFail($id);
+        $devices = StatsGuest::select('load', 'auth', 'new', 'old')
+            ->whereCompanyId($company->id)->get();
+        $keys = ['load' => 0, 'auth' => 0, 'new' => 0, 'old' => 0];
+        $data = $this->counter($devices, $keys);
 
         return $data;
     }
 
     //@array $array - входной массив
-    //$par1-3 название элемента с массива котороый нам нужно посчитать
+    //@array $keys - выходной массив
     //@return общую статистику
-    public function counter($array, $par1, $par2, $par3)
+    public function counter($array, $keys)
     {
-        $count = 0;
-        $count2 = 0;
-        $count3 = 0;
+        $result = $keys;
 
-        foreach ($array as $arr) {
-            $count += $arr["$par1"];
-            $count2 += $arr["$par2"];
-            if ($par3 !== null) {
-                $count3 += $arr["$par3"];
+        foreach ($array as $key => $value) {
+            foreach ($value as $k => $v) {
+                $result[$k] += $v;
             }
-        }
-        $result = [
-            "$par1" => $count,
-            "$par2" => $count2,
-        ];
-        if ($par3 !== null) {
-            $result += ["$par3" => $count3];
         }
 
         return ($result);
