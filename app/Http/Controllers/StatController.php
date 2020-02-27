@@ -73,6 +73,21 @@ class StatController extends Controller
         return $this->statMonthRepository->getVouchersByCompany($id, $request);
     }
 
+    public function getCallsBySpot($id, Request $request)
+    {
+        return $this->statMonthRepository->getCallsBySpot($id, $request);
+    }
+
+    public function getStatsGuestBySpot($id, Request $request)
+    {
+        return $this->statMonthRepository->getStatsGuestBySpot($id, $request);
+    }
+
+    public function getVouchersBySpot($id, Request $request)
+    {
+        return $this->statMonthRepository->getVouchersBySpot($id, $request);
+    }
+
     public function getAllStat()
     {
         return $this->statRepository->getAllStats();

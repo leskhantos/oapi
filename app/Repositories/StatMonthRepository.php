@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Entities\Company;
+use App\Entities\Spot;
 use App\Entities\StatsCall;
 use App\Entities\StatsGuest;
 use App\Entities\StatsSms;
@@ -87,6 +88,50 @@ class StatMonthRepository implements StatMonthRepositoryInterface
         $myDate = $new->currentDate($request);
         $company = Company::findOrFail($id);
         $voucher = StatsVoucher::whereCompany_id($company->id)
+            ->whereMonth('date', $myDate['month'])
+            ->whereYear('date', $myDate['year'])
+            ->get()->toArray();
+
+        $data = $this->counterMonth($voucher, $myDate['day'], 'all', 'auth', null, null);
+
+        return response(['data' => $data, 'days' => $myDate['day']]);
+    }
+
+    public function getCallsBySpot($id, Request $request)
+    {
+        $new = new Helper();
+        $myDate = $new->currentDate($request);
+        $spot = Spot::findOrFail($id);
+        $calls = StatsCall::whereSpot_id($spot->id)
+            ->whereMonth('date', $myDate['month'])
+            ->whereYear('date', $myDate['year'])
+            ->get()->toArray();
+        $data = $this->counterMonth($calls, $myDate['day'], 'requests', 'checked', null, null);
+
+        return response(['data' => $data, 'days' => $myDate['day']]);
+    }
+
+    public function getStatsGuestBySpot($id, Request $request)
+    {
+        $new = new Helper();
+        $myDate = $new->currentDate($request);
+        $spot = Spot::findOrFail($id);
+        $guests = StatsGuest::whereSpot_id($spot->id)
+            ->whereMonth('date', $myDate['month'])
+            ->whereYear('date', $myDate['year'])
+            ->get()->toArray();
+
+        $data = $this->counterMonth($guests, $myDate['day'], 'load', 'auth', 'new', 'old');
+
+        return response(['data' => $data, 'days' => $myDate['day']]);
+    }
+
+    public function getVouchersBySpot($id, Request $request)
+    {
+        $new = new Helper();
+        $myDate = $new->currentDate($request);
+        $spot = Spot::findOrFail($id);
+        $voucher = StatsVoucher::whereSpot_id($spot->id)
             ->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();

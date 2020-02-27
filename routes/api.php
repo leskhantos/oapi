@@ -44,13 +44,17 @@ Route::post('page','PageController@store');
 
 Route::get('all/stats','StatController@getAllStat');
 
-Route::get('sms/stats','StatController@getSmsPerMonth');
-Route::get('calls/stats','StatController@getCallsPerMonth');
-Route::get('vouchers/stats','StatController@getVouchersPerMonth');
+Route::get('stats/sms/month','StatController@getSmsPerMonth');
+Route::get('stats/calls/month','StatController@getCallsPerMonth');
+Route::get('stats/vouchers/month','StatController@getVouchersPerMonth');
 
-Route::get('company/{id}/calls','StatController@getCallsByCompany');
-Route::get('company/{id}/stats/guest','StatController@getStatsGuestByCompany');
-Route::get('company/{id}/vouchers','StatController@getVouchersByCompany');
+Route::get('company/{id}/stats/calls','StatController@getCallsByCompany');
+Route::get('company/{id}/stats/guests','StatController@getStatsGuestByCompany');
+Route::get('company/{id}/stats/vouchers','StatController@getVouchersByCompany');
+
+Route::get('spot/{id}/stats/calls','StatController@getCallsBySpot');
+Route::get('spot/{id}/stats/guests','StatController@getStatsGuestBySpot');
+Route::get('spot/{id}/stats/vouchers','StatController@getVouchersBySpot');
 
 Route::get('stats/sms','StatController@statsSms');
 Route::get('stats/calls','StatController@statsCalls');
