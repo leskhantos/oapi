@@ -44,7 +44,7 @@ class StatRepository implements StatRepositoryInterface
         );
     }
 
-    public function statsSms()
+    public function getStatsSms()
     {
         $sms = StatsSms::get();
         $data = $this->counter($sms, 'all', 'resend', 'delivered');
@@ -52,7 +52,7 @@ class StatRepository implements StatRepositoryInterface
         return $data;
     }
 
-    public function statsCalls()
+    public function getStatsCalls()
     {
         $calls = StatsCall::get();
         $data = $this->counter($calls, 'requests', 'checked', null);
@@ -60,7 +60,7 @@ class StatRepository implements StatRepositoryInterface
         return $data;
     }
 
-    public function statsVouchers()
+    public function getStatsVouchers()
     {
         $vouchers = StatsVoucher::get();
         $data = $this->counter($vouchers, 'all', 'auth', null);

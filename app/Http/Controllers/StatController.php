@@ -45,22 +45,22 @@ class StatController extends Controller
 
     public function getSmsPerMonth(Request $request)
     {
-        return $this->statMonthRepository->getSmsPerMonth($request);
+        return $this->statMonthRepository->getStatsSmsPerMonth($request);
     }
 
     public function getCallsPerMonth(Request $request)
     {
-        return $this->statMonthRepository->getCallsPerMonth($request);
+        return $this->statMonthRepository->getStatsCallsPerMonth($request);
     }
 
     public function getVouchersPerMonth(Request $request)
     {
-        return $this->statMonthRepository->getVouchersPerMonth($request);
+        return $this->statMonthRepository->getStatsVouchersPerMonth($request);
     }
 
     public function getCallsByCompany($id, Request $request)
     {
-        return $this->statMonthRepository->getCallsByCompany($id, $request);
+        return $this->statMonthRepository->getStatsCallsByCompany($id, $request);
     }
 
     public function getStatsGuestByCompany($id, Request $request)
@@ -70,12 +70,12 @@ class StatController extends Controller
 
     public function getVouchersByCompany($id, Request $request)
     {
-        return $this->statMonthRepository->getVouchersByCompany($id, $request);
+        return $this->statMonthRepository->getStatsVouchersByCompany($id, $request);
     }
 
     public function getCallsBySpot($id, Request $request)
     {
-        return $this->statMonthRepository->getCallsBySpot($id, $request);
+        return $this->statMonthRepository->getStatsCallsBySpot($id, $request);
     }
 
     public function getStatsGuestBySpot($id, Request $request)
@@ -85,7 +85,7 @@ class StatController extends Controller
 
     public function getVouchersBySpot($id, Request $request)
     {
-        return $this->statMonthRepository->getVouchersBySpot($id, $request);
+        return $this->statMonthRepository->getStatsVouchersBySpot($id, $request);
     }
 
     public function getAllStat()
@@ -95,16 +95,16 @@ class StatController extends Controller
 
     public function statsSms()
     {
-        return $this->statRepository->statsSms();
+        return $this->statRepository->getStatsSms();
     }
 
     public function statsCalls()
     {
-        return $this->statRepository->statsCalls();
+        return $this->statRepository->getStatsCalls();
     }
 
     public function statsVouchers()
     {
-        return $this->statRepository->statsVouchers();
+        return $this->statRepository->getStatsVouchers();
     }
 }

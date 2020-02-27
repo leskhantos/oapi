@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 
 class StatMonthRepository implements StatMonthRepositoryInterface
 {
-    public function getCallsPerMonth(Request $request)
+    public function getStatsCallsPerMonth(Request $request)
     {
         $new = new Helper();
         $myDate = $new->currentDate($request);
@@ -27,7 +27,7 @@ class StatMonthRepository implements StatMonthRepositoryInterface
         return response(['data' => $data, 'days' => $myDate['day']]);
     }
 
-    public function getSmsPerMonth(Request $request)
+    public function getStatsSmsPerMonth(Request $request)
     {
         $new = new Helper();
         $myDate = $new->currentDate($request);
@@ -40,7 +40,7 @@ class StatMonthRepository implements StatMonthRepositoryInterface
         return response(['data' => $data, 'days' => $myDate['day']]);
     }
 
-    public function getVouchersPerMonth(Request $request)
+    public function getStatsVouchersPerMonth(Request $request)
     {
         $new = new Helper();
         $myDate = $new->currentDate($request);
@@ -53,7 +53,7 @@ class StatMonthRepository implements StatMonthRepositoryInterface
         return response(['data' => $data, 'days' => $myDate['day']]);
     }
 
-    public function getCallsByCompany($id, Request $request)
+    public function getStatsCallsByCompany($id, Request $request)
     {
         $new = new Helper();
         $myDate = $new->currentDate($request);
@@ -82,7 +82,7 @@ class StatMonthRepository implements StatMonthRepositoryInterface
         return response(['data' => $data, 'days' => $myDate['day']]);
     }
 
-    public function getVouchersByCompany($id, Request $request)
+    public function getStatsVouchersByCompany($id, Request $request)
     {
         $new = new Helper();
         $myDate = $new->currentDate($request);
@@ -97,7 +97,7 @@ class StatMonthRepository implements StatMonthRepositoryInterface
         return response(['data' => $data, 'days' => $myDate['day']]);
     }
 
-    public function getCallsBySpot($id, Request $request)
+    public function getStatsCallsBySpot($id, Request $request)
     {
         $new = new Helper();
         $myDate = $new->currentDate($request);
@@ -126,7 +126,7 @@ class StatMonthRepository implements StatMonthRepositoryInterface
         return response(['data' => $data, 'days' => $myDate['day']]);
     }
 
-    public function getVouchersBySpot($id, Request $request)
+    public function getStatsVouchersBySpot($id, Request $request)
     {
         $new = new Helper();
         $myDate = $new->currentDate($request);

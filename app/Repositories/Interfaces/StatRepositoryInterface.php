@@ -2,15 +2,13 @@
 
 namespace App\Repositories\Interfaces;
 
-use Illuminate\Http\Request;
-
 interface StatRepositoryInterface
 {
     public function getAllStats();
 
-    public function statsSms();
+    public function getStatsSms();
 
-    public function statsCalls();
+    public function getStatsCalls();
 
-    public function statsVouchers();
+    public function getStatsVouchers();
 }
