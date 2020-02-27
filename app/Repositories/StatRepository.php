@@ -50,27 +50,24 @@ class StatRepository implements StatRepositoryInterface
     {
         $sms = StatsSms::select('all', 'resend', 'delivered')->get()->toArray();
         $keys = ['all' => 0, 'resend' => 0, 'delivered' => 0];
-        $data = $this->counter($sms, $keys);
 
-        return $data;
+        return $this->counter($sms, $keys);
     }
 
     public function getStatsCalls()
     {
         $calls = StatsCall::select('requests', 'checked')->get()->toArray();
         $keys = ['requests' => 0, 'checked' => 0];
-        $data = $this->counter($calls, $keys);
 
-        return $data;
+        return $this->counter($calls, $keys);
     }
 
     public function getStatsVouchers()
     {
         $vouchers = StatsVoucher::select('all', 'auth')->get()->toArray();
         $keys = ['all' => 0, 'auth' => 0];
-        $data = $this->counter($vouchers, $keys);
 
-        return $data;
+        return $this->counter($vouchers, $keys);
     }
 
     //Круги
@@ -80,9 +77,8 @@ class StatRepository implements StatRepositoryInterface
         $devices = StatsDevice::select('mobile', 'tablet', 'computer', 'type_other')
             ->whereCompanyId($company->id)->get()->toArray();
         $keys = ['mobile' => 0, 'tablet' => 0, 'computer' => 0, 'type_other' => 0];
-        $data = $this->counter($devices, $keys);
 
-        return $data;
+        return $this->counter($devices, $keys);
     }
 
     public function getStatsByOsInCompany($id)
@@ -91,9 +87,8 @@ class StatRepository implements StatRepositoryInterface
         $devices = StatsDevice::select('android', 'ios', 'linux', 'windows', 'windows_phone', 'os_other')
             ->whereCompanyId($company->id)->get()->toArray();
         $keys = ['android' => 0, 'ios' => 0, 'linux' => 0, 'windows' => 0, 'windows_phone' => 0, 'os_other' => 0];
-        $data = $this->counter($devices, $keys);
 
-        return $data;
+        return $this->counter($devices, $keys);
     }
 
     public function getStatsByBrowserInCompany($id)
@@ -103,9 +98,8 @@ class StatRepository implements StatRepositoryInterface
             ->whereCompanyId($company->id)->get()->toArray();
         $keys = ['android_browser' => 0, 'edge' => 0, 'firefox' => 0, 'chrome' => 0, 'opera' => 0,
             'safari' => 0, 'yandex_browser' => 0, 'webkit' => 0, 'browser_other' => 0];
-        $data = $this->counter($devices, $keys);
 
-        return $data;
+        return $this->counter($devices, $keys);
     }
 
     public function getStatsByCallsInCompany($id)
@@ -114,9 +108,8 @@ class StatRepository implements StatRepositoryInterface
         $devices = StatsCall::select('requests', 'checked')
             ->whereCompanyId($company->id)->get()->toArray();
         $keys = ['requests' => 0, 'checked' => 0];
-        $data = $this->counter($devices, $keys);
 
-        return $data;
+        return $this->counter($devices, $keys);
     }
 
     public function getStatsByGuestsInCompany($id)
@@ -125,9 +118,8 @@ class StatRepository implements StatRepositoryInterface
         $devices = StatsGuest::select('load', 'auth', 'new', 'old')
             ->whereCompanyId($company->id)->get()->toArray();
         $keys = ['load' => 0, 'auth' => 0, 'new' => 0, 'old' => 0];
-        $data = $this->counter($devices, $keys);
 
-        return $data;
+        return $this->counter($devices, $keys);
     }
 
     public function getStatsByDeviceInSpot($id)
@@ -136,9 +128,8 @@ class StatRepository implements StatRepositoryInterface
         $devices = StatsDevice::select('mobile', 'tablet', 'computer', 'type_other')
             ->whereSpotId($spot->id)->get()->toArray();
         $keys = ['mobile' => 0, 'tablet' => 0, 'computer' => 0, 'type_other' => 0];
-        $data = $this->counter($devices, $keys);
 
-        return $data;
+        return $this->counter($devices, $keys);
     }
 
     public function getStatsByOsInSpot($id)
@@ -147,9 +138,8 @@ class StatRepository implements StatRepositoryInterface
         $devices = StatsDevice::select('android', 'ios', 'linux', 'windows', 'windows_phone', 'os_other')
             ->whereSpotId($spot->id)->get()->toArray();
         $keys = ['android' => 0, 'ios' => 0, 'linux' => 0, 'windows' => 0, 'windows_phone' => 0, 'os_other' => 0];
-        $data = $this->counter($devices, $keys);
 
-        return $data;
+        return $this->counter($devices, $keys);
     }
 
     public function getStatsByBrowserInSpot($id)
@@ -159,9 +149,8 @@ class StatRepository implements StatRepositoryInterface
             ->whereSpotId($spot->id)->get()->toArray();
         $keys = ['android_browser' => 0, 'edge' => 0, 'firefox' => 0, 'chrome' => 0, 'opera' => 0,
             'safari' => 0, 'yandex_browser' => 0, 'webkit' => 0, 'browser_other' => 0];
-        $data = $this->counter($devices, $keys);
 
-        return $data;
+        return $this->counter($devices, $keys);
     }
 
     public function getStatsByCallsInSpot($id)
@@ -170,9 +159,8 @@ class StatRepository implements StatRepositoryInterface
         $devices = StatsCall::select('requests', 'checked')
             ->whereSpotId($spot->id)->get()->toArray();
         $keys = ['requests' => 0, 'checked' => 0];
-        $data = $this->counter($devices, $keys);
 
-        return $data;
+        return $this->counter($devices, $keys);
     }
 
     public function getStatsByGuestsInSpot($id)
@@ -181,9 +169,8 @@ class StatRepository implements StatRepositoryInterface
         $devices = StatsGuest::select('load', 'auth', 'new', 'old')
             ->whereSpotId($spot->id)->get()->toArray();
         $keys = ['load' => 0, 'auth' => 0, 'new' => 0, 'old' => 0];
-        $data = $this->counter($devices, $keys);
 
-        return $data;
+        return $this->counter($devices, $keys);
     }
 
     //@array $array - входной массив
