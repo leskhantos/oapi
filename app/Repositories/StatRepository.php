@@ -36,25 +36,24 @@ class StatRepository implements StatRepositoryInterface
         $sms = StatsSms::select('all as all_sms', 'resend', 'delivered')->get()->toArray();
         $calls = StatsCall::select('requests', 'checked')->get()->toArray();
         $vouchers = StatsVoucher::select('all as all_voucher', 'auth')->get()->toArray();
-        $keys = ['all_sms' => 0, 'auth' => 0,'requests' => 0, 'checked' => 0,
+        $keys = ['all_sms' => 0, 'auth' => 0, 'requests' => 0, 'checked' => 0,
             'all_voucher' => 0, 'resend' => 0, 'delivered' => 0];
-        $array = array_merge($sms,$calls,$vouchers);
+        $array = array_merge($sms, $calls, $vouchers);
 
         $stats = $this->counter($array, $keys);
         $data = [
-                'count_company' => $count_companies,
-                'count_spot' => $count_spots,
-                'pages' => $count_pages,
-                'count_all_device' => $count_devices,
-                'count_new_device' => $count_new_device,
-                'auth_guest' => $auth_guest,
-                'session' => $sessions,
-                'count_vouchers' => $count_vouchers,
-            ];
-        $data +=$stats;
+            'count_company' => $count_companies,
+            'count_spot' => $count_spots,
+            'pages' => $count_pages,
+            'count_all_device' => $count_devices,
+            'count_new_device' => $count_new_device,
+            'auth_guest' => $auth_guest,
+            'session' => $sessions,
+            'count_vouchers' => $count_vouchers,
+        ];
+        $data += $stats;
 
         return $data;
-
     }
 
     public function getStatsSms()
@@ -104,14 +103,25 @@ class StatRepository implements StatRepositoryInterface
             ->where('stats_devices.company_id', '=', $company->id)
             ->get()->toArray();
 
-        $keys = ['android' => 0, 'ios' => 0, 'linux' => 0, 'windows' => 0, 'windows_phone' => 0, 'os_other' => 0,
+        $calls = StatsCall::select('requests', 'checked')
+            ->whereCompanyId($company->id)->get()->toArray();
+
+        $guests = StatsGuest::select('load', 'auth', 'new', 'old')
+            ->whereCompanyId($company->id)->get()->toArray();
+
+        $array = array_merge($devices, $calls, $guests);
+
+        $keys = [
+            'android' => 0, 'ios' => 0, 'linux' => 0, 'windows' => 0, 'windows_phone' => 0, 'os_other' => 0,
             'android_browser' => 0, 'edge' => 0, 'firefox' => 0, 'chrome' => 0, 'opera' => 0,
             'safari' => 0, 'yandex_browser' => 0, 'webkit' => 0, 'browser_other' => 0,
-            'mobile' => 0, 'tablet' => 0, 'computer' => 0, 'type_other' => 0
+            'mobile' => 0, 'tablet' => 0, 'computer' => 0, 'type_other' => 0, 'requests' => 0, 'checked' => 0,
+            'load' => 0, 'auth' => 0, 'new' => 0, 'old' => 0
         ];
 
-        return $this->counter($devices, $keys);
+        $result =  $this->counter($array, $keys);
     }
+
 
     public function getStatsByBrowserInCompany($id)
     {
@@ -161,27 +171,26 @@ class StatRepository implements StatRepositoryInterface
             'android', 'ios', 'linux', 'windows', 'windows_phone', 'os_other',
             'android_browser', 'edge', 'firefox', 'chrome', 'opera', 'safari', 'yandex_browser', 'webkit', 'browser_other',
             'mobile', 'tablet', 'computer', 'type_other',
-        )
+            )
             ->join('stats_devices', 'spots.id', '=', 'stats_devices.spot_id')
             ->where('stats_devices.spot_id', '=', $spot->id)
             ->get()->toArray();
 
+        $calls = StatsCall::select('requests', 'checked')
+            ->whereSpotId($spot->id)->get()->toArray();
+        $guests = StatsGuest::select('load', 'auth', 'new', 'old')
+            ->whereSpotId($spot->id)->get()->toArray();
+
+        $array = array_merge($devices, $calls, $guests);
+
         $keys = ['android' => 0, 'ios' => 0, 'linux' => 0, 'windows' => 0, 'windows_phone' => 0, 'os_other' => 0,
             'android_browser' => 0, 'edge' => 0, 'firefox' => 0, 'chrome' => 0, 'opera' => 0,
             'safari' => 0, 'yandex_browser' => 0, 'webkit' => 0, 'browser_other' => 0,
-            'mobile' => 0, 'tablet' => 0, 'computer' => 0, 'type_other' => 0
+            'mobile' => 0, 'tablet' => 0, 'computer' => 0, 'type_other' => 0, 'requests' => 0, 'checked' => 0,
+            'load' => 0, 'auth' => 0, 'new' => 0, 'old' => 0
         ];
 
-        $result = $this->counter($devices, $keys);
-
-
-        $devices = StatsCall::select('requests', 'checked')
-            ->whereSpotId($spot->id)->get()->toArray();
-        $keys1 = ['requests' => 0, 'checked' => 0];
-
-        $result += $this->counter($devices, $keys1);
-
-        return $result;
+        return $this->counter($array, $keys);
     }
 
     public function getStatsByBrowserInSpot($id)
