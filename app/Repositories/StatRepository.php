@@ -84,9 +84,20 @@ class StatRepository implements StatRepositoryInterface
     public function getStatsByOsInCompany($id)
     {
         $company = Company::findOrFail($id);
-        $devices = StatsDevice::select('android', 'ios', 'linux', 'windows', 'windows_phone', 'os_other')
-            ->whereCompanyId($company->id)->get()->toArray();
-        $keys = ['android' => 0, 'ios' => 0, 'linux' => 0, 'windows' => 0, 'windows_phone' => 0, 'os_other' => 0];
+        $devices = $company->select(
+            'android', 'ios', 'linux', 'windows', 'windows_phone', 'os_other',
+            'android_browser', 'edge', 'firefox', 'chrome', 'opera', 'safari', 'yandex_browser', 'webkit', 'browser_other',
+            'mobile', 'tablet', 'computer', 'type_other',
+            )
+            ->join('stats_devices', 'companies.id', '=', 'stats_devices.company_id')
+            ->where('stats_devices.company_id', '=', $company->id)
+            ->get()->toArray();
+
+        $keys = ['android' => 0, 'ios' => 0, 'linux' => 0, 'windows' => 0, 'windows_phone' => 0, 'os_other' => 0,
+            'android_browser' => 0, 'edge' => 0, 'firefox' => 0, 'chrome' => 0, 'opera' => 0,
+            'safari' => 0, 'yandex_browser' => 0, 'webkit' => 0, 'browser_other' => 0,
+            'mobile' => 0, 'tablet' => 0, 'computer' => 0, 'type_other' => 0
+        ];
 
         return $this->counter($devices, $keys);
     }
@@ -135,9 +146,20 @@ class StatRepository implements StatRepositoryInterface
     public function getStatsByOsInSpot($id)
     {
         $spot = Spot::findOrFail($id);
-        $devices = StatsDevice::select('android', 'ios', 'linux', 'windows', 'windows_phone', 'os_other')
-            ->whereSpotId($spot->id)->get()->toArray();
-        $keys = ['android' => 0, 'ios' => 0, 'linux' => 0, 'windows' => 0, 'windows_phone' => 0, 'os_other' => 0];
+        $devices = $spot->select(
+            'android', 'ios', 'linux', 'windows', 'windows_phone', 'os_other',
+            'android_browser', 'edge', 'firefox', 'chrome', 'opera', 'safari', 'yandex_browser', 'webkit', 'browser_other',
+            'mobile', 'tablet', 'computer', 'type_other',
+        )
+            ->join('stats_devices', 'spots.id', '=', 'stats_devices.spot_id')
+            ->where('stats_devices.spot_id', '=', $spot->id)
+            ->get()->toArray();
+
+        $keys = ['android' => 0, 'ios' => 0, 'linux' => 0, 'windows' => 0, 'windows_phone' => 0, 'os_other' => 0,
+            'android_browser' => 0, 'edge' => 0, 'firefox' => 0, 'chrome' => 0, 'opera' => 0,
+            'safari' => 0, 'yandex_browser' => 0, 'webkit' => 0, 'browser_other' => 0,
+            'mobile' => 0, 'tablet' => 0, 'computer' => 0, 'type_other' => 0
+        ];
 
         return $this->counter($devices, $keys);
     }
