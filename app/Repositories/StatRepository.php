@@ -78,15 +78,7 @@ class StatRepository implements StatRepositoryInterface
 
         $array = array_merge($devices, $calls, $guests);
 
-        $keys = [
-            'android' => 0, 'ios' => 0, 'linux' => 0, 'windows' => 0, 'windows_phone' => 0, 'os_other' => 0,
-            'android_browser' => 0, 'edge' => 0, 'firefox' => 0, 'chrome' => 0, 'opera' => 0,
-            'safari' => 0, 'yandex_browser' => 0, 'webkit' => 0, 'browser_other' => 0,
-            'mobile' => 0, 'tablet' => 0, 'computer' => 0, 'type_other' => 0, 'requests' => 0, 'checked' => 0,
-            'load' => 0, 'auth' => 0, 'new' => 0, 'old' => 0
-        ];
-
-        $result =  $this->counter($array, $keys);
+        $result = $this->counter($array);
 
         return response($result);
     }
@@ -98,7 +90,7 @@ class StatRepository implements StatRepositoryInterface
             'android', 'ios', 'linux', 'windows', 'windows_phone', 'os_other',
             'android_browser', 'edge', 'firefox', 'chrome', 'opera', 'safari', 'yandex_browser', 'webkit', 'browser_other',
             'mobile', 'tablet', 'computer', 'type_other'
-            )
+        )
             ->join('stats_devices', 'spots.id', '=', 'stats_devices.spot_id')
             ->where('stats_devices.spot_id', '=', $spot->id)
             ->get()->toArray();
@@ -110,26 +102,18 @@ class StatRepository implements StatRepositoryInterface
 
         $array = array_merge($devices, $calls, $guests);
 
-        $keys = ['android' => 0, 'ios' => 0, 'linux' => 0, 'windows' => 0, 'windows_phone' => 0, 'os_other' => 0,
-            'android_browser' => 0, 'edge' => 0, 'firefox' => 0, 'chrome' => 0, 'opera' => 0,
-            'safari' => 0, 'yandex_browser' => 0, 'webkit' => 0, 'browser_other' => 0,
-            'mobile' => 0, 'tablet' => 0, 'computer' => 0, 'type_other' => 0, 'requests' => 0, 'checked' => 0,
-            'load' => 0, 'auth' => 0, 'new' => 0, 'old' => 0
-        ];
-
-        return $this->counter($array, $keys);
+        return $this->counter($array);
     }
 
     //@array $array - входной массив
-    //@array $keys - выходной массив
     //@return общую статистику
-    public function counter($array, $keys)
+    public function counter($array)
     {
-        $result = $keys;
+        $result = [];
 
         foreach ($array as $key => $value) {
             foreach ($value as $k => $v) {
-               $result[$k] += $v;
+                @$result[$k] += $v;
             }
         }
 
