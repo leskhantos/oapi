@@ -49,49 +49,19 @@ class StatController extends Controller
         return StatsDevice::create($request->all());
     }
 
-    public function getStatsSmsPerMonth(Request $request)
+    public function getAllStatsPerMonth(Request $request)
     {
-        return $this->statMonthRepository->getStatsSmsPerMonth($request);
+        return $this->statMonthRepository->getAllStatsPerMonth($request);
     }
 
-    public function getStatsCallsPerMonth(Request $request)
+    public function getStatsByCompanyPerMonth($company_id, Request $request)
     {
-        return $this->statMonthRepository->getStatsCallsPerMonth($request);
+        return $this->statMonthRepository->getStatsByCompanyPerMonth($company_id, $request);
     }
 
-    public function getStatsVouchersPerMonth(Request $request)
+    public function getStatsBySpotPerMonth($spot_id, Request $request)
     {
-        return $this->statMonthRepository->getStatsVouchersPerMonth($request);
-    }
-
-    public function getStatsCallsByCompany($company_id, Request $request)
-    {
-        return $this->statMonthRepository->getStatsCallsByCompany($company_id, $request);
-    }
-
-    public function getStatsGuestByCompany($company_id, Request $request)
-    {
-        return $this->statMonthRepository->getStatsGuestByCompany($company_id, $request);
-    }
-
-    public function getStatsVouchersByCompany($company_id, Request $request)
-    {
-        return $this->statMonthRepository->getStatsVouchersByCompany($company_id, $request);
-    }
-
-    public function getStatsCallsBySpot($spot_id, Request $request)
-    {
-        return $this->statMonthRepository->getStatsCallsBySpot($spot_id, $request);
-    }
-
-    public function getStatsGuestBySpot($spot_id, Request $request)
-    {
-        return $this->statMonthRepository->getStatsGuestBySpot($spot_id, $request);
-    }
-
-    public function getStatsVouchersBySpot($spot_id, Request $request)
-    {
-        return $this->statMonthRepository->getStatsVouchersBySpot($spot_id, $request);
+        return $this->statMonthRepository->getStatsBySpotPerMonth($spot_id, $request);
     }
 
     public function getAllStat()
