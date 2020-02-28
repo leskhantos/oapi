@@ -18,13 +18,13 @@ class StatMonthRepository implements StatMonthRepositoryInterface
     {
         $new = new Helper();
         $myDate = $new->currentDate($request);
-        $calls = StatsCall::select('date','requests','checked')->whereMonth('date', $myDate['month'])
+        $calls = StatsCall::select('date', 'requests', 'checked')->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();
-        $voucher = StatsVoucher::select('date','all','auth')->whereMonth('date', $myDate['month'])
+        $voucher = StatsVoucher::select('date', 'all as all_vouchers', 'auth')->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();
-        $sms = StatsSms::select('date', 'all', 'resend', 'delivered')->whereMonth('date', $myDate['month'])
+        $sms = StatsSms::select('date', 'all as all_sms', 'resend', 'delivered')->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();
 
@@ -41,15 +41,15 @@ class StatMonthRepository implements StatMonthRepositoryInterface
         $new = new Helper();
         $myDate = $new->currentDate($request);
         $company = Company::findOrFail($id);
-        $calls = StatsCall::select('date','requests','checked')->whereCompany_id($company->id)
+        $calls = StatsCall::select('date', 'requests', 'checked')->whereCompany_id($company->id)
             ->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();
-        $guests = StatsGuest::select('date','load','auth','new','old')->whereCompany_id($company->id)
+        $guests = StatsGuest::select('date', 'load', 'auth as auth_guests', 'new', 'old')->whereCompany_id($company->id)
             ->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();
-        $voucher = StatsVoucher::select('date','all','auth')->whereCompany_id($company->id)
+        $voucher = StatsVoucher::select('date', 'all', 'auth as auth_vouchers')->whereCompany_id($company->id)
             ->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();
@@ -65,21 +65,20 @@ class StatMonthRepository implements StatMonthRepositoryInterface
         $new = new Helper();
         $myDate = $new->currentDate($request);
         $spot = Spot::findOrFail($id);
-        $calls = StatsCall::select('date','requests','checked')->whereSpot_id($spot->id)
+        $calls = StatsCall::select('date', 'requests', 'checked')->whereSpot_id($spot->id)
             ->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();
-        $voucher = StatsVoucher::select('date','all','auth')->whereSpot_id($spot->id)
+        $voucher = StatsVoucher::select('date', 'all', 'auth as auth_vouchers')->whereSpot_id($spot->id)
             ->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();
-        $guests = StatsGuest::select('date','load','auth','new','old')->whereSpot_id($spot->id)
+        $guests = StatsGuest::select('date', 'load', 'auth as auth_guests', 'new', 'old')->whereSpot_id($spot->id)
             ->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();
 
         $array = array_merge($voucher, $calls, $guests);
-
         $data = $this->counterMonth($array, $myDate['day']);
 
         return response(['data' => $data, 'days' => $myDate['day']]);
