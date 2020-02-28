@@ -120,6 +120,8 @@ class StatRepository implements StatRepositoryInterface
         ];
 
         $result =  $this->counter($array, $keys);
+
+        return response($result);
     }
 
 
@@ -233,7 +235,7 @@ class StatRepository implements StatRepositoryInterface
 
         foreach ($array as $key => $value) {
             foreach ($value as $k => $v) {
-                $result[$k] += $v;
+               $result[$k] += $v;
             }
         }
 
