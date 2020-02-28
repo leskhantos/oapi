@@ -81,17 +81,8 @@ class StatRepository implements StatRepositoryInterface
     }
 
     //Круги
-    public function getStatsByDeviceInCompany($id)
-    {
-        $company = Company::findOrFail($id);
-        $devices = StatsDevice::select('mobile', 'tablet', 'computer', 'type_other')
-            ->whereCompanyId($company->id)->get()->toArray();
-        $keys = ['mobile' => 0, 'tablet' => 0, 'computer' => 0, 'type_other' => 0];
 
-        return $this->counter($devices, $keys);
-    }
-
-    public function getStatsByOsInCompany($id)
+    public function getStatsByCompany($id)
     {
         $company = Company::findOrFail($id);
         $devices = $company->select(
@@ -122,38 +113,6 @@ class StatRepository implements StatRepositoryInterface
         $result =  $this->counter($array, $keys);
 
         return response($result);
-    }
-
-
-    public function getStatsByBrowserInCompany($id)
-    {
-        $company = Company::findOrFail($id);
-        $devices = StatsDevice::select('android_browser', 'edge', 'firefox', 'chrome', 'opera', 'safari', 'yandex_browser', 'webkit', 'browser_other')
-            ->whereCompanyId($company->id)->get()->toArray();
-        $keys = ['android_browser' => 0, 'edge' => 0, 'firefox' => 0, 'chrome' => 0, 'opera' => 0,
-            'safari' => 0, 'yandex_browser' => 0, 'webkit' => 0, 'browser_other' => 0];
-
-        return $this->counter($devices, $keys);
-    }
-
-    public function getStatsByCallsInCompany($id)
-    {
-        $company = Company::findOrFail($id);
-        $devices = StatsCall::select('requests', 'checked')
-            ->whereCompanyId($company->id)->get()->toArray();
-        $keys = ['requests' => 0, 'checked' => 0];
-
-        return $this->counter($devices, $keys);
-    }
-
-    public function getStatsByGuestsInCompany($id)
-    {
-        $company = Company::findOrFail($id);
-        $devices = StatsGuest::select('load', 'auth', 'new', 'old')
-            ->whereCompanyId($company->id)->get()->toArray();
-        $keys = ['load' => 0, 'auth' => 0, 'new' => 0, 'old' => 0];
-
-        return $this->counter($devices, $keys);
     }
 
     public function getStatsByDeviceInSpot($id)

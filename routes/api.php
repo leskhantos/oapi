@@ -56,11 +56,7 @@ Route::get('company/{id}/stats/calls/month','StatController@getStatsCallsByCompa
 Route::get('company/{id}/stats/guests/month','StatController@getStatsGuestByCompany');
 Route::get('company/{id}/stats/vouchers/month','StatController@getStatsVouchersByCompany');
 
-Route::get('company/{id}/stats/device','StatController@getStatsByDeviceInCompany');
-Route::get('company/{id}/stats/os','StatController@getStatsByOsInCompany');
-Route::get('company/{id}/stats/browser','StatController@getStatsByBrowserInCompany');
-Route::get('company/{id}/stats/calls','StatController@getStatsByCallsInCompany');
-Route::get('company/{id}/stats/guests','StatController@getStatsByGuestsInCompany');
+Route::get('company/{id}/stats','StatController@getStatsByCompany');
 
 Route::get('spot/{id}/stats/calls/month','StatController@getStatsCallsBySpot');
 Route::get('spot/{id}/stats/guests/month','StatController@getStatsGuestBySpot');

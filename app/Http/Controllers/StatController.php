@@ -114,29 +114,9 @@ class StatController extends Controller
         return $this->statRepository->getStatsVouchers();
     }
 
-    public function getStatsByDeviceInCompany($company_id)
+    public function getStatsByCompany($company_id)
     {
-        return $this->statRepository->getStatsByDeviceInCompany($company_id);
-    }
-
-    public function getStatsByOsInCompany($company_id)
-    {
-        return $this->statRepository->getStatsByOsInCompany($company_id);
-    }
-
-    public function getStatsByBrowserInCompany($company_id)
-    {
-        return $this->statRepository->getStatsByBrowserInCompany($company_id);
-    }
-
-    public function getStatsByCallsInCompany($company_id)
-    {
-        return $this->statRepository->getStatsByCallsInCompany($company_id);
-    }
-
-    public function getStatsByGuestsInCompany($company_id)
-    {
-        return $this->statRepository->getStatsByGuestsInCompany($company_id);
+        return $this->statRepository->getStatsByCompany($company_id);
     }
 
     public function getStatsByDeviceInSpot($spot_id)

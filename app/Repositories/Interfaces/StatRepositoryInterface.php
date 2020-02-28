@@ -12,15 +12,7 @@ interface StatRepositoryInterface
 
     public function getStatsVouchers();
 
-    public function getStatsByDeviceInCompany($company_id);
-
-    public function getStatsByOsInCompany($company_id);
-
-    public function getStatsByBrowserInCompany($company_id);
-
-    public function getStatsByCallsInCompany($company_id);
-
-    public function getStatsByGuestsInCompany($company_id);
+    public function getStatsByCompany($company_id);
 
     public function getStatsByDeviceInSpot($spot_id);
 
