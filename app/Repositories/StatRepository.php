@@ -56,30 +56,6 @@ class StatRepository implements StatRepositoryInterface
         return $data;
     }
 
-    public function getStatsSms()
-    {
-        $sms = StatsSms::select('all', 'resend', 'delivered')->get()->toArray();
-        $keys = ['all' => 0, 'resend' => 0, 'delivered' => 0];
-
-        return $this->counter($sms, $keys);
-    }
-
-    public function getStatsCalls()
-    {
-        $calls = StatsCall::select('requests', 'checked')->get()->toArray();
-        $keys = ['requests' => 0, 'checked' => 0];
-
-        return $this->counter($calls, $keys);
-    }
-
-    public function getStatsVouchers()
-    {
-        $vouchers = StatsVoucher::select('all', 'auth')->get()->toArray();
-        $keys = ['all' => 0, 'auth' => 0];
-
-        return $this->counter($vouchers, $keys);
-    }
-
     //Круги
 
     public function getStatsByCompany($id)
@@ -115,23 +91,13 @@ class StatRepository implements StatRepositoryInterface
         return response($result);
     }
 
-    public function getStatsByDeviceInSpot($id)
-    {
-        $spot = Company::findOrFail($id);
-        $devices = StatsDevice::select('mobile', 'tablet', 'computer', 'type_other')
-            ->whereSpotId($spot->id)->get()->toArray();
-        $keys = ['mobile' => 0, 'tablet' => 0, 'computer' => 0, 'type_other' => 0];
-
-        return $this->counter($devices, $keys);
-    }
-
-    public function getStatsByOsInSpot($id)
+    public function getStatsBySpot($id)
     {
         $spot = Spot::findOrFail($id);
         $devices = $spot->select(
             'android', 'ios', 'linux', 'windows', 'windows_phone', 'os_other',
             'android_browser', 'edge', 'firefox', 'chrome', 'opera', 'safari', 'yandex_browser', 'webkit', 'browser_other',
-            'mobile', 'tablet', 'computer', 'type_other',
+            'mobile', 'tablet', 'computer', 'type_other'
             )
             ->join('stats_devices', 'spots.id', '=', 'stats_devices.spot_id')
             ->where('stats_devices.spot_id', '=', $spot->id)
@@ -152,37 +118,6 @@ class StatRepository implements StatRepositoryInterface
         ];
 
         return $this->counter($array, $keys);
-    }
-
-    public function getStatsByBrowserInSpot($id)
-    {
-        $spot = Spot::findOrFail($id);
-        $devices = StatsDevice::select('android_browser', 'edge', 'firefox', 'chrome', 'opera', 'safari', 'yandex_browser', 'webkit', 'browser_other')
-            ->whereSpotId($spot->id)->get()->toArray();
-        $keys = ['android_browser' => 0, 'edge' => 0, 'firefox' => 0, 'chrome' => 0, 'opera' => 0,
-            'safari' => 0, 'yandex_browser' => 0, 'webkit' => 0, 'browser_other' => 0];
-
-        return $this->counter($devices, $keys);
-    }
-
-    public function getStatsByCallsInSpot($id)
-    {
-        $spot = Spot::findOrFail($id);
-        $devices = StatsCall::select('requests', 'checked')
-            ->whereSpotId($spot->id)->get()->toArray();
-        $keys = ['requests' => 0, 'checked' => 0];
-
-        return $this->counter($devices, $keys);
-    }
-
-    public function getStatsByGuestsInSpot($id)
-    {
-        $spot = Spot::findOrFail($id);
-        $devices = StatsGuest::select('load', 'auth', 'new', 'old')
-            ->whereSpotId($spot->id)->get()->toArray();
-        $keys = ['load' => 0, 'auth' => 0, 'new' => 0, 'old' => 0];
-
-        return $this->counter($devices, $keys);
     }
 
     //@array $array - входной массив

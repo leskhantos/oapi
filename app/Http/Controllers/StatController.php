@@ -99,48 +99,13 @@ class StatController extends Controller
         return $this->statRepository->getAllStats();
     }
 
-    public function getStatsSms()
-    {
-        return $this->statRepository->getStatsSms();
-    }
-
-    public function getStatsCalls()
-    {
-        return $this->statRepository->getStatsCalls();
-    }
-
-    public function getStatsVouchers()
-    {
-        return $this->statRepository->getStatsVouchers();
-    }
-
     public function getStatsByCompany($company_id)
     {
         return $this->statRepository->getStatsByCompany($company_id);
     }
 
-    public function getStatsByDeviceInSpot($spot_id)
+    public function getStatsBySpot($spot_id)
     {
-        return $this->statRepository->getStatsByDeviceInSpot($spot_id);
-    }
-
-    public function getStatsByOsInSpot($spot_id)
-    {
-        return $this->statRepository->getStatsByOsInSpot($spot_id);
-    }
-
-    public function getStatsByBrowserInSpot($spot_id)
-    {
-        return $this->statRepository->getStatsByBrowserInSpot($spot_id);
-    }
-
-    public function getStatsByCallsInSpot($spot_id)
-    {
-        return $this->statRepository->getStatsByCallsInSpot($spot_id);
-    }
-
-    public function getStatsByGuestsInSpot($spot_id)
-    {
-        return $this->statRepository->getStatsByGuestsInSpot($spot_id);
+        return $this->statRepository->getStatsBySpot($spot_id);
     }
 }

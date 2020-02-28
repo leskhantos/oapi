@@ -48,10 +48,6 @@ Route::get('stats/sms/month','StatController@getStatsSmsPerMonth');
 Route::get('stats/calls/month','StatController@getStatsCallsPerMonth');
 Route::get('stats/vouchers/month','StatController@getStatsVouchersPerMonth');
 
-Route::get('stats/sms','StatController@getStatsSms');
-Route::get('stats/calls','StatController@getStatsCalls');
-Route::get('stats/vouchers','StatController@getStatsVouchers');
-
 Route::get('company/{id}/stats/calls/month','StatController@getStatsCallsByCompany');
 Route::get('company/{id}/stats/guests/month','StatController@getStatsGuestByCompany');
 Route::get('company/{id}/stats/vouchers/month','StatController@getStatsVouchersByCompany');
@@ -62,11 +58,7 @@ Route::get('spot/{id}/stats/calls/month','StatController@getStatsCallsBySpot');
 Route::get('spot/{id}/stats/guests/month','StatController@getStatsGuestBySpot');
 Route::get('spot/{id}/stats/vouchers/month','StatController@getStatsVouchersBySpot');
 
-Route::get('spot/{id}/stats/device','StatController@getStatsByDeviceInSpot');
-Route::get('spot/{id}/stats/os','StatController@getStatsByOsInSpot');
-Route::get('spot/{id}/stats/browser','StatController@getStatsByBrowserInSpot');
-Route::get('spot/{id}/stats/calls','StatController@getStatsByCallsInSpot');
-Route::get('spot/{id}/stats/guests','StatController@getStatsByGuestsInSpot');
+Route::get('spot/{id}/stats','StatController@getStatsBySpot');
 
 Route::post('device','DeviceController@store');
 
