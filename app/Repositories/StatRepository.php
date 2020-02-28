@@ -33,7 +33,15 @@ class StatRepository implements StatRepositoryInterface
         $count_pages = Page::count();
         $count_vouchers = Voucher::count();
 
-        return response([
+        $sms = StatsSms::select('all as all_sms', 'resend', 'delivered')->get()->toArray();
+        $calls = StatsCall::select('requests', 'checked')->get()->toArray();
+        $vouchers = StatsVoucher::select('all as all_voucher', 'auth')->get()->toArray();
+        $keys = ['all_sms' => 0, 'auth' => 0,'requests' => 0, 'checked' => 0,
+            'all_voucher' => 0, 'resend' => 0, 'delivered' => 0];
+        $array = array_merge($sms,$calls,$vouchers);
+
+        $stats = $this->counter($array, $keys);
+        $data = [
                 'count_company' => $count_companies,
                 'count_spot' => $count_spots,
                 'pages' => $count_pages,
@@ -42,8 +50,11 @@ class StatRepository implements StatRepositoryInterface
                 'auth_guest' => $auth_guest,
                 'session' => $sessions,
                 'count_vouchers' => $count_vouchers,
-            ]
-        );
+            ];
+        $data +=$stats;
+
+        return $data;
+
     }
 
     public function getStatsSms()
@@ -161,7 +172,16 @@ class StatRepository implements StatRepositoryInterface
             'mobile' => 0, 'tablet' => 0, 'computer' => 0, 'type_other' => 0
         ];
 
-        return $this->counter($devices, $keys);
+        $result = $this->counter($devices, $keys);
+
+
+        $devices = StatsCall::select('requests', 'checked')
+            ->whereSpotId($spot->id)->get()->toArray();
+        $keys1 = ['requests' => 0, 'checked' => 0];
+
+        $result += $this->counter($devices, $keys1);
+
+        return $result;
     }
 
     public function getStatsByBrowserInSpot($id)
