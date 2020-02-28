@@ -35,12 +35,11 @@ class StatRepository implements StatRepositoryInterface
 
         $sms = StatsSms::select('all as all_sms', 'resend', 'delivered')->get()->toArray();
         $calls = StatsCall::select('requests', 'checked')->get()->toArray();
-        $vouchers = StatsVoucher::select('all as all_voucher', 'auth')->get()->toArray();
-        $keys = ['all_sms' => 0, 'auth' => 0, 'requests' => 0, 'checked' => 0,
-            'all_voucher' => 0, 'resend' => 0, 'delivered' => 0];
+        $vouchers = StatsVoucher::select('all as all_vouchers', 'auth')->get()->toArray();
+
         $array = array_merge($sms, $calls, $vouchers);
 
-        $stats = $this->counter($array, $keys);
+        $stats = $this->counter($array);
         $data = [
             'count_company' => $count_companies,
             'count_spot' => $count_spots,
