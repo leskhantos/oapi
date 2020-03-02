@@ -18,7 +18,7 @@ class StatMonthRepository implements StatMonthRepositoryInterface
     {
         $new = new Helper();
         $myDate = $new->currentDate($request);
-        $calls = StatsCall::select('date', 'requests', 'checked')->whereMonth('date', $myDate['month'])
+        $call = StatsCall::select('date', 'requests', 'checked')->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();
         $voucher = StatsVoucher::select('date', 'all as all_vouchers', 'auth')->whereMonth('date', $myDate['month'])
@@ -28,11 +28,11 @@ class StatMonthRepository implements StatMonthRepositoryInterface
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();
 
-        $array = array_merge($voucher, $calls, $sms);
+        $vouchers = $this->counterMonth($voucher, $myDate['day']);
+        $count_sms = $this->counterMonth($sms, $myDate['day']);
+        $calls = $this->counterMonth($call, $myDate['day']);
 
-        $data = $this->counterMonth($array, $myDate['day']);
-
-        return response(['data' => $data, 'days' => $myDate['day']]);
+        return response(['vouchers' => $vouchers,'sms'=>$count_sms,'calls'=>$calls, 'days' => $myDate['day']]);
     }
 
 
@@ -41,11 +41,11 @@ class StatMonthRepository implements StatMonthRepositoryInterface
         $new = new Helper();
         $myDate = $new->currentDate($request);
         $company = Company::findOrFail($id);
-        $calls = StatsCall::select('date', 'requests', 'checked')->whereCompany_id($company->id)
+        $call = StatsCall::select('date', 'requests', 'checked')->whereCompany_id($company->id)
             ->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();
-        $guests = StatsGuest::select('date', 'load', 'auth as auth_guests', 'new', 'old')->whereCompany_id($company->id)
+        $guest = StatsGuest::select('date', 'load', 'auth as auth_guests', 'new', 'old')->whereCompany_id($company->id)
             ->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();
@@ -53,11 +53,12 @@ class StatMonthRepository implements StatMonthRepositoryInterface
             ->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();
-        $array = array_merge($voucher, $calls, $guests);
 
-        $data = $this->counterMonth($array, $myDate['day']);
+        $vouchers = $this->counterMonth($voucher, $myDate['day']);
+        $guests = $this->counterMonth($guest, $myDate['day']);
+        $calls = $this->counterMonth($call, $myDate['day']);
 
-        return response(['data' => $data, 'days' => $myDate['day']]);
+        return response(['vouchers' => $vouchers,'guests'=>$guests,'calls'=>$calls, 'days' => $myDate['day']]);
     }
 
     public function getStatsBySpotPerMonth($id, Request $request)
@@ -65,7 +66,7 @@ class StatMonthRepository implements StatMonthRepositoryInterface
         $new = new Helper();
         $myDate = $new->currentDate($request);
         $spot = Spot::findOrFail($id);
-        $calls = StatsCall::select('date', 'requests', 'checked')->whereSpot_id($spot->id)
+        $call = StatsCall::select('date', 'requests', 'checked')->whereSpot_id($spot->id)
             ->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();
@@ -73,15 +74,16 @@ class StatMonthRepository implements StatMonthRepositoryInterface
             ->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();
-        $guests = StatsGuest::select('date', 'load', 'auth as auth_guests', 'new', 'old')->whereSpot_id($spot->id)
+        $guest = StatsGuest::select('date', 'load', 'auth as auth_guests', 'new', 'old')->whereSpot_id($spot->id)
             ->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();
 
-        $array = array_merge($voucher, $calls, $guests);
-        $data = $this->counterMonth($array, $myDate['day']);
+        $vouchers = $this->counterMonth($voucher, $myDate['day']);
+        $guests = $this->counterMonth($guest, $myDate['day']);
+        $calls = $this->counterMonth($call, $myDate['day']);
 
-        return response(['data' => $data, 'days' => $myDate['day']]);
+        return response(['vouchers' => $vouchers,'guests'=>$guests,'calls'=>$calls, 'days' => $myDate['day']]);
     }
 
     //@param array $array - массив со статистикой для обработки

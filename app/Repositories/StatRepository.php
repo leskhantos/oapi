@@ -79,7 +79,7 @@ class StatRepository implements StatRepositoryInterface
 
         $result = $this->counter($array);
 
-        return response($result);
+        return $result;
     }
 
     public function getStatsBySpot($id)
