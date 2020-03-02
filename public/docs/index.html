@@ -520,6 +520,78 @@ fetch(url, {
 <h3>HTTP Request</h3>
 <p><code>POST add/device</code></p>
 <!-- END_1db01a764aa10ac7ebdbd9688d449054 -->
+<!-- START_14615e385e4229c8a1249de743772db6 -->
+<h2>spot/{id}/call</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET \
+    -G "http://localhost/spot/1/call" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost/spot/1/call"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Invalid token",
+    "code": 2
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET spot/{id}/call</code></p>
+<!-- END_14615e385e4229c8a1249de743772db6 -->
+<!-- START_6c316a476bc73f80409b6cd38b61ecaf -->
+<h2>spot/{id}/session</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET \
+    -G "http://localhost/spot/1/session" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost/spot/1/session"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Invalid token",
+    "code": 2
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET spot/{id}/session</code></p>
+<!-- END_6c316a476bc73f80409b6cd38b61ecaf -->
 <!-- START_50bc1ec7ad747cb5a92b20f1e3a28abf -->
 <h2>companies</h2>
 <blockquote>
