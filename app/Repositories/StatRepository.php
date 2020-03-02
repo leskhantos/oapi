@@ -75,11 +75,15 @@ class StatRepository implements StatRepositoryInterface
         $guests = StatsGuest::select('load', 'auth', 'new', 'old')
             ->whereCompanyId($company->id)->get()->toArray();
 
-        $array = array_merge($devices, $calls, $guests);
+//        $array = array_merge($devices, $calls, $guests);
+        $device = $this->counter($devices);
+        $call = $this->counter($calls);
+        $guest = $this->counter($guests);
+//        dd(1);
 
-        $result = $this->counter($array);
+//        $result = $this->counter($array);
 
-        return $result;
+        return @response(['device'=>$device,'call'=> $call,'guest'=>$guest]);
     }
 
     public function getStatsBySpot($id)
