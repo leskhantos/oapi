@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Entities\GuestCall;
 use App\Entities\Spot;
 use App\Http\Requests\Api\Spot\SpotsStoreRequest;
 use App\Repositories\Interfaces\SpotRepositoryInterface;
+use Illuminate\Http\Request;
 
 class SpotController extends Controller
 {
@@ -16,9 +18,23 @@ class SpotController extends Controller
         parent::__construct();
     }
 
-    public function spotsByCompany($id)
+    public function spotsByCompany($company_id)
     {
-        return $this->spotRepository->spotByCompany($id);
+        return $this->spotRepository->spotByCompany($company_id);
+    }
+
+    public function callBySpot($spot_id, Request $request)
+    {
+        return $this->spotRepository->callBySpot($spot_id, $request);
+    }
+
+    public function sessionBySpot($spot_id)
+    {
+        return $this->spotRepository->sessionBySpot($spot_id);
+    }
+
+    public function create(Request $request){
+        return  GuestCall::create($request->all());
     }
 
     public function show($id)
