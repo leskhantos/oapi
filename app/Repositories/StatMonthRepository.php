@@ -49,7 +49,7 @@ class StatMonthRepository implements StatMonthRepositoryInterface
             ->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();
-        $voucher = StatsVoucher::select('date', 'all', 'auth as auth_vouchers')->whereCompany_id($company->id)
+        $voucher = StatsVoucher::select('date', 'all', 'auth')->whereCompany_id($company->id)
             ->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();

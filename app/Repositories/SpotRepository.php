@@ -22,15 +22,17 @@ class SpotRepository implements SpotRepositoryInterface
             ->leftJoin('pages', 'page_id', '=', 'pages.id')
             ->where('spots.company_id', '=', $company->id)
             ->get();
-        return $spot;
+
+        return response($spot);
     }
 
-    public function sessionBySpot($id){
+    public function sessionBySpot($id)
+    {
         $spot = Spot::findOrFail($id);
-        $session = SessionsAuth::select('created','device_mac')
+        $session = SessionsAuth::select('created', 'device_mac')
             ->whereSpot_id($spot->id)->get();
 
-        return $session;
+        return @response($session);
     }
 
     public function callBySpot($id, Request $request)
@@ -38,14 +40,12 @@ class SpotRepository implements SpotRepositoryInterface
         $new = new Helper();
         $myDate = $new->currentDate($request);
         $spot = Spot::findOrFail($id);
-//        dd($spot);
-        $call = GuestCall::select('created','expiration','phone','device_mac','checked')
+        $call = GuestCall::select('created', 'expiration', 'phone', 'device_mac', 'checked')
             ->whereSpot_id($spot->id)
             ->whereMonth('created', $myDate['month'])
             ->whereYear('created', $myDate['year'])
             ->orderBy('created', 'DESC')
-        ->get();
-//        dd($call);
+            ->get();
 
         return @response($call);
     }
