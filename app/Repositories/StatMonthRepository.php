@@ -18,7 +18,7 @@ class StatMonthRepository implements StatMonthRepositoryInterface
     {
         $new = new Helper();
         $myDate = $new->currentDate($request);
-        $call = StatsCall::select('date', 'requests', 'checked')->whereMonth('date', $myDate['month'])
+        $call = StatsCall::select('date', 'requests', 'checked as call_checked')->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();
         $voucher = StatsVoucher::select('date', 'all as all_vouchers', 'auth')->whereMonth('date', $myDate['month'])
@@ -32,7 +32,7 @@ class StatMonthRepository implements StatMonthRepositoryInterface
         $count_sms = $this->counterMonth($sms, $myDate['day']);
         $calls = $this->counterMonth($call, $myDate['day']);
 
-        return response(['vouchers' => $vouchers,'sms'=>$count_sms,'calls'=>$calls, 'days' => $myDate['day']]);
+        return @response(['vouchers' => $vouchers,'sms'=>$count_sms,'calls'=>$calls, 'days' => $myDate['day']]);
     }
 
 
@@ -45,7 +45,7 @@ class StatMonthRepository implements StatMonthRepositoryInterface
             ->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();
-        $guest = StatsGuest::select('date', 'load', 'auth as auth_guests', 'new', 'old')->whereCompany_id($company->id)
+        $guest = StatsGuest::select('date', 'load as load_guests', 'auth as auth_guests', 'new', 'old')->whereCompany_id($company->id)
             ->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();
@@ -58,7 +58,7 @@ class StatMonthRepository implements StatMonthRepositoryInterface
         $guests = $this->counterMonth($guest, $myDate['day']);
         $calls = $this->counterMonth($call, $myDate['day']);
 
-        return response(['vouchers' => $vouchers,'guests'=>$guests,'calls'=>$calls, 'days' => $myDate['day']]);
+        return @response(['vouchers' => $vouchers,'guests'=>$guests,'calls'=>$calls, 'days' => $myDate['day']]);
     }
 
     public function getStatsBySpotPerMonth($id, Request $request)
@@ -83,7 +83,7 @@ class StatMonthRepository implements StatMonthRepositoryInterface
         $guests = $this->counterMonth($guest, $myDate['day']);
         $calls = $this->counterMonth($call, $myDate['day']);
 
-        return response(['vouchers' => $vouchers,'guests'=>$guests,'calls'=>$calls, 'days' => $myDate['day']]);
+        return @response(['vouchers' => $vouchers,'guests'=>$guests,'calls'=>$calls, 'days' => $myDate['day']]);
     }
 
     //@param array $array - массив со статистикой для обработки
