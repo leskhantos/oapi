@@ -23,10 +23,9 @@ class CompanyRepository implements CompanyRepositoryInterface
 
     public function guestsByCompany($company_id)
     {
-        $guest = Company::
-        leftjoin('spots', 'companies.id', '=', 'spots.company_id')
+        $company = Company::findOrFail($company_id);
+        $guest = Company::leftjoin('spots', 'companies.id', '=', 'spots.company_id')
             ->leftJoin('stats_guests', 'spots.id', '=', 'stats_guests.spot_id')
-            ->leftJoin('')
 
 //            ->where('stats_guests.company_id', '=', $company_id)
             ->get();
@@ -36,8 +35,10 @@ class CompanyRepository implements CompanyRepositoryInterface
 
     public function accountsByCompany($company_id)
     {
-        return Account::select('email', 'last_ip', 'last_online')
-            ->where('accounts.company_id', '=', $company_id)->get();
+        $company = Company::findOrFail($company_id);
+        $account = Account::select('email', 'last_ip', 'last_online')
+            ->where('accounts.company_id', '=', $company->id)->get();
+        return $account;
     }
 
 }

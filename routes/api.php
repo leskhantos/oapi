@@ -29,6 +29,8 @@ Route::post('add/guest','StatController@addGuest');
 Route::post('add/voucher','StatController@addVoucher');
 Route::post('add/device','StatController@addDevice');
 
+Route::get('spot/{id}/call','SpotController@callBySpot');
+Route::get('spot/{id}/session','SpotController@sessionBySpot');
 
 Route::get('companies', 'CompaniesController@index');
 Route::apiResource('company','CompaniesController')->except('index','destroy');

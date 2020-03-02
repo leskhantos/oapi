@@ -32,7 +32,7 @@ class StatMonthRepository implements StatMonthRepositoryInterface
         $count_sms = $this->counterMonth($sms, $myDate['day']);
         $calls = $this->counterMonth($call, $myDate['day']);
 
-        return @response(['vouchers' => $vouchers,'sms'=>$count_sms,'calls'=>$calls, 'days' => $myDate['day']]);
+        return @response(['vouchers' => $vouchers, 'sms' => $count_sms, 'calls' => $calls, 'days' => $myDate['day']]);
     }
 
 
@@ -58,7 +58,7 @@ class StatMonthRepository implements StatMonthRepositoryInterface
         $guests = $this->counterMonth($guest, $myDate['day']);
         $calls = $this->counterMonth($call, $myDate['day']);
 
-        return @response(['vouchers' => $vouchers,'guests'=>$guests,'calls'=>$calls, 'days' => $myDate['day']]);
+        return @response(['vouchers' => $vouchers, 'guests' => $guests, 'calls' => $calls, 'days' => $myDate['day']]);
     }
 
     public function getStatsBySpotPerMonth($id, Request $request)
@@ -83,7 +83,7 @@ class StatMonthRepository implements StatMonthRepositoryInterface
         $guests = $this->counterMonth($guest, $myDate['day']);
         $calls = $this->counterMonth($call, $myDate['day']);
 
-        return @response(['vouchers' => $vouchers,'guests'=>$guests,'calls'=>$calls, 'days' => $myDate['day']]);
+        return @response(['vouchers' => $vouchers, 'guests' => $guests, 'calls' => $calls, 'days' => $myDate['day']]);
     }
 
     //@param array $array - массив со статистикой для обработки

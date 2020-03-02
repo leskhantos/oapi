@@ -13,7 +13,7 @@ class CreateGuestCallTable extends Migration
      */
     public function up()
     {
-        Schema::create('guest_call', function (Blueprint $table) {
+        Schema::create('guest_calls', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamp('created')->nullable();
             $table->timestamp('expiration')->nullable();
@@ -31,6 +31,6 @@ class CreateGuestCallTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('guest_call');
+        Schema::dropIfExists('guest_calls');
     }
 }
