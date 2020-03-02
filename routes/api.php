@@ -31,7 +31,7 @@ Route::post('add/device','StatController@addDevice');
 
 
 Route::get('companies', 'CompaniesController@index');
-Route::apiResource('company','CompaniesController')->except('index');
+Route::apiResource('company','CompaniesController')->except('index','destroy');
 Route::get('company/{id}/guests','CompaniesController@guestsByCompany');
 Route::get('company/{id}/accounts','CompaniesController@accountsByCompany');
 
@@ -51,8 +51,7 @@ Route::get('company/{id}/stats','StatController@getStatsByCompany');
 Route::get('spot/{id}/stats/month','StatController@getStatsBySpotPerMonth');
 Route::get('spot/{id}/stats','StatController@getStatsBySpot');
 
-Route::post('device','DeviceController@store');
-
+Route::post('device','DeviceController@store'); //возможно не нужны
 Route::post('account','AccountsController@store');
 
 Route::get('settings','DefaultSettingController@index');
