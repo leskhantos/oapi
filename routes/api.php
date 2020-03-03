@@ -33,13 +33,14 @@ Route::get('spot/{id}/call','SpotController@callBySpot');
 Route::get('spot/{id}/session','SpotController@sessionBySpot');
 
 Route::get('companies', 'CompaniesController@index');
-Route::apiResource('company','CompaniesController')->except('index','destroy');
+Route::apiResource('company','CompaniesController')->except('index');
 Route::get('company/{id}/guests','CompaniesController@guestsByCompany');
 Route::get('company/{id}/accounts','CompaniesController@accountsByCompany');
 
 Route::get('company/{id}/spots','SpotController@spotsByCompany');
 Route::get('spot/{id}','SpotController@show');
 Route::post('company/spot', 'SpotController@store');
+Route::put('spot/{id}','SpotController@update');
 
 Route::get('company/{id}/pages','PageController@show');
 Route::post('page','PageController@store');

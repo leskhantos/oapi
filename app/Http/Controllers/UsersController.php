@@ -37,14 +37,11 @@ class UsersController extends Controller
 
     public function update(UserUpdate $request, $id)
     {
-        $user = User::findOrFail($id);
-        $user->update([
-            'type' => $request->type,
-            'name' => $request->name,
-            'login' => $request->login,
-            'enabled' => $request->enabled,
-        ]);
-        return $user;
+        if (auth()->user()->type == 'admin') {
+            $user = User::findOrFail($id);
+            $user->update($request->all());
+            return $user;
+        }
     }
 
     public function updatePassword(UpdatePassword $request)

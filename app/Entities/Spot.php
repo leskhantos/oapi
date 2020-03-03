@@ -11,7 +11,7 @@ class Spot extends Model
 
     protected $fillable = [
         'company_id', 'address', 'type', 'ident',
-        'last_activity', 'settings', 'page_id'
+        'last_activity', 'settings', 'page_id','enabled'
     ];
 
     public function company()

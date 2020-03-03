@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Entities\Company;
+use App\Entities\Spot;
 use App\Http\Requests\Api\Companies\CompanyStoreRequest;
 use App\Http\Requests\Api\Companies\UpdateRequest;
 use Illuminate\Http\JsonResponse;
 use App\Repositories\Interfaces\CompanyRepositoryInterface;
-use Illuminate\Http\Request;
-
 
 class CompaniesController extends Controller
 {
@@ -45,6 +44,15 @@ class CompaniesController extends Controller
         $company = $this->companyRepository->getCompanyById($id);
 
         return new JsonResponse($company);
+    }
+
+    public function destroy($id)
+    {
+        if(auth()->user()->type == 'admin') {
+            Spot::where('company_id', '=', $id)->delete();
+            Company::destroy($id);
+            return 'F';
+        }
     }
 
     public function guestsByCompany($id)

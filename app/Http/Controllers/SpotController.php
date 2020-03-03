@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Entities\GuestCall;
 use App\Entities\Spot;
 use App\Http\Requests\Api\Spot\SpotsStoreRequest;
+use App\Http\Requests\Api\Spot\SpotsUpdateRequest;
 use App\Repositories\Interfaces\SpotRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -45,6 +46,13 @@ class SpotController extends Controller
     public function store(SpotsStoreRequest $request)
     {
         return Spot::create($request->all());
+    }
+
+    public function update(SpotsUpdateRequest $request, $id)
+    {
+        $spot = Spot::findOrFail($id);
+        $spot->update($request->all());
+        return $spot;
     }
 
 
