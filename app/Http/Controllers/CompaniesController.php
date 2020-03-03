@@ -51,7 +51,9 @@ class CompaniesController extends Controller
         if(auth()->user()->type == 'admin') {
             Spot::where('company_id', '=', $id)->delete();
             Company::destroy($id);
-            return 'F';
+            return response('Success');
+        }else{
+            return response('No privileges',403);
         }
     }
 

@@ -40,7 +40,9 @@ class UsersController extends Controller
         if (auth()->user()->type == 'admin') {
             $user = User::findOrFail($id);
             $user->update($request->all());
-            return $user;
+            return response($user);
+        }else{
+            return response('No privileges',403);
         }
     }
 
