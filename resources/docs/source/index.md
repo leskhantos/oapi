@@ -745,6 +745,53 @@ fetch(url, {
 
 <!-- END_6c316a476bc73f80409b6cd38b61ecaf -->
 
+<!-- START_94b5eaa43456542d01b27fc222c4952a -->
+## spots/types/{id}/company
+> Example request:
+
+```bash
+curl -X GET \
+    -G "http://localhost/spots/types/1/company" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"
+```
+
+```javascript
+const url = new URL(
+    "http://localhost/spots/types/1/company"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+> Example response (401):
+
+```json
+{
+    "message": "Invalid token",
+    "code": 2
+}
+```
+
+### HTTP Request
+`GET spots/types/{id}/company`
+
+
+<!-- END_94b5eaa43456542d01b27fc222c4952a -->
+
 <!-- START_50bc1ec7ad747cb5a92b20f1e3a28abf -->
 ## companies
 > Example request:
@@ -918,6 +965,45 @@ fetch(url, {
 
 
 <!-- END_fd00e71dbf390128704f847ef0d3322d -->
+
+<!-- START_4be001b7476ffa43709ac5c694ce236b -->
+## company/{company}
+> Example request:
+
+```bash
+curl -X DELETE \
+    "http://localhost/company/1" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"
+```
+
+```javascript
+const url = new URL(
+    "http://localhost/company/1"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "DELETE",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+
+### HTTP Request
+`DELETE company/{company}`
+
+
+<!-- END_4be001b7476ffa43709ac5c694ce236b -->
 
 <!-- START_3d0601c017fd18931a777e60fda326e5 -->
 ## company/{id}/guests
@@ -1145,6 +1231,45 @@ fetch(url, {
 
 
 <!-- END_65779b1ed5ff3ceb54da8467f930b0b3 -->
+
+<!-- START_681ca911151efae6ac24f73f2adbd06c -->
+## spot/{id}
+> Example request:
+
+```bash
+curl -X PUT \
+    "http://localhost/spot/1" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"
+```
+
+```javascript
+const url = new URL(
+    "http://localhost/spot/1"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "PUT",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+
+### HTTP Request
+`PUT spot/{id}`
+
+
+<!-- END_681ca911151efae6ac24f73f2adbd06c -->
 
 <!-- START_ed2c898887b539ae8229bebbe7ffdac0 -->
 ## company/{id}/pages
