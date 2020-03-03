@@ -31,6 +31,7 @@ Route::post('add/device','StatController@addDevice');
 
 Route::get('spot/{id}/call','SpotController@callBySpot');
 Route::get('spot/{id}/session','SpotController@sessionBySpot');
+Route::get('spots/types/{id}/company','SpotController@spotTypesByCompany');
 
 Route::get('companies', 'CompaniesController@index');
 Route::apiResource('company','CompaniesController')->except('index');

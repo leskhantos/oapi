@@ -34,8 +34,14 @@ class SpotController extends Controller
         return $this->spotRepository->sessionBySpot($spot_id);
     }
 
-    public function create(Request $request){
-        return  GuestCall::create($request->all());
+    public function spotTypesByCompany($spot_id)
+    {
+        return $this->spotRepository->spotTypesByCompany($spot_id);
+    }
+
+    public function create(Request $request)
+    {
+        return GuestCall::create($request->all());
     }
 
     public function show($id)
@@ -54,6 +60,4 @@ class SpotController extends Controller
         $spot->update($request->all());
         return $spot;
     }
-
-
 }

@@ -26,13 +26,29 @@ class SpotRepository implements SpotRepositoryInterface
         return response($spot);
     }
 
+    public function spotTypesByCompany($id)
+    {
+        $company = Company::findOrFail($id);
+        $spot = Spot::select('spots_types.id', 'spots_types.name')
+            ->leftJoin('spots_types', 'spots.type', '=', 'spots_types.id')
+            ->where('spots.company_id', '=', $company->id)->get()->toArray();
+        $uniq_arr = [];
+        foreach ($spot as $key => $value) {
+            if (!in_array($value, $uniq_arr)) {
+                $uniq_arr[] = $value;
+            }
+        }
+
+        return response($uniq_arr);
+    }
+
     public function sessionBySpot($id)
     {
         $spot = Spot::findOrFail($id);
         $session = SessionsAuth::select('created', 'device_mac')
             ->whereSpot_id($spot->id)->get();
 
-        return @response($session);
+        return response($session);
     }
 
     public function callBySpot($id, Request $request)
@@ -47,6 +63,6 @@ class SpotRepository implements SpotRepositoryInterface
             ->orderBy('created', 'DESC')
             ->get();
 
-        return @response($call);
+        return response($call);
     }
 }

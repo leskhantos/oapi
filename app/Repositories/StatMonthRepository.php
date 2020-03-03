@@ -18,7 +18,7 @@ class StatMonthRepository implements StatMonthRepositoryInterface
     {
         $new = new Helper();
         $myDate = $new->currentDate($request);
-        $call = StatsCall::select('date', 'requests', 'checked as call_checked')->whereMonth('date', $myDate['month'])
+        $call = StatsCall::select('date', 'requests', 'checked')->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();
         $voucher = StatsVoucher::select('date', 'all as all_vouchers', 'auth')->whereMonth('date', $myDate['month'])
