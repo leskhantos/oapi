@@ -12,7 +12,7 @@ class GuestController extends Controller
     {
         $new = new Helper();
         $myDate = $new->currentDate($request);
-        $guest = Guest::select('datetime', 'devices.type as type_device', 'os', 'device_mac', 'spots.type', 'data_auth', 'sessions')
+        $guest = Guest::select('guests.id','datetime', 'devices.type as type_device', 'os', 'device_mac', 'spots.type', 'data_auth', 'sessions')
             ->leftJoin('devices', 'guests.device_mac', '=', 'devices.mac')
             ->leftJoin('spots', 'guests.spot_id', '=', 'spots.id')
             ->where('guests.spot_id', '=', $id)
@@ -26,7 +26,7 @@ class GuestController extends Controller
     {
         $new = new Helper();
         $myDate = $new->currentDate($request);
-        $guest = Guest::select('datetime', 'devices.type as type_device', 'os', 'device_mac', 'spots.type', 'data_auth', 'sessions')
+        $guest = Guest::select('guests.id','datetime', 'devices.type as type_device', 'os', 'device_mac', 'spots.type', 'data_auth', 'sessions')
             ->leftJoin('devices', 'guests.device_mac', '=', 'devices.mac')
             ->leftJoin('spots', 'guests.spot_id', '=', 'spots.id')
             ->where('guests.company_id', '=', $id)

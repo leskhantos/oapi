@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Entities\Account;
 use App\Entities\Call;
 use App\Entities\Company;
-use App\Entities\Guest;
+use App\Entities\Guests\Guest;
 use App\Helpers\Helper;
 use App\Repositories\Interfaces\CompanyRepositoryInterface;
 use Illuminate\Http\Request;
@@ -26,7 +26,7 @@ class CompanyRepository implements CompanyRepositoryInterface
     {
         $new = new Helper();
         $myDate = $new->currentDate($request);
-        $guest = \App\Entities\Guests\Guest::select('datetime', 'devices.type as type_device', 'os', 'device_mac', 'spots.type', 'data_auth', 'sessions')
+        $guest = Guest::select('guests.id','datetime', 'devices.type as type_device', 'os', 'device_mac', 'spots.type', 'data_auth', 'sessions')
             ->leftJoin('devices', 'guests.device_mac', '=', 'devices.mac')
             ->leftJoin('spots', 'guests.spot_id', '=', 'spots.id')
             ->where('guests.company_id', '=', $company_id)
