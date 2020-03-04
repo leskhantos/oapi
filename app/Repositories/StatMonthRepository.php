@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Entities\Company;
+use App\Entities\Page;
 use App\Entities\Spot;
 use App\Entities\StatsCall;
 use App\Entities\StatsGuest;
@@ -66,6 +67,11 @@ class StatMonthRepository implements StatMonthRepositoryInterface
         $new = new Helper();
         $myDate = $new->currentDate($request);
         $spot = Spot::findOrFail($id);
+        $type = $spot->type;
+        $sms = StatsSms::select('date', 'all as all_sms', 'resend', 'delivered')->whereSpot_id($spot->id)
+            ->whereMonth('date', $myDate['month'])
+            ->whereYear('date', $myDate['year'])
+            ->get()->toArray();
         $call = StatsCall::select('date', 'requests', 'checked')->whereSpot_id($spot->id)
             ->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
@@ -78,12 +84,21 @@ class StatMonthRepository implements StatMonthRepositoryInterface
             ->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
             ->get()->toArray();
-
-        $vouchers = $this->counterMonth($voucher, $myDate['day']);
         $guests = $this->counterMonth($guest, $myDate['day']);
-        $calls = $this->counterMonth($call, $myDate['day']);
+        $stats = [];
+        switch ($spot->type) {
+            case 1:
+                $stats = $this->counterMonth($sms, $myDate['day']);
+                break;
+            case 2:
+                $stats = $this->counterMonth($call, $myDate['day']);
+                break;
+            case 3:
+                $stats = $this->counterMonth($voucher, $myDate['day']);
+                break;
+        }
 
-        return @response(['vouchers' => $vouchers, 'guests' => $guests, 'calls' => $calls, 'days' => $myDate['day']]);
+        return response(['guests' => $guests, 'stats' => $stats, 'type' => $type, 'days' => $myDate['day']]);
     }
 
     //@param array $array - массив со статистикой для обработки
