@@ -30,7 +30,9 @@ Route::post('add/voucher','StatController@addVoucher');
 Route::post('add/device','StatController@addDevice');
 
 Route::post('add','GuestController@store');
+Route::get('company/{id}/guests','GuestController@guestByCompany');
 Route::get('guest/{id}/spot','GuestController@guestBySpot');
+
 
 Route::post('test','SpotController@test');
 Route::get('spot/{id}/call','SpotController@callBySpot');
@@ -39,7 +41,6 @@ Route::get('spots/types/{id}/company','SpotController@spotTypesByCompany');
 
 Route::get('companies', 'CompaniesController@index');
 Route::apiResource('company','CompaniesController')->except('index');
-Route::get('company/{id}/guests','CompaniesController@guestsByCompany');
 Route::get('company/{id}/accounts','CompaniesController@accountsByCompany');
 
 Route::get('company/{id}/spots','SpotController@spotsByCompany');

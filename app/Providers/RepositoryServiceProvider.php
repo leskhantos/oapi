@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Repositories\AccountRepository;
 use App\Repositories\CompanyRepository;
+use App\Repositories\GuestRepository;
 use App\Repositories\Interfaces\AccountRepositoryInterface;
 use App\Repositories\Interfaces\CompanyRepositoryInterface;
+use App\Repositories\Interfaces\GuestRepositoryInterface;
 use App\Repositories\Interfaces\SpotRepositoryInterface;
 use App\Repositories\Interfaces\StatMonthRepositoryInterface;
 use App\Repositories\Interfaces\StatRepositoryInterface;
@@ -39,6 +41,9 @@ class RepositoryServiceProvider extends ServiceProvider
             );
         $this->app->bind(
             StatMonthRepositoryInterface::class, StatMonthRepository::class,
+        );
+        $this->app->bind(
+            GuestRepositoryInterface::class,GuestRepository::class,
         );
     }
 

@@ -58,11 +58,6 @@ class CompaniesController extends Controller
         }
     }
 
-    public function guestsByCompany($id, Request $request)
-    {
-        return $this->companyRepository->guestsByCompany($id,$request);
-    }
-
     public function accountsByCompany($id)
     {
         return $this->companyRepository->accountsByCompany($id);
