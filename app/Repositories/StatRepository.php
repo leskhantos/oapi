@@ -38,7 +38,6 @@ class StatRepository implements StatRepositoryInterface
         $vouchers = StatsVoucher::select('all as all_vouchers', 'auth')->get()->toArray();
 
 
-
 //        $array = array_merge($sms, $calls, $vouchers);
 //        $stats = $this->counter($array);
         $sms = $this->counter($smss);
@@ -92,24 +91,39 @@ class StatRepository implements StatRepositoryInterface
     public function getStatsBySpot($id)
     {
         $spot = Spot::findOrFail($id);
+        $type = $spot->type;
         $devices = StatsDevice::select(
             'android', 'ios', 'linux', 'windows', 'windows_phone', 'os_other', 'android_browser', 'edge',
             'firefox', 'chrome', 'opera', 'safari', 'yandex_browser', 'webkit', 'browser_other',
             'mobile', 'tablet', 'computer', 'type_other')->whereSpot_id($spot->id)->get()->toArray();
-
+        $sms = StatsSms::select('all as all_sms', 'resend', 'delivered')
+            ->whereSpotId($spot->id)->get()->toArray();
         $calls = StatsCall::select('requests', 'checked')
             ->whereSpotId($spot->id)->get()->toArray();
-        $guests = StatsGuest::select('load', 'auth', 'new', 'old')
+        $vouchers = StatsVoucher::select('all as all_vouchers', 'auth')
             ->whereSpotId($spot->id)->get()->toArray();
 
+        $guests = StatsGuest::select('load', 'auth', 'new', 'old')
+            ->whereSpotId($spot->id)->get()->toArray();
 //        $array = array_merge($devices, $calls, $guests);
 //        return $this->counter($array);
 
         $device = $this->counter($devices);
-        $call = $this->counter($calls);
         $guest = $this->counter($guests);
+        $stats = [];
+        switch ($type) {
+            case 1:
+                $stats = $this->counter($sms);
+                break;
+            case 2:
+                $stats = $this->counter($calls);
+                break;
+            case 3:
+                $stats = $this->counter($vouchers);
+                break;
+        }
 
-        return response(['device'=>$device,'call'=>$call,'guest'=>$guest]);
+        return response(['device' => $device, 'guest' => $guest, 'stats' => $stats, 'type' => $type]);
     }
 
     //@array $array - входной массив
