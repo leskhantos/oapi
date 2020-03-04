@@ -12,8 +12,9 @@ class GuestController extends Controller
     {
         $new = new Helper();
         $myDate = $new->currentDate($request);
-        $guest = Guest::select('datetime', 'device_mac', 'data_auth', 'type', 'os','sessions')
+        $guest = Guest::select('datetime', 'devices.type as type_device', 'os', 'device_mac', 'spots.type', 'data_auth', 'sessions')
             ->leftJoin('devices', 'guests.device_mac', '=', 'devices.mac')
+            ->leftJoin('spots', 'guests.spot_id', '=', 'spots.id')
             ->where('guests.spot_id', '=', $id)
             ->whereMonth('datetime', $myDate['month'])
             ->whereYear('datetime', $myDate['year'])->get();
@@ -21,9 +22,16 @@ class GuestController extends Controller
         return response($guest);
     }
 
-    public function guestByCompany($id)
+    public function guestByCompany($id, Request $request)
     {
-        $guest = Guest::whereCompany_id($id)->get();
+        $new = new Helper();
+        $myDate = $new->currentDate($request);
+        $guest = Guest::select('datetime', 'devices.type as type_device', 'os', 'device_mac', 'spots.type', 'data_auth', 'sessions')
+            ->leftJoin('devices', 'guests.device_mac', '=', 'devices.mac')
+            ->leftJoin('spots', 'guests.spot_id', '=', 'spots.id')
+            ->where('guests.company_id', '=', $id)
+            ->whereMonth('datetime', $myDate['month'])
+            ->whereYear('datetime', $myDate['year'])->get();
 
         return response($guest);
     }

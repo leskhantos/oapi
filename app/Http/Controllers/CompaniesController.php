@@ -8,6 +8,7 @@ use App\Http\Requests\Api\Companies\CompanyStoreRequest;
 use App\Http\Requests\Api\Companies\UpdateRequest;
 use Illuminate\Http\JsonResponse;
 use App\Repositories\Interfaces\CompanyRepositoryInterface;
+use Illuminate\Http\Request;
 
 class CompaniesController extends Controller
 {
@@ -57,9 +58,9 @@ class CompaniesController extends Controller
         }
     }
 
-    public function guestsByCompany($id)
+    public function guestsByCompany($id, Request $request)
     {
-        return $this->companyRepository->guestsByCompany($id);
+        return $this->companyRepository->guestsByCompany($id,$request);
     }
 
     public function accountsByCompany($id)
