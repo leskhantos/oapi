@@ -12,14 +12,24 @@ class GuestController extends Controller
     {
         $new = new Helper();
         $myDate = $new->currentDate($request);
-        $guest = Guest::select('guests.id','datetime', 'devices.type as type_device', 'os', 'device_mac', 'spots.type', 'data_auth', 'sessions')
+        $guests = Guest::select('guests.id','datetime', 'devices.type as type_device', 'os', 'device_mac', 'spots.type', 'data_auth', 'sessions')
             ->leftJoin('devices', 'guests.device_mac', '=', 'devices.mac')
             ->leftJoin('spots', 'guests.spot_id', '=', 'spots.id')
             ->where('guests.spot_id', '=', $id)
             ->whereMonth('datetime', $myDate['month'])
-            ->whereYear('datetime', $myDate['year'])->get();
+            ->whereYear('datetime', $myDate['year'])->orderBy('sessions', 'DESC')
+            ->get()->toArray();
 
-        return response($guest);
+        $uniq_mac=[];$uniq_arr=[];
+        foreach ($guests as $guest)
+        {
+            if(!in_array($guest['device_mac'],$uniq_mac)){
+                $uniq_mac[]=$guest['device_mac'];
+                $uniq_arr[]=$guest;
+            }
+        }
+
+        return response($uniq_arr);
     }
 
     public function guestByCompany($id, Request $request)
