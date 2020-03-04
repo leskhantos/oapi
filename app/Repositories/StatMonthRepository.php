@@ -67,7 +67,6 @@ class StatMonthRepository implements StatMonthRepositoryInterface
         $new = new Helper();
         $myDate = $new->currentDate($request);
         $spot = Spot::findOrFail($id);
-        $type = $spot->type;
         $sms = StatsSms::select('date', 'all as all_sms', 'resend', 'delivered')->whereSpot_id($spot->id)
             ->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year'])
@@ -98,7 +97,7 @@ class StatMonthRepository implements StatMonthRepositoryInterface
                 break;
         }
 
-        return response(['guests' => $guests, 'stats' => $stats, 'type' => $type, 'days' => $myDate['day']]);
+        return response(['guests' => $guests, 'stats' => $stats, 'type' => $spot->type, 'days' => $myDate['day']]);
     }
 
     //@param array $array - массив со статистикой для обработки

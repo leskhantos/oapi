@@ -13,6 +13,6 @@ class SpotTypesTableSeeder extends Seeder
     public function run()
     {
         SpotsType::truncate();
-        factory(SpotsType::class, 5)->create();
+        factory(SpotsType::class, 3)->create();
     }
 }
