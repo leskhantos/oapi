@@ -29,6 +29,10 @@ Route::post('add/guest','StatController@addGuest');
 Route::post('add/voucher','StatController@addVoucher');
 Route::post('add/device','StatController@addDevice');
 
+Route::post('add','GuestController@store');
+Route::get('guest/{id}/spot','GuestController@guestBySpot');
+
+Route::post('test','SpotController@test');
 Route::get('spot/{id}/call','SpotController@callBySpot');
 Route::get('spot/{id}/session','SpotController@sessionBySpot');
 Route::get('spots/types/{id}/company','SpotController@spotTypesByCompany');
