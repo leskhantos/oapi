@@ -346,35 +346,6 @@ fetch(url, {
 <h3>HTTP Request</h3>
 <p><code>GET spots/types</code></p>
 <!-- END_88c00f19d9fa91a5b8d660f67f34533e -->
-<!-- START_30288d00684763012f2ffa791a366df5 -->
-<h2>spots</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST \
-    "http://localhost/spots" \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -H "Authorization: Bearer {token}"</code></pre>
-<pre><code class="language-javascript">const url = new URL(
-    "http://localhost/spots"
-);
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "Authorization": "Bearer {token}",
-};
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<h3>HTTP Request</h3>
-<p><code>POST spots</code></p>
-<!-- END_30288d00684763012f2ffa791a366df5 -->
 <!-- START_d60755048491e3ec2e710964d37949ed -->
 <h2>add/sms</h2>
 <blockquote>
@@ -520,6 +491,107 @@ fetch(url, {
 <h3>HTTP Request</h3>
 <p><code>POST add/device</code></p>
 <!-- END_1db01a764aa10ac7ebdbd9688d449054 -->
+<!-- START_3906096641686fa2c7e7811c8aa3ce4c -->
+<h2>add</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST \
+    "http://localhost/add" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost/add"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST add</code></p>
+<!-- END_3906096641686fa2c7e7811c8aa3ce4c -->
+<!-- START_3d0601c017fd18931a777e60fda326e5 -->
+<h2>company/{id}/guests</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET \
+    -G "http://localhost/company/1/guests" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost/company/1/guests"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Invalid token",
+    "code": 2
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET company/{id}/guests</code></p>
+<!-- END_3d0601c017fd18931a777e60fda326e5 -->
+<!-- START_efada59788c3846d78703d1166b92617 -->
+<h2>guest/{id}/spot</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET \
+    -G "http://localhost/guest/1/spot" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost/guest/1/spot"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Invalid token",
+    "code": 2
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET guest/{id}/spot</code></p>
+<!-- END_efada59788c3846d78703d1166b92617 -->
 <!-- START_14615e385e4229c8a1249de743772db6 -->
 <h2>spot/{id}/call</h2>
 <blockquote>
@@ -556,42 +628,6 @@ fetch(url, {
 <h3>HTTP Request</h3>
 <p><code>GET spot/{id}/call</code></p>
 <!-- END_14615e385e4229c8a1249de743772db6 -->
-<!-- START_6c316a476bc73f80409b6cd38b61ecaf -->
-<h2>spot/{id}/session</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET \
-    -G "http://localhost/spot/1/session" \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -H "Authorization: Bearer {token}"</code></pre>
-<pre><code class="language-javascript">const url = new URL(
-    "http://localhost/spot/1/session"
-);
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "Authorization": "Bearer {token}",
-};
-
-fetch(url, {
-    method: "GET",
-    headers: headers,
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (401):</p>
-</blockquote>
-<pre><code class="language-json">{
-    "message": "Invalid token",
-    "code": 2
-}</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET spot/{id}/session</code></p>
-<!-- END_6c316a476bc73f80409b6cd38b61ecaf -->
 <!-- START_94b5eaa43456542d01b27fc222c4952a -->
 <h2>spots/types/{id}/company</h2>
 <blockquote>
@@ -788,42 +824,6 @@ fetch(url, {
 <h3>HTTP Request</h3>
 <p><code>DELETE company/{company}</code></p>
 <!-- END_4be001b7476ffa43709ac5c694ce236b -->
-<!-- START_3d0601c017fd18931a777e60fda326e5 -->
-<h2>company/{id}/guests</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET \
-    -G "http://localhost/company/1/guests" \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -H "Authorization: Bearer {token}"</code></pre>
-<pre><code class="language-javascript">const url = new URL(
-    "http://localhost/company/1/guests"
-);
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "Authorization": "Bearer {token}",
-};
-
-fetch(url, {
-    method: "GET",
-    headers: headers,
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (401):</p>
-</blockquote>
-<pre><code class="language-json">{
-    "message": "Invalid token",
-    "code": 2
-}</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET company/{id}/guests</code></p>
-<!-- END_3d0601c017fd18931a777e60fda326e5 -->
 <!-- START_6226a0c6e487bc1918f6e85b9c828951 -->
 <h2>company/{id}/accounts</h2>
 <blockquote>
@@ -1271,6 +1271,114 @@ fetch(url, {
 <h3>HTTP Request</h3>
 <p><code>GET spot/{id}/stats</code></p>
 <!-- END_e1a4da89ce7881f033f73bad031dd56e -->
+<!-- START_991ebc71c13c9551e823838177dc2916 -->
+<h2>spot/{id}/active/session</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET \
+    -G "http://localhost/spot/1/active/session" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost/spot/1/active/session"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Invalid token",
+    "code": 2
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET spot/{id}/active/session</code></p>
+<!-- END_991ebc71c13c9551e823838177dc2916 -->
+<!-- START_c66f9e14ae82a82aeecaf56371e12b57 -->
+<h2>spot/{id}/finished/session</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET \
+    -G "http://localhost/spot/1/finished/session" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost/spot/1/finished/session"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Invalid token",
+    "code": 2
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET spot/{id}/finished/session</code></p>
+<!-- END_c66f9e14ae82a82aeecaf56371e12b57 -->
+<!-- START_7147c51e4abe1b83dccfab12ba3e569a -->
+<h2>spot/{id}/auth/session</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET \
+    -G "http://localhost/spot/1/auth/session" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost/spot/1/auth/session"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Invalid token",
+    "code": 2
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET spot/{id}/auth/session</code></p>
+<!-- END_7147c51e4abe1b83dccfab12ba3e569a -->
 <!-- START_97c416ac9711e2e82970c65041a354f0 -->
 <h2>device</h2>
 <blockquote>
