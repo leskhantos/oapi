@@ -13,9 +13,4 @@ class SpotTypeController extends Controller
         return SpotsType::get();
     }
 
-    public function store(Request $request)
-    {
-        return SpotsType::create($request->all());
-    }
-
 }
