@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class SessionsAuth extends Model
 {
+    protected $fillable =[
+        'spot_id','created','expiration',
+        'used','device_mac','signature',
+        'counter'
+    ];
+
     public $timestamps = false;
 
     public function spots()

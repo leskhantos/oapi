@@ -33,10 +33,7 @@ Route::post('add','GuestController@store');
 Route::get('company/{id}/guests','GuestController@guestByCompany');
 Route::get('guest/{id}/spot','GuestController@guestBySpot');
 
-
-Route::post('test','SpotController@test');
 Route::get('spot/{id}/call','SpotController@callBySpot');
-Route::get('spot/{id}/session','SpotController@sessionBySpot');
 Route::get('spots/types/{id}/company','SpotController@spotTypesByCompany');
 
 Route::get('companies', 'CompaniesController@index');
@@ -59,6 +56,10 @@ Route::get('company/{id}/stats','StatController@getStatsByCompany');
 
 Route::get('spot/{id}/stats/month','StatController@getStatsBySpotPerMonth');
 Route::get('spot/{id}/stats','StatController@getStatsBySpot');
+
+Route::get('spot/{id}/active/session','SessionController@activeSessionBySpot');
+Route::get('spot/{id}/finished/session','SessionController@finishedSessionBySpot');
+Route::get('spot/{id}/auth/session','SessionController@authSessionBySpot');
 
 Route::post('device','DeviceController@store'); //возможно не нужны
 Route::post('account','AccountsController@store');
