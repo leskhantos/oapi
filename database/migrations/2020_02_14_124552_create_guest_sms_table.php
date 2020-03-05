@@ -16,7 +16,7 @@ class CreateGuestSmsTable extends Migration
         Schema::create('guest_sms', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamp('created')->nullable();
-            $table->timestamp('expiration');
+            $table->timestamp('expiration')->nullable();
             $table->string('phone',20)->index();
             $table->string('code',40)->index();
             $table->string('device_mac',30)->index();
