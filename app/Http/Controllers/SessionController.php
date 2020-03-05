@@ -15,9 +15,9 @@ class SessionController extends Controller
         parent::__construct();
     }
 
-    public function activeSessionBySpot($id)
+    public function activeSessionBySpot($id, Request $request)
     {
-        return $this->sessionRepository->activeSessionBySpot($id);
+        return $this->sessionRepository->activeSessionBySpot($id, $request);
     }
 
     public function finishedSessionBySpot($id, Request $request)
@@ -25,8 +25,8 @@ class SessionController extends Controller
         return $this->sessionRepository->finishedSessionBySpot($id, $request);
     }
 
-    public function authSessionBySpot($id)
+    public function authSessionBySpot($id, Request $request)
     {
-        return $this->sessionRepository->authSessionBySpot($id);
+        return $this->sessionRepository->authSessionBySpot($id, $request);
     }
 }
