@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Entities\GuestCall;
+use App\Entities\SessionsAuth;
 use App\Entities\Spot;
 use App\Http\Requests\Api\Spot\SpotsStoreRequest;
 use App\Http\Requests\Api\Spot\SpotsUpdateRequest;
@@ -29,10 +30,6 @@ class SpotController extends Controller
         return $this->spotRepository->callBySpot($spot_id, $request);
     }
 
-    public function sessionBySpot($spot_id)
-    {
-        return $this->spotRepository->sessionBySpot($spot_id);
-    }
 
     public function spotTypesByCompany($spot_id)
     {
@@ -46,7 +43,8 @@ class SpotController extends Controller
 
     public function show($id)
     {
-        return Spot::findOrFail($id);
+        return Spot::leftJoin('spots_types', 'spots.type', '=', 'spots_types.id')
+            ->findOrFail($id);
     }
 
     public function store(SpotsStoreRequest $request)

@@ -10,7 +10,5 @@ interface SpotRepositoryInterface
 
     public function callBySpot($spot_id, Request $request);
 
-    public function sessionBySpot($spot_id);
-
     public function spotTypesByCompany($spot_id);
 }

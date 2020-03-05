@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Entities\GuestCall;
-use App\Entities\SessionsAuth;
 use App\Entities\Spot;
 use App\Entities\Company;
 use App\Helpers\Helper;
@@ -40,15 +39,6 @@ class SpotRepository implements SpotRepositoryInterface
         }
 
         return response($uniq_arr);
-    }
-
-    public function sessionBySpot($id)
-    {
-        $spot = Spot::findOrFail($id);
-        $session = SessionsAuth::select('created', 'device_mac')
-            ->whereSpot_id($spot->id)->get();
-
-        return response($session);
     }
 
     public function callBySpot($id, Request $request)
