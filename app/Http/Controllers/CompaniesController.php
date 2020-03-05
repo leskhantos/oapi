@@ -62,4 +62,9 @@ class CompaniesController extends Controller
     {
         return $this->companyRepository->accountsByCompany($id);
     }
+
+    public function pagesByCompany($id)
+    {
+        return $this->companyRepository->pagesByCompany($id);
+    }
 }

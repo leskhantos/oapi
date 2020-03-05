@@ -11,4 +11,6 @@ interface CompanyRepositoryInterface
     public function getCompanyById($company_id);
 
     public function accountsByCompany($company_id);
+
+    public function pagesByCompany($company_id);
 }

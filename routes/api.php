@@ -45,7 +45,7 @@ Route::get('spot/{id}','SpotController@show');
 Route::post('company/spot', 'SpotController@store');
 Route::put('spot/{id}','SpotController@update');
 
-Route::get('company/{id}/pages','PageController@show');
+Route::get('company/{id}/pages','CompaniesController@pagesByCompany');
 Route::post('page','PageController@store');
 
 Route::get('all/stats','StatController@getAllStat');
