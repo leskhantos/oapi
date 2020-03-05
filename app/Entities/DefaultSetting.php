@@ -13,7 +13,7 @@ class DefaultSetting extends Model
         'session_timer', 'wait_enter_timer', 'sms_phone_limit',
         'sms_device_limit', 'sms_life_timer', 'sms_allow_country',
         'call_wait_timer', 'call_allow_country', 'voucher_max_devices',
-        'monitoring_enable', 'monitoring_alert_timer'
+        'monitoring_enabled', 'monitoring_alert_timer'
     ];
 
     public function users()
