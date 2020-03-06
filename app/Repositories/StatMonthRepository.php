@@ -30,7 +30,6 @@ class StatMonthRepository implements StatMonthRepositoryInterface
         return response(['vouchers' => $vouchers, 'sms' => $count_sms, 'calls' => $calls, 'days' => $myDate['day']]);
     }
 
-
     public function getStatsByCompanyPerMonth($id, Request $request)
     {
         $new = new Helper();

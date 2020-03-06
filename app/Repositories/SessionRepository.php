@@ -45,7 +45,8 @@ class SessionRepository implements SessionRepositoryInterface
         if (isset($request->device_mac)) {
             $session = $session->where('device_mac', 'like', "%$request->device_mac%");
         }
-        $session = $session->paginate(5)->toArray();
+
+        $session = $session->paginate(9)->toArray();
 
         $data = $session['data'];
         $meta = ['current_page' => $session['current_page'], 'total' => $session['total'], 'per_page' => $session['per_page']];

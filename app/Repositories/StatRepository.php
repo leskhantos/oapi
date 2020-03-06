@@ -19,7 +19,6 @@ class StatRepository implements StatRepositoryInterface
 {
     public function getAllStats()
     {
-        //Получаем всю статистику
         $device = new Device();
         $count_devices = $device->countDevices();
         $count_new_device = $device->countDevicesForMonth();
@@ -37,9 +36,6 @@ class StatRepository implements StatRepositoryInterface
         $calls = StatsCall::select('requests', 'checked')->get()->toArray();
         $vouchers = StatsVoucher::select('all as all_vouchers', 'auth')->get()->toArray();
 
-
-//        $array = array_merge($sms, $calls, $vouchers);
-//        $stats = $this->counter($array);
         $sms = $this->counter($smss);
         $call = $this->counter($calls);
         $voucher = $this->counter($vouchers);
@@ -105,8 +101,6 @@ class StatRepository implements StatRepositoryInterface
 
         $guests = StatsGuest::select('load', 'auth', 'new', 'old')
             ->whereSpotId($spot->id)->get()->toArray();
-//        $array = array_merge($devices, $calls, $guests);
-//        return $this->counter($array);
 
         $device = $this->counter($devices);
         $guest = $this->counter($guests);

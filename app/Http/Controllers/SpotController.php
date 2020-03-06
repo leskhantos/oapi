@@ -30,7 +30,6 @@ class SpotController extends Controller
         return $this->spotRepository->callBySpot($spot_id, $request);
     }
 
-
     public function spotTypesByCompany($spot_id)
     {
         return $this->spotRepository->spotTypesByCompany($spot_id);
