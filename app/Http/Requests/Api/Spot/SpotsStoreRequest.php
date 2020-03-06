@@ -29,7 +29,7 @@ class SpotsStoreRequest extends ApiRequest implements StoreSpotRepositoryInterfa
             'address' => 'required|string|min:4|max:160',
             'type' => 'required|integer|exists:spots_types,id',
             'ident' => 'required|string|min:4|max:50',
-            'settings' => 'required|json',
+            'settings' => 'json',
             'page_id' => 'integer|exists:pages,id',
             'last_active' => 'date',
             'debug_key' => 'string|max:50'
