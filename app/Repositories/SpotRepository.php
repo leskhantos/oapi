@@ -52,9 +52,15 @@ class SpotRepository implements SpotRepositoryInterface
             ->leftJoin('devices', 'devices.mac', '=', 'guest_calls.device_mac')
             ->whereSpot_id($spot->id)
             ->whereMonth('created', $myDate['month'])
-            ->whereYear('created', $myDate['year'])
-            ->orderBy('created', 'DESC')
-            ->get();
+            ->whereYear('created', $myDate['year']);
+
+        if (isset($request->phone)) {
+            $call = $call->where('phone', 'like', "%$request->phone%");
+        }
+        if (isset($request->device_mac)) {
+            $call = $call->where('phone', 'like', "%$request->device_mac%");
+        }
+        $call = $call->orderBy('created', 'DESC')->paginate(15)->toArray();
 
         return response($call);
     }
@@ -67,9 +73,12 @@ class SpotRepository implements SpotRepositoryInterface
         $sms = Sms::select('dt_request', 'phone', 'country', 'region', 'operator', 'price', 'status', 'dt_check')
             ->whereSpot_id($spot->id)
             ->whereMonth('dt_request', $myDate['month'])
-            ->whereYear('dt_request', $myDate['year'])
-            ->get();
+            ->whereYear('dt_request', $myDate['year']);
 
+        if (isset($request->phone)) {
+            $sms = $sms->where('phone', 'like', "%$request->phone%");
+        }
+        $sms = $sms->orderBy('dt_request', 'DESC')->paginate(15)->toArray();
         return response($sms);
     }
 }

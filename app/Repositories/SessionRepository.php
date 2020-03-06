@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-
 use App\Entities\SessionsAuth;
 use App\Entities\SessionsSpot;
 use App\Entities\Spot;
@@ -46,7 +45,7 @@ class SessionRepository implements SessionRepositoryInterface
             $session = $session->where('device_mac', 'like', "%$request->device_mac%");
         }
 
-        $session = $session->paginate(9)->toArray();
+        $session = $session->orderBy('created', 'DESC')->paginate(9)->toArray();
 
         $data = $session['data'];
         $meta = ['current_page' => $session['current_page'], 'total' => $session['total'], 'per_page' => $session['per_page']];
