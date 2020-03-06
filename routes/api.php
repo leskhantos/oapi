@@ -23,8 +23,7 @@ Route::put('put-users/{id}/pass','UsersController@updatePassword');
 
 Route::get('spots/types','SpotTypeController@index');
 
-Route::post('spots','SpotTypeController@store');    // для теста.
-Route::post('add/sms','StatController@addSms');
+Route::post('add/sms','StatController@addSms');     // для теста.
 Route::post('add/call','StatController@addCall');
 Route::post('add/guest','StatController@addGuest');
 Route::post('add/voucher','StatController@addVoucher');
@@ -37,6 +36,7 @@ Route::get('company/{id}/guests','GuestController@guestByCompany');
 Route::get('guest/{id}/spot','GuestController@guestBySpot');
 
 Route::get('spot/{id}/call','SpotController@callBySpot');
+Route::get('spot/{id}/sms','SpotController@smsBySpot');
 Route::get('spots/types/{id}/company','SpotController@spotTypesByCompany');
 
 Route::get('companies', 'CompaniesController@index');
@@ -44,7 +44,6 @@ Route::apiResource('company','CompaniesController')->except('index');
 Route::get('company/{id}/accounts','CompaniesController@accountsByCompany');
 
 Route::get('company/{id}/spots','SpotController@spotsByCompany');
-Route::get('spot/{id}/sms','SpotController@smsBySpot');
 Route::get('spot/{id}','SpotController@show');
 Route::put('spot/{id}','SpotController@update');
 Route::post('company/spot', 'SpotController@store');
