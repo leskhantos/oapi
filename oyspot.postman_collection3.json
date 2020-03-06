@@ -709,6 +709,41 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "guestByCompany",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/company/1/guests?month=2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"company",
+								"1",
+								"guests"
+							],
+							"query": [
+								{
+									"key": "month",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -759,7 +794,7 @@
 					"response": []
 				},
 				{
-					"name": "store",
+					"name": "spotTypesByCompany",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -771,38 +806,18 @@
 								}
 							]
 						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/x-www-form-urlencoded",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "code",
-									"value": "2332",
-									"type": "text"
-								},
-								{
-									"key": "name",
-									"value": "323231",
-									"type": "text"
-								}
-							]
-						},
+						"method": "GET",
+						"header": [],
 						"url": {
-							"raw": "{{host}}/spots/types",
+							"raw": "{{host}}/spots/types/1/company",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"spots",
-								"types"
+								"types",
+								"1",
+								"company"
 							]
 						}
 					},
@@ -914,6 +929,51 @@
 					"response": []
 				},
 				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "address",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/spot/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"spot",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "spotsByCompany",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -948,15 +1008,197 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/company/2/spots/",
+							"raw": "{{host}}/company/1/spots/",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"company",
-								"2",
+								"1",
 								"spots",
 								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "callsBySpot",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/spot/1/call",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"spot",
+								"1",
+								"call"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "guestBySpot",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/guest/1/spot?month=2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"guest",
+								"1",
+								"spot"
+							],
+							"query": [
+								{
+									"key": "month",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "storeGuest",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "datetime",
+									"value": "20-02-19 18:25:30",
+									"type": "text"
+								},
+								{
+									"key": "spot_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "device_mac",
+									"value": "13:FF:9C",
+									"type": "text"
+								},
+								{
+									"key": "data_auth",
+									"value": "section123",
+									"type": "text"
+								},
+								{
+									"key": "company_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "spot_type",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sessionBySpot",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/spot/1/active/session",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"spot",
+								"1",
+								"active",
+								"session"
 							]
 						}
 					},
@@ -971,6 +1213,35 @@
 				{
 					"name": "forAllTheTime",
 					"item": [
+						{
+							"name": "allStatsPerMonth",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/all/stats/month",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"all",
+										"stats",
+										"month"
+									]
+								}
+							},
+							"response": []
+						},
 						{
 							"name": "allStats",
 							"request": {
@@ -998,184 +1269,6 @@
 								}
 							},
 							"response": []
-						},
-						{
-							"name": "stats/calls",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{host}}/stats/calls",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"stats",
-										"calls"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "stats/sms",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{host}}/stats/sms",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"stats",
-										"sms"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "stats/voucher",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{host}}/stats/vouchers",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"stats",
-										"vouchers"
-									]
-								}
-							},
-							"response": []
-						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
-				},
-				{
-					"name": "perMonth",
-					"item": [
-						{
-							"name": "callsPerMonth",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{host}}/stats/sms/month",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"stats",
-										"sms",
-										"month"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "smsPerMonth",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{host}}/stats/sms/month",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"stats",
-										"sms",
-										"month"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "vouchersPerMonth",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{host}}/stats/vouchers/month",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"stats",
-										"vouchers",
-										"month"
-									]
-								}
-							},
-							"response": []
 						}
 					],
 					"protocolProfileBehavior": {},
@@ -1185,164 +1278,7 @@
 					"name": "ByCompany",
 					"item": [
 						{
-							"name": "forAllTheTime",
-							"item": [
-								{
-									"name": "statsByDeviceInCompany",
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{token}}",
-													"type": "string"
-												}
-											]
-										},
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{host}}/company/1/stats/device",
-											"host": [
-												"{{host}}"
-											],
-											"path": [
-												"company",
-												"1",
-												"stats",
-												"device"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "statsByOsInCompany",
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{token}}",
-													"type": "string"
-												}
-											]
-										},
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{host}}/company/1/stats/os",
-											"host": [
-												"{{host}}"
-											],
-											"path": [
-												"company",
-												"1",
-												"stats",
-												"os"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "statsByBrowserInCompany",
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{token}}",
-													"type": "string"
-												}
-											]
-										},
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{host}}/company/1/stats/browser",
-											"host": [
-												"{{host}}"
-											],
-											"path": [
-												"company",
-												"1",
-												"stats",
-												"browser"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "statsByCallsInCompany",
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{token}}",
-													"type": "string"
-												}
-											]
-										},
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{host}}/company/1/stats/calls",
-											"host": [
-												"{{host}}"
-											],
-											"path": [
-												"company",
-												"1",
-												"stats",
-												"calls"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "statsByGuestsInCompany",
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{token}}",
-													"type": "string"
-												}
-											]
-										},
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{host}}/company/1/stats/guests",
-											"host": [
-												"{{host}}"
-											],
-											"path": [
-												"company",
-												"1",
-												"stats",
-												"guests"
-											]
-										}
-									},
-									"response": []
-								}
-							],
-							"protocolProfileBehavior": {},
-							"_postman_isSubFolder": true
-						},
-						{
-							"name": "guestsByCompany",
+							"name": "statsByCompanyPerMonth",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1357,7 +1293,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{host}}/company/1/stats/guests/month",
+									"raw": "{{host}}/company/1/stats/month",
 									"host": [
 										"{{host}}"
 									],
@@ -1365,7 +1301,6 @@
 										"company",
 										"1",
 										"stats",
-										"guests",
 										"month"
 									]
 								}
@@ -1373,7 +1308,7 @@
 							"response": []
 						},
 						{
-							"name": "callsByCompany",
+							"name": "statsByCompany",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1388,47 +1323,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{host}}/company/1/stats/calls/month",
+									"raw": "{{host}}/company/1/stats",
 									"host": [
 										"{{host}}"
 									],
 									"path": [
 										"company",
 										"1",
-										"stats",
-										"calls",
-										"month"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "vouchersByCompany",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{host}}/company/1/stats/vouchers/month",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"company",
-										"1",
-										"stats",
-										"vouchers",
-										"month"
+										"stats"
 									]
 								}
 							},
@@ -1442,164 +1344,7 @@
 					"name": "BySpots",
 					"item": [
 						{
-							"name": "forAllTheTime",
-							"item": [
-								{
-									"name": "statsByDeviceInSpot",
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{token}}",
-													"type": "string"
-												}
-											]
-										},
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{host}}/spot/1/stats/device",
-											"host": [
-												"{{host}}"
-											],
-											"path": [
-												"spot",
-												"1",
-												"stats",
-												"device"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "statsByOsInSpot",
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{token}}",
-													"type": "string"
-												}
-											]
-										},
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{host}}/spot/1/stats/os",
-											"host": [
-												"{{host}}"
-											],
-											"path": [
-												"spot",
-												"1",
-												"stats",
-												"os"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "statsByBrowserInSpot",
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{token}}",
-													"type": "string"
-												}
-											]
-										},
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{host}}/spot/1/stats/browser",
-											"host": [
-												"{{host}}"
-											],
-											"path": [
-												"spot",
-												"1",
-												"stats",
-												"browser"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "statsByCallsInSpot",
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{token}}",
-													"type": "string"
-												}
-											]
-										},
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{host}}/spot/1/stats/calls",
-											"host": [
-												"{{host}}"
-											],
-											"path": [
-												"spot",
-												"1",
-												"stats",
-												"calls"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "statsByGuestsInSpot",
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{token}}",
-													"type": "string"
-												}
-											]
-										},
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{host}}/spot/1/stats/guests",
-											"host": [
-												"{{host}}"
-											],
-											"path": [
-												"spot",
-												"1",
-												"stats",
-												"guests"
-											]
-										}
-									},
-									"response": []
-								}
-							],
-							"protocolProfileBehavior": {},
-							"_postman_isSubFolder": true
-						},
-						{
-							"name": "callsBySpot",
+							"name": "statsBySpotPerMonth",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1614,7 +1359,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{host}}/spot/1/stats/calls/month",
+									"raw": "{{host}}/spot/1/stats/month",
 									"host": [
 										"{{host}}"
 									],
@@ -1622,7 +1367,6 @@
 										"spot",
 										"1",
 										"stats",
-										"calls",
 										"month"
 									]
 								}
@@ -1630,7 +1374,7 @@
 							"response": []
 						},
 						{
-							"name": "vouchersBySpot",
+							"name": "statsBySpot",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1645,47 +1389,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{host}}/spot/1/stats/vouchers/month",
+									"raw": "{{host}}/spot/1/stats",
 									"host": [
 										"{{host}}"
 									],
 									"path": [
 										"spot",
 										"1",
-										"stats",
-										"vouchers",
-										"month"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "guestsBySpot",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{host}}/spot/1/stats/guests/month",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"spot",
-										"1",
-										"stats",
-										"guests",
-										"month"
+										"stats"
 									]
 								}
 							},
@@ -1740,7 +1451,7 @@
 										},
 										{
 											"key": "date",
-											"value": "20-01-20 12:00:17",
+											"value": "20-02-20 12:00:17",
 											"description": "y/m/d",
 											"type": "text"
 										},
@@ -2544,6 +2255,169 @@
 							],
 							"path": [
 								"settings"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "SessionsTest",
+			"item": [
+				{
+					"name": "{{host}}/add/session/spot",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "spot_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "Neme",
+									"type": "text"
+								},
+								{
+									"key": "device_mac",
+									"value": "FF:13:33",
+									"type": "text"
+								},
+								{
+									"key": "bytes_in",
+									"value": "12",
+									"type": "text"
+								},
+								{
+									"key": "bytes_out",
+									"value": "19",
+									"type": "text"
+								},
+								{
+									"key": "start",
+									"value": "20-02-20 12:00:17",
+									"type": "text"
+								},
+								{
+									"key": "stop",
+									"value": "20-02-20 12:00:17",
+									"type": "text"
+								},
+								{
+									"key": "active",
+									"value": "0",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/add/session/spot",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"add",
+								"session",
+								"spot"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{host}}/add/session/auth",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "spot_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "created",
+									"value": "20-02-20 12:00:17",
+									"type": "text"
+								},
+								{
+									"key": "expiration",
+									"value": "20-02-20 12:00:17",
+									"type": "text"
+								},
+								{
+									"key": "used",
+									"value": "20-02-20 12:00:17",
+									"type": "text"
+								},
+								{
+									"key": "device_mac",
+									"value": "FF:13:23",
+									"type": "text"
+								},
+								{
+									"key": "signature",
+									"value": "seads",
+									"type": "text"
+								},
+								{
+									"key": "counter",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/add/session/auth",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"add",
+								"session",
+								"auth"
 							]
 						}
 					},
