@@ -21,13 +21,16 @@ Route::group([
 Route::apiResource('users','UsersController')->except('destroy');
 Route::put('put-users/{id}/pass','UsersController@updatePassword');
 
-Route::get('spots/types','SpotTypeController@index'); // для теста.
-Route::post('spots','SpotTypeController@store');
+Route::get('spots/types','SpotTypeController@index');
+
+Route::post('spots','SpotTypeController@store');    // для теста.
 Route::post('add/sms','StatController@addSms');
 Route::post('add/call','StatController@addCall');
 Route::post('add/guest','StatController@addGuest');
 Route::post('add/voucher','StatController@addVoucher');
 Route::post('add/device','StatController@addDevice');
+Route::post('add/session/auth','SessionController@addSessionAuth');
+Route::post('add/session/spot','SessionController@addSessionSpot');
 
 Route::post('add','GuestController@store');
 Route::get('company/{id}/guests','GuestController@guestByCompany');
@@ -41,9 +44,10 @@ Route::apiResource('company','CompaniesController')->except('index');
 Route::get('company/{id}/accounts','CompaniesController@accountsByCompany');
 
 Route::get('company/{id}/spots','SpotController@spotsByCompany');
+Route::get('spot/{id}/sms','SpotController@smsBySpot');
 Route::get('spot/{id}','SpotController@show');
-Route::post('company/spot', 'SpotController@store');
 Route::put('spot/{id}','SpotController@update');
+Route::post('company/spot', 'SpotController@store');
 
 Route::get('company/{id}/pages','CompaniesController@pagesByCompany');
 Route::post('page','PageController@store');
