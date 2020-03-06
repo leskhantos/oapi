@@ -24,7 +24,7 @@ class CreateSmsTable extends Migration
             $table->timestamp('dt_request')->nullable();
             $table->timestamp('dt_check')->nullable();
             $table->timestamp('dt_send')->nullable();
-            $table->string('county',50)->nullable();
+            $table->string('country',50)->nullable();
             $table->string('region',150)->nullable();
             $table->string('operator',30)->nullable();
             $table->float('price')->default(0);

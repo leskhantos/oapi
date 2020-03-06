@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Entities\GuestCall;
+use App\Entities\Sms;
 use App\Entities\Spot;
 use App\Entities\Company;
 use App\Helpers\Helper;
@@ -46,7 +47,9 @@ class SpotRepository implements SpotRepositoryInterface
         $new = new Helper();
         $myDate = $new->currentDate($request);
         $spot = Spot::findOrFail($id);
-        $call = GuestCall::select('created', 'expiration', 'phone', 'device_mac', 'checked')
+        $call = GuestCall::select('guest_calls.created', 'type as type_device',
+            'os', 'phone', 'guest_calls.device_mac', 'checked')
+            ->leftJoin('devices', 'devices.mac', '=', 'guest_calls.device_mac')
             ->whereSpot_id($spot->id)
             ->whereMonth('created', $myDate['month'])
             ->whereYear('created', $myDate['year'])
@@ -54,5 +57,19 @@ class SpotRepository implements SpotRepositoryInterface
             ->get();
 
         return response($call);
+    }
+
+    public function smsBySpot($id, Request $request)
+    {
+        $new = new Helper();
+        $myDate = $new->currentDate($request);
+        $spot = Spot::findOrFail($id);
+        $sms = Sms::select('dt_request', 'phone', 'country', 'region', 'operator', 'price', 'status', 'dt_check')
+            ->whereSpot_id($spot->id)
+            ->whereMonth('dt_request', $myDate['month'])
+            ->whereYear('dt_request', $myDate['year'])
+            ->get();
+
+        return response($sms);
     }
 }

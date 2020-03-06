@@ -35,6 +35,11 @@ class SpotController extends Controller
         return $this->spotRepository->spotTypesByCompany($spot_id);
     }
 
+    public function smsBySpot($id, Request $request)
+    {
+        return $this->spotRepository->smsBySpot($id, $request);
+    }
+
     public function create(Request $request)
     {
         return GuestCall::create($request->all());
