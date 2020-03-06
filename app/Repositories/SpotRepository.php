@@ -50,9 +50,9 @@ class SpotRepository implements SpotRepositoryInterface
         $call = GuestCall::select('guest_calls.created', 'type as type_device',
             'os', 'phone', 'guest_calls.device_mac', 'checked')
             ->leftJoin('devices', 'devices.mac', '=', 'guest_calls.device_mac')
-            ->whereSpot_id($spot->id)
-            ->whereMonth('created', $myDate['month'])
-            ->whereYear('created', $myDate['year']);
+            ->where('guest_calls.spot_id', '=', $spot->id)
+            ->whereMonth('guest_calls.created', $myDate['month'])
+            ->whereYear('guest_calls.created', $myDate['year']);
 
         if (isset($request->phone)) {
             $call = $call->where('phone', 'like', "%$request->phone%");
@@ -60,9 +60,12 @@ class SpotRepository implements SpotRepositoryInterface
         if (isset($request->device_mac)) {
             $call = $call->where('phone', 'like', "%$request->device_mac%");
         }
-        $call = $call->orderBy('created', 'DESC')->paginate(15)->toArray();
 
-        return response($call);
+        $call = $call->orderBy('created', 'DESC')->paginate(15)->toArray();
+        $data = $call['data'];
+        $meta = ['current_page' => $call['current_page'], 'total' => $call['total'], 'per_page' => $call['per_page']];
+
+        return response(['data' => $data, 'meta' => $meta]);
     }
 
     public function smsBySpot($id, Request $request)
@@ -78,7 +81,11 @@ class SpotRepository implements SpotRepositoryInterface
         if (isset($request->phone)) {
             $sms = $sms->where('phone', 'like', "%$request->phone%");
         }
+
         $sms = $sms->orderBy('dt_request', 'DESC')->paginate(15)->toArray();
-        return response($sms);
+        $data = $sms['data'];
+        $meta = ['current_page' => $sms['current_page'], 'total' => $sms['total'], 'per_page' => $sms['per_page']];
+
+        return response(['data' => $data, 'meta' => $meta]);
     }
 }
