@@ -57,9 +57,7 @@ Route::get('company/{id}/stats','StatController@getStatsByCompany');
 Route::get('spot/{id}/stats/month','StatController@getStatsBySpotPerMonth');
 Route::get('spot/{id}/stats','StatController@getStatsBySpot');
 
-Route::get('spot/{id}/active/session','SessionController@activeSessionBySpot');
-Route::get('spot/{id}/finished/session','SessionController@finishedSessionBySpot');
-Route::get('spot/{id}/auth/session','SessionController@authSessionBySpot');
+Route::get('spot/{id}/session','SessionController@sessionBySpot');
 
 Route::post('device','DeviceController@store'); //возможно не нужны
 Route::post('account','AccountsController@store');
