@@ -43,6 +43,9 @@ class GuestRepository implements GuestRepositoryInterface
         return $this->getUniqMac($guests);
     }
 
+    //@param $guest - все пользователи
+    //@return список уникальных гостей, берётся самая последняя сессия
+
     public function getUniqMac($guests)
     {
         $uniq_mac = [];
@@ -54,12 +57,22 @@ class GuestRepository implements GuestRepositoryInterface
             }
         }
 
-        $total = count($uniq_arr);
-        $perPage = 5;
-        $currentPage = 1;
+        // Get current page form url e.x. &page=1
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
-        $paginator = new LengthAwarePaginator($uniq_arr, $total, $perPage, $currentPage);
-        $paginator = $paginator->toArray();
+        // Create a new Laravel collection from the array data
+        $itemCollection = collect($uniq_arr);
+
+        // Define how many items we want to be visible in each page
+        $perPage = 5;
+
+        // Slice the collection to get the items to display in current page
+        $currentPageItems = $itemCollection->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
+
+        // Create our paginator and pass it to the view
+        $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
+
+        $paginator = $paginatedItems->toArray();
 
         $data = $paginator['data'];
         $meta = ['current_page' => $paginator['current_page'], 'total' => $paginator['total'], 'per_page' => $paginator['per_page']];
