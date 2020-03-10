@@ -64,7 +64,7 @@ class DeviceRepository implements DeviceRepositoryInterface
         $myDate = $new->currentDate($request);
         switch ($request->session_type) {
             case 1: // Активные сессии
-                $session = SessionsSpot::select('start as created', 'companies.name', 'spots.address')
+                $session = SessionsSpot::select('start as created', 'companies.name', 'spots.address', 'device_mac')
                     ->join('spots', 'spots.id', '=', 'sessions_spots.spot_id')
                     ->join('companies', 'companies.id', '=', 'spots.company_id')
                     ->where('sessions_spots.device_mac', '=', $device->mac)
@@ -72,7 +72,7 @@ class DeviceRepository implements DeviceRepositoryInterface
                 break;
             case 2: // Авторизации
                 $session = SessionsAuth::select('sessions_auths.created', 'expiration', 'companies.name', 'spots.address')
-                    ->join('spots', 'spots.id', '=', 'sessions_spots.spot_id')
+                    ->join('spots', 'spots.id', '=', 'sessions_auths.spot_id')
                     ->join('companies', 'companies.id', '=', 'spots.company_id')
                     ->where('sessions_auths.device_mac', '=', $device->mac)
                     ->where('expiration', '!=', null);
@@ -99,12 +99,13 @@ class DeviceRepository implements DeviceRepositoryInterface
     {
         $device = Device::findOrFail($id);
 
-        return Stage::select('stages.created', 'phone')->where('stages.mac', '=', $device->mac)
+        return Stage::select('stages.created', 'phone')->where('stages.device_mac', '=', $device->mac)
             ->get();
     }
 
     public function eventsByDevice($mac)
     {
+        return ('fake');
         //date
         //event
         //per month/year

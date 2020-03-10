@@ -1,0 +1,2696 @@
+{
+	"info": {
+		"_postman_id": "e3db086e-1b43-49bc-a0ff-e9a905bc8e16",
+		"name": "oyspot",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "adf2e25d-b605-4f13-88f7-1f818e936c7f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "79f249f7-9c32-445c-b040-c05938a47d37",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "login",
+									"value": "pbragina",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.oyspot.loc/auth/login",
+							"protocol": "https",
+							"host": [
+								"api",
+								"oyspot",
+								"loc"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"login\":\"molestiae\",\n\t\"password\":\"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/user",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/auth/logout",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/auth/logout",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "index",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/users",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/users/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "store",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "type",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "Adasds06",
+									"type": "text"
+								},
+								{
+									"key": "login",
+									"value": "Tesуу",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "323233",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/users/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							},
+							{
+								"key": "login",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "login",
+									"value": "33333333",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "Georgyye",
+									"type": "text"
+								},
+								{
+									"key": "oldPassword",
+									"value": "passwords",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "type",
+									"value": "support",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "passw",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "enabled",
+									"value": "1",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/users/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update_password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "oldPassword",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "ro=",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/put-users/1/pass",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"put-users",
+								"1",
+								"pass"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "companies",
+			"item": [
+				{
+					"name": "index",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/companies",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"companies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/company/2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"company",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Иван\",\n    \"surname\": \"Петрович\",\n    \"login\": \"ivan.petrovich2\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/company/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"company",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "store",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "n13313332332333",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/company",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"company"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Ureeeee",
+									"type": "text"
+								},
+								{
+									"key": "enabled",
+									"value": "0",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/company/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"company",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "guestByCompany",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/company/1/guests?month=2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"company",
+								"1",
+								"guests"
+							],
+							"query": [
+								{
+									"key": "month",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "spotsType",
+			"item": [
+				{
+					"name": "index",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{host}}/spots/types",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"spots",
+								"types"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "spotTypesByCompany",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/spots/types/1/company",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"spots",
+								"types",
+								"1",
+								"company"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "spot",
+			"item": [
+				{
+					"name": "show",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/spot/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"spot",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "store",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "company_id",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "SAdasd",
+									"type": "text"
+								},
+								{
+									"key": "ident",
+									"value": "hfsahf",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "settings",
+									"value": "123",
+									"type": "text"
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/company/spot",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"company",
+								"spot"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "address",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/spot/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"spot",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "spotsByCompany",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/company/1/spots/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"company",
+								"1",
+								"spots",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "callsBySpot",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/spot/1/call",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"spot",
+								"1",
+								"call"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "smsBySpot",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/spot/1/sms",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"spot",
+								"1",
+								"sms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "guestBySpot",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/guest/1/spot?month=2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"guest",
+								"1",
+								"spot"
+							],
+							"query": [
+								{
+									"key": "month",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "storeGuest",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "datetime",
+									"value": "20-02-19 18:25:30",
+									"type": "text"
+								},
+								{
+									"key": "spot_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "device_mac",
+									"value": "13:FF:9C",
+									"type": "text"
+								},
+								{
+									"key": "data_auth",
+									"value": "section123",
+									"type": "text"
+								},
+								{
+									"key": "company_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "spot_type",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sessionBySpot",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/spot/1/session?session_type=3&month=2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"spot",
+								"1",
+								"session"
+							],
+							"query": [
+								{
+									"key": "session_type",
+									"value": "3"
+								},
+								{
+									"key": "month",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "stats",
+			"item": [
+				{
+					"name": "forAllTheTime",
+					"item": [
+						{
+							"name": "allStatsPerMonth",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/all/stats/month",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"all",
+										"stats",
+										"month"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "allStats",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/all/stats",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"all",
+										"stats"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "ByCompany",
+					"item": [
+						{
+							"name": "statsByCompanyPerMonth",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/company/1/stats/month",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"company",
+										"1",
+										"stats",
+										"month"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "statsByCompany",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/company/1/stats",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"company",
+										"1",
+										"stats"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "BySpots",
+					"item": [
+						{
+							"name": "statsBySpotPerMonth",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/spot/1/stats/month",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"spot",
+										"1",
+										"stats",
+										"month"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "statsBySpot",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/spot/1/stats",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"spot",
+										"1",
+										"stats"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "storeForTheTest",
+					"item": [
+						{
+							"name": "stats/sms",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "company_id",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "all",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "spot_id",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "date",
+											"value": "20-02-20 12:00:17",
+											"description": "y/m/d",
+											"type": "text"
+										},
+										{
+											"key": "delivered",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "resend",
+											"value": "5",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{host}}/add/sms",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"add",
+										"sms"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "stats/calls",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "date",
+											"value": "20-02-19 18:25:30",
+											"type": "text"
+										},
+										{
+											"key": "company_id",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "spot_id",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "requests",
+											"value": "6",
+											"type": "text"
+										},
+										{
+											"key": "chcked",
+											"value": "4",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{host}}/add/call",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"add",
+										"call"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "stats/vouchers",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "date",
+											"value": "20-02-19 18:25:30",
+											"type": "text"
+										},
+										{
+											"key": "company_id",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "spot_id",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "all",
+											"value": "6",
+											"type": "text"
+										},
+										{
+											"key": "auth",
+											"value": "3",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{host}}/add/voucher",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"add",
+										"voucher"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "stats/guest",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "date",
+											"value": "20-02-19 18:25:30",
+											"type": "text"
+										},
+										{
+											"key": "company_id",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "spot_id",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "load",
+											"value": "9",
+											"type": "text"
+										},
+										{
+											"key": "auth",
+											"value": "7",
+											"type": "text"
+										},
+										{
+											"key": "new",
+											"value": "6",
+											"type": "text"
+										},
+										{
+											"key": "old",
+											"value": "5",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{host}}/add/guest",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"add",
+										"guest"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "stats/devices",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "date",
+											"value": "20-02-19 18:25:30",
+											"type": "text"
+										},
+										{
+											"key": "company_id",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "spot_id",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "mobile",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "tablet",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "computer",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "type_other",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "android",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "ios",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "linux",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "windows",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "windows_phone",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "os_other",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "android_browser",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "edge",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "firefox",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "chrome",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "opera",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "safari",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "yandex_browser",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "webkit",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "browser_other",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{host}}/add/device",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"add",
+										"device"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "device",
+			"item": [
+				{
+					"name": "store",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "created",
+									"value": "10-04-19 12:00:17",
+									"type": "text"
+								},
+								{
+									"key": "mac",
+									"value": "3D:4F:5E",
+									"type": "text"
+								},
+								{
+									"key": "sessions",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/device",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"device"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/device/11",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"device",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "device/main",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/device/11/main",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"device",
+								"11",
+								"main"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "device/spots",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/device/11/spots",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"device",
+								"11",
+								"spots"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "device/sessions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/device/14/sessions?session_type=3&month=2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"device",
+								"14",
+								"sessions"
+							],
+							"query": [
+								{
+									"key": "session_type",
+									"value": "3"
+								},
+								{
+									"key": "month",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "device/phones",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/device/14/phones",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"device",
+								"14",
+								"phones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "device/events",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/device/14/events",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"device",
+								"14",
+								"events"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "pages",
+			"item": [
+				{
+					"name": "store",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "company_id",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "NewPage",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "1",
+									"description": "Type_auth",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "random",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/page",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"page"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pagesByCompany",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/company/1/pages",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"company",
+								"1",
+								"pages"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "accounts",
+			"item": [
+				{
+					"name": "store",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "company_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "valera@mail",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "vaesaes",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/account",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "accountsByCompany",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/company/1/accounts",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"company",
+								"1",
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "settings",
+			"item": [
+				{
+					"name": "index",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{host}}/settings",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"settings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "store",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "date",
+									"value": "10-04-19 12:00:17",
+									"type": "text"
+								},
+								{
+									"key": "user_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "redirect_url",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "session_auto_timer",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "session_timer",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "wait_enter_timer",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "sms_phone_limit",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "sms_device_limit",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "sms_life_timer",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "sms_allow_country",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "call_wait_timer",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "call_allow_country",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "voucher_max_devices",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "monitoring_enable",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "monitoring_alert_timer",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/settings",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"settings"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "SessionsTest",
+			"item": [
+				{
+					"name": "{{host}}/add/session/spot",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "spot_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "Neme",
+									"type": "text"
+								},
+								{
+									"key": "device_mac",
+									"value": "FF:13:33",
+									"type": "text"
+								},
+								{
+									"key": "bytes_in",
+									"value": "12",
+									"type": "text"
+								},
+								{
+									"key": "bytes_out",
+									"value": "19",
+									"type": "text"
+								},
+								{
+									"key": "start",
+									"value": "20-02-20 12:00:17",
+									"type": "text"
+								},
+								{
+									"key": "stop",
+									"value": "20-02-20 12:00:17",
+									"type": "text"
+								},
+								{
+									"key": "active",
+									"value": "0",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/add/session/spot",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"add",
+								"session",
+								"spot"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{host}}/add/session/auth",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "spot_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "created",
+									"value": "20-02-20 12:00:17",
+									"type": "text"
+								},
+								{
+									"key": "expiration",
+									"value": "20-02-20 12:00:17",
+									"type": "text"
+								},
+								{
+									"key": "used",
+									"value": "20-02-20 12:00:17",
+									"type": "text"
+								},
+								{
+									"key": "device_mac",
+									"value": "FF:13:23",
+									"type": "text"
+								},
+								{
+									"key": "signature",
+									"value": "seads",
+									"type": "text"
+								},
+								{
+									"key": "counter",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/add/session/auth",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"add",
+								"session",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "75fb8867-5476-4c77-a372-8f963bcf7932",
+				"type": "text/javascript",
+				"exec": [
+					"let host = postman.getEnvironmentVariable('host');",
+					"let login = postman.getEnvironmentVariable('login');",
+					"let password = postman.getEnvironmentVariable('password');",
+					"",
+					"const loginRequest = {",
+					"  url: host+'/auth/login',",
+					"  method: 'POST',",
+					"  header: 'Content-Type: application/json',",
+					"  body: {",
+					"    mode: 'raw',",
+					"    raw: JSON.stringify({ login:login, password:password})",
+					"  }",
+					"};",
+					"pm.sendRequest(loginRequest, function (err, res) {",
+					"    ",
+					"    if(err){",
+					"        console.log(err);",
+					"    }else{",
+					"        var jsonData = res.json();",
+					"        postman.setEnvironmentVariable(\"access_token\", jsonData.access_token);",
+					"    }",
+					"   ",
+					"});"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "2e14f3ac-8a51-4750-ae4b-25414fb4cca3",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

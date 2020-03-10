@@ -20,7 +20,7 @@ class DeviceController extends Controller
     public function store(Request $request)
     {
         $check = Device::where('mac', '=', $request->mac)->first();
-        if (isset($check)) {
+        if (!empty($check)) {
             $check->update($request->all());
             return $check;
         } else {
