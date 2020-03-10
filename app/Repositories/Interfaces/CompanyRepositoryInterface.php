@@ -2,8 +2,6 @@
 
 namespace App\Repositories\Interfaces;
 
-use Illuminate\Http\Request;
-
 interface CompanyRepositoryInterface
 {
     public function all();

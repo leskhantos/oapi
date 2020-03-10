@@ -3,13 +3,9 @@
 namespace App\Repositories;
 
 use App\Entities\Account;
-use App\Entities\Call;
 use App\Entities\Company;
-use App\Entities\Guests\Guest;
 use App\Entities\Page;
-use App\Helpers\Helper;
 use App\Repositories\Interfaces\CompanyRepositoryInterface;
-use Illuminate\Http\Request;
 
 class CompanyRepository implements CompanyRepositoryInterface
 {
