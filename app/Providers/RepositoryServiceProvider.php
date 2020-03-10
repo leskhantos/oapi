@@ -4,9 +4,11 @@ namespace App\Providers;
 
 use App\Repositories\AccountRepository;
 use App\Repositories\CompanyRepository;
+use App\Repositories\DeviceRepository;
 use App\Repositories\GuestRepository;
 use App\Repositories\Interfaces\AccountRepositoryInterface;
 use App\Repositories\Interfaces\CompanyRepositoryInterface;
+use App\Repositories\Interfaces\DeviceRepositoryInterface;
 use App\Repositories\Interfaces\GuestRepositoryInterface;
 use App\Repositories\Interfaces\SessionRepositoryInterface;
 use App\Repositories\Interfaces\SpotRepositoryInterface;
@@ -49,6 +51,9 @@ class RepositoryServiceProvider extends ServiceProvider
             );
         $this->app->bind(
             SessionRepositoryInterface::class, SessionRepository::class,
+            );
+        $this->app->bind(
+            DeviceRepositoryInterface::class, DeviceRepository::class,
             );
     }
 

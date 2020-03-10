@@ -17,20 +17,20 @@ class SessionRepository implements SessionRepositoryInterface
         $myDate = $new->currentDate($request);
         $spot = Spot::findOrFail($id);
         switch ($request->session_type) {
-            case 1:
+            case 1: // Активные
                 $session = SessionsSpot::select('start as created', 'type as device_type', 'os', 'sessions_spots.device_mac')
                     ->leftJoin('devices', 'sessions_spots.device_mac', '=', 'devices.mac')
                     ->where('active', '=', 1)
                     ->where('sessions_spots.spot_id', '=', $spot->id);
                 break;
-            case 2:
+            case 2: // Авторизации
                 $session = SessionsAuth::select('sessions_auths.created', 'expiration', 'type as device_type',
                     'os', 'sessions_auths.device_mac')
                     ->leftJoin('devices', 'sessions_auths.device_mac', '=', 'devices.mac')
                     ->where('expiration', '!=', null)
                     ->where('sessions_auths.spot_id', '=', $spot->id);
                 break;
-            case 3:
+            case 3: // Завершенные
                 $session = SessionsSpot::select('start as created', 'stop as finished', 'type as device_type',
                     'os', 'bytes_in', 'bytes_out', 'sessions_spots.device_mac')
                     ->leftJoin('devices', 'sessions_spots.device_mac', '=', 'devices.mac')

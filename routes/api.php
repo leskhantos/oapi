@@ -67,3 +67,10 @@ Route::post('account','AccountsController@store');
 
 Route::get('settings','DefaultSettingController@index');
 Route::post('settings','DefaultSettingController@store');
+
+Route::get('device/{id}','DeviceController@show');
+Route::get('device/{id}/main','DeviceController@mainByDevice');
+Route::get('device/{id}/spots','DeviceController@spotsByDevice');
+Route::get('device/{id}/sessions','DeviceController@sessionByDevice');
+Route::get('device/{id}/phones','DeviceController@phoneByDevice');
+Route::get('device/{id}/events','DeviceController@eventsByDevice');
