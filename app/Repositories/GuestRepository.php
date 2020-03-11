@@ -32,7 +32,7 @@ class GuestRepository implements GuestRepositoryInterface
         $new = new Helper();
         $myDate = $new->currentDate($request);
         $company = Company::findOrFail($id);
-        $guests = Guest::select('guests.id', 'datetime', 'devices.type as type_device', 'os', 'device_mac', 'spots.type', 'data_auth', 'sessions')
+        $guests = Guest::select('guests.id', 'devices.id as id_device', 'datetime', 'devices.type as type_device', 'os', 'device_mac', 'spots.type', 'data_auth', 'sessions')
             ->leftJoin('devices', 'guests.device_mac', '=', 'devices.mac')
             ->leftJoin('spots', 'guests.spot_id', '=', 'spots.id')
             ->where('guests.company_id', '=', $company->id)
@@ -61,23 +61,12 @@ class GuestRepository implements GuestRepositoryInterface
         // Get current page form url e.x. &page=1
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
-        // Create a new Laravel collection from the array data
-        $itemCollection = collect($uniq_arr);
-
-        // Define how many items we want to be visible in each page
         $perPage = 5;
-
-        // Slice the collection to get the items to display in current page
-        $currentPageItems = $itemCollection->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
-
+        $total = count($uniq_arr);
         $offset = ($currentPage * $perPage) - $perPage;
-        // Create our paginator and pass it to the view
-        $paginatedItems = new LengthAwarePaginator($currentPageItems, count($itemCollection), $perPage);
-
         $data = array_slice($uniq_arr, $offset, $perPage, false);
-        $paginator = $paginatedItems->toArray();
 
-        $meta = ['current_page' => $paginator['current_page'], 'total' => $paginator['total'], 'per_page' => $paginator['per_page']];
+        $meta = ['current_page' => $currentPage, 'total' => $total, 'per_page' => $perPage];
         return response(['data' => $data, 'meta' => $meta]);
     }
 
