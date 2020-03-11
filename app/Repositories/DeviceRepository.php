@@ -35,7 +35,7 @@ class DeviceRepository implements DeviceRepositoryInterface
         }
         $devices = Device::select('last_session', 'companies.name', 'spots.address', 'screen_w', 'screen_h')
             ->join('spots', 'spots.id', '=', 'devices.spot_id')
-            ->join('companies', 'companies.id', 'spots.company_id')
+            ->join('companies', 'companies.id','=', 'spots.company_id')
             ->where('devices.mac', '=', $device->mac)
             ->first()->toArray();
         $devices += ['count_auth' => $count_auth, 'count_finished' => $count_finished,

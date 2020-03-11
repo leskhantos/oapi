@@ -612,6 +612,84 @@ fetch(url, {
 
 <!-- END_1db01a764aa10ac7ebdbd9688d449054 -->
 
+<!-- START_278299cc2fed5516225810a606b320d6 -->
+## add/session/auth
+> Example request:
+
+```bash
+curl -X POST \
+    "http://localhost/add/session/auth" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"
+```
+
+```javascript
+const url = new URL(
+    "http://localhost/add/session/auth"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+
+### HTTP Request
+`POST add/session/auth`
+
+
+<!-- END_278299cc2fed5516225810a606b320d6 -->
+
+<!-- START_f0170314e34a76866559b808df96adaa -->
+## add/session/spot
+> Example request:
+
+```bash
+curl -X POST \
+    "http://localhost/add/session/spot" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"
+```
+
+```javascript
+const url = new URL(
+    "http://localhost/add/session/spot"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+
+### HTTP Request
+`POST add/session/spot`
+
+
+<!-- END_f0170314e34a76866559b808df96adaa -->
+
 <!-- START_3906096641686fa2c7e7811c8aa3ce4c -->
 ## add
 > Example request:
@@ -791,6 +869,53 @@ fetch(url, {
 
 
 <!-- END_14615e385e4229c8a1249de743772db6 -->
+
+<!-- START_fb33dea8c2dc1cc8024d995df506957b -->
+## spot/{id}/sms
+> Example request:
+
+```bash
+curl -X GET \
+    -G "http://localhost/spot/1/sms" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"
+```
+
+```javascript
+const url = new URL(
+    "http://localhost/spot/1/sms"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+> Example response (401):
+
+```json
+{
+    "message": "Invalid token",
+    "code": 2
+}
+```
+
+### HTTP Request
+`GET spot/{id}/sms`
+
+
+<!-- END_fb33dea8c2dc1cc8024d995df506957b -->
 
 <!-- START_94b5eaa43456542d01b27fc222c4952a -->
 ## spots/types/{id}/company
@@ -1193,45 +1318,6 @@ fetch(url, {
 
 <!-- END_615847eb775a7aff65f91cc00e49e641 -->
 
-<!-- START_65779b1ed5ff3ceb54da8467f930b0b3 -->
-## company/spot
-> Example request:
-
-```bash
-curl -X POST \
-    "http://localhost/company/spot" \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -H "Authorization: Bearer {token}"
-```
-
-```javascript
-const url = new URL(
-    "http://localhost/company/spot"
-);
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "Authorization": "Bearer {token}",
-};
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-})
-    .then(response => response.json())
-    .then(json => console.log(json));
-```
-
-
-
-### HTTP Request
-`POST company/spot`
-
-
-<!-- END_65779b1ed5ff3ceb54da8467f930b0b3 -->
-
 <!-- START_681ca911151efae6ac24f73f2adbd06c -->
 ## spot/{id}
 > Example request:
@@ -1270,6 +1356,45 @@ fetch(url, {
 
 
 <!-- END_681ca911151efae6ac24f73f2adbd06c -->
+
+<!-- START_65779b1ed5ff3ceb54da8467f930b0b3 -->
+## company/spot
+> Example request:
+
+```bash
+curl -X POST \
+    "http://localhost/company/spot" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"
+```
+
+```javascript
+const url = new URL(
+    "http://localhost/company/spot"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+
+### HTTP Request
+`POST company/spot`
+
+
+<!-- END_65779b1ed5ff3ceb54da8467f930b0b3 -->
 
 <!-- START_ed2c898887b539ae8229bebbe7ffdac0 -->
 ## company/{id}/pages
@@ -1639,13 +1764,13 @@ fetch(url, {
 
 <!-- END_e1a4da89ce7881f033f73bad031dd56e -->
 
-<!-- START_991ebc71c13c9551e823838177dc2916 -->
-## spot/{id}/active/session
+<!-- START_6c316a476bc73f80409b6cd38b61ecaf -->
+## spot/{id}/session
 > Example request:
 
 ```bash
 curl -X GET \
-    -G "http://localhost/spot/1/active/session" \
+    -G "http://localhost/spot/1/session" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}"
@@ -1653,7 +1778,7 @@ curl -X GET \
 
 ```javascript
 const url = new URL(
-    "http://localhost/spot/1/active/session"
+    "http://localhost/spot/1/session"
 );
 
 let headers = {
@@ -1681,104 +1806,10 @@ fetch(url, {
 ```
 
 ### HTTP Request
-`GET spot/{id}/active/session`
+`GET spot/{id}/session`
 
 
-<!-- END_991ebc71c13c9551e823838177dc2916 -->
-
-<!-- START_c66f9e14ae82a82aeecaf56371e12b57 -->
-## spot/{id}/finished/session
-> Example request:
-
-```bash
-curl -X GET \
-    -G "http://localhost/spot/1/finished/session" \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -H "Authorization: Bearer {token}"
-```
-
-```javascript
-const url = new URL(
-    "http://localhost/spot/1/finished/session"
-);
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "Authorization": "Bearer {token}",
-};
-
-fetch(url, {
-    method: "GET",
-    headers: headers,
-})
-    .then(response => response.json())
-    .then(json => console.log(json));
-```
-
-
-> Example response (401):
-
-```json
-{
-    "message": "Invalid token",
-    "code": 2
-}
-```
-
-### HTTP Request
-`GET spot/{id}/finished/session`
-
-
-<!-- END_c66f9e14ae82a82aeecaf56371e12b57 -->
-
-<!-- START_7147c51e4abe1b83dccfab12ba3e569a -->
-## spot/{id}/auth/session
-> Example request:
-
-```bash
-curl -X GET \
-    -G "http://localhost/spot/1/auth/session" \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -H "Authorization: Bearer {token}"
-```
-
-```javascript
-const url = new URL(
-    "http://localhost/spot/1/auth/session"
-);
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "Authorization": "Bearer {token}",
-};
-
-fetch(url, {
-    method: "GET",
-    headers: headers,
-})
-    .then(response => response.json())
-    .then(json => console.log(json));
-```
-
-
-> Example response (401):
-
-```json
-{
-    "message": "Invalid token",
-    "code": 2
-}
-```
-
-### HTTP Request
-`GET spot/{id}/auth/session`
-
-
-<!-- END_7147c51e4abe1b83dccfab12ba3e569a -->
+<!-- END_6c316a476bc73f80409b6cd38b61ecaf -->
 
 <!-- START_97c416ac9711e2e82970c65041a354f0 -->
 ## device
@@ -1943,5 +1974,287 @@ fetch(url, {
 
 
 <!-- END_36ad081f9741972c7a63fb2599a20fa5 -->
+
+<!-- START_9bf55187824ff92cc42f1be52e862ab6 -->
+## device/{id}
+> Example request:
+
+```bash
+curl -X GET \
+    -G "http://localhost/device/1" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"
+```
+
+```javascript
+const url = new URL(
+    "http://localhost/device/1"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+> Example response (401):
+
+```json
+{
+    "message": "Invalid token",
+    "code": 2
+}
+```
+
+### HTTP Request
+`GET device/{id}`
+
+
+<!-- END_9bf55187824ff92cc42f1be52e862ab6 -->
+
+<!-- START_70574244918d7744e1a23584ce82c77d -->
+## device/{id}/main
+> Example request:
+
+```bash
+curl -X GET \
+    -G "http://localhost/device/1/main" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"
+```
+
+```javascript
+const url = new URL(
+    "http://localhost/device/1/main"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+> Example response (401):
+
+```json
+{
+    "message": "Invalid token",
+    "code": 2
+}
+```
+
+### HTTP Request
+`GET device/{id}/main`
+
+
+<!-- END_70574244918d7744e1a23584ce82c77d -->
+
+<!-- START_80aed9bceb94997a5f055e57a583f181 -->
+## device/{id}/spots
+> Example request:
+
+```bash
+curl -X GET \
+    -G "http://localhost/device/1/spots" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"
+```
+
+```javascript
+const url = new URL(
+    "http://localhost/device/1/spots"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+> Example response (401):
+
+```json
+{
+    "message": "Invalid token",
+    "code": 2
+}
+```
+
+### HTTP Request
+`GET device/{id}/spots`
+
+
+<!-- END_80aed9bceb94997a5f055e57a583f181 -->
+
+<!-- START_dc0c24420553e0faad904672797a8b5b -->
+## device/{id}/sessions
+> Example request:
+
+```bash
+curl -X GET \
+    -G "http://localhost/device/1/sessions" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"
+```
+
+```javascript
+const url = new URL(
+    "http://localhost/device/1/sessions"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+> Example response (401):
+
+```json
+{
+    "message": "Invalid token",
+    "code": 2
+}
+```
+
+### HTTP Request
+`GET device/{id}/sessions`
+
+
+<!-- END_dc0c24420553e0faad904672797a8b5b -->
+
+<!-- START_3179a84830cc5015ec529b5cf1b91421 -->
+## device/{id}/phones
+> Example request:
+
+```bash
+curl -X GET \
+    -G "http://localhost/device/1/phones" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"
+```
+
+```javascript
+const url = new URL(
+    "http://localhost/device/1/phones"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+> Example response (401):
+
+```json
+{
+    "message": "Invalid token",
+    "code": 2
+}
+```
+
+### HTTP Request
+`GET device/{id}/phones`
+
+
+<!-- END_3179a84830cc5015ec529b5cf1b91421 -->
+
+<!-- START_ebb3ef2df5e44962ec1569895c1b1c2e -->
+## device/{id}/events
+> Example request:
+
+```bash
+curl -X GET \
+    -G "http://localhost/device/1/events" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"
+```
+
+```javascript
+const url = new URL(
+    "http://localhost/device/1/events"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+> Example response (401):
+
+```json
+{
+    "message": "Invalid token",
+    "code": 2
+}
+```
+
+### HTTP Request
+`GET device/{id}/events`
+
+
+<!-- END_ebb3ef2df5e44962ec1569895c1b1c2e -->
 
 
