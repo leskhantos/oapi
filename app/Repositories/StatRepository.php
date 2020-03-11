@@ -92,13 +92,6 @@ class StatRepository implements StatRepositoryInterface
             'android', 'ios', 'linux', 'windows', 'windows_phone', 'os_other', 'android_browser', 'edge',
             'firefox', 'chrome', 'opera', 'safari', 'yandex_browser', 'webkit', 'browser_other',
             'mobile', 'tablet', 'computer', 'type_other')->whereSpot_id($spot->id)->get()->toArray();
-        $sms = StatsSms::select('all as all_sms', 'resend', 'delivered')
-            ->whereSpotId($spot->id)->get()->toArray();
-        $calls = StatsCall::select('requests', 'checked')
-            ->whereSpotId($spot->id)->get()->toArray();
-        $vouchers = StatsVoucher::select('all as all_vouchers', 'auth')
-            ->whereSpotId($spot->id)->get()->toArray();
-
         $guests = StatsGuest::select('load', 'auth', 'new', 'old')
             ->whereSpotId($spot->id)->get()->toArray();
 
@@ -106,13 +99,19 @@ class StatRepository implements StatRepositoryInterface
         $guest = $this->counter($guests);
         $stats = [];
         switch ($type) {
-            case 1:
+            case 1:// Смс
+                $sms = StatsSms::select('all as all_sms', 'resend', 'delivered')
+                    ->whereSpotId($spot->id)->get()->toArray();
                 $stats = $this->counter($sms);
                 break;
-            case 2:
+            case 2:// Звонки
+                $calls = StatsCall::select('requests', 'checked')
+                    ->whereSpotId($spot->id)->get()->toArray();
                 $stats = $this->counter($calls);
                 break;
-            case 3:
+            case 3:// Ваучеры
+                $vouchers = StatsVoucher::select('all as all_vouchers', 'auth')
+                    ->whereSpotId($spot->id)->get()->toArray();
                 $stats = $this->counter($vouchers);
                 break;
         }
