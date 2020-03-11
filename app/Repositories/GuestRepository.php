@@ -50,6 +50,7 @@ class GuestRepository implements GuestRepositoryInterface
     {
         $uniq_mac = [];
         $uniq_arr = [];
+
         foreach ($guests as $guest) {
             if (!in_array($guest['device_mac'], $uniq_mac)) {
                 $uniq_mac[] = $guest['device_mac'];
@@ -69,13 +70,15 @@ class GuestRepository implements GuestRepositoryInterface
         // Slice the collection to get the items to display in current page
         $currentPageItems = $itemCollection->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
 
+        $offset = ($currentPage * $perPage) - $perPage;
         // Create our paginator and pass it to the view
-        $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
+        $paginatedItems = new LengthAwarePaginator($currentPageItems, count($itemCollection), $perPage);
 
+        $data = array_slice($uniq_arr, $offset, $perPage, false);
         $paginator = $paginatedItems->toArray();
 
-        $data = $paginator['data'];
-        $meta = ['current_page' => $paginator['current_page'], 'total' => $paginator['total'], 'per_page' => $paginator['per_page']];
+        $meta = ['current_page' => $paginatedItems['current_page'], 'total' => $paginator['total'], 'per_page' => $paginator['per_page']];
         return response(['data' => $data, 'meta' => $meta]);
     }
+
 }
