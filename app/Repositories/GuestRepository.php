@@ -77,7 +77,7 @@ class GuestRepository implements GuestRepositoryInterface
         $data = array_slice($uniq_arr, $offset, $perPage, false);
         $paginator = $paginatedItems->toArray();
 
-        $meta = ['current_page' => $paginatedItems['current_page'], 'total' => $paginator['total'], 'per_page' => $paginator['per_page']];
+        $meta = ['current_page' => $paginator['current_page'], 'total' => $paginator['total'], 'per_page' => $paginator['per_page']];
         return response(['data' => $data, 'meta' => $meta]);
     }
 
