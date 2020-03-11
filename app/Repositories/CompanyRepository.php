@@ -30,7 +30,7 @@ class CompanyRepository implements CompanyRepositoryInterface
     public function pagesByCompany($company_id)
     {
         $company = Company::findOrFail($company_id);
-        $pages = Page::select('name','address as spot')->where('pages.company_id', '=', $company->id)
+        $pages = Page::select('name','address as spot','spots.type')->where('pages.company_id', '=', $company->id)
             ->leftJoin('spots','spots.page_id','=','pages.id')
             ->get();
 
