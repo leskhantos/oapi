@@ -1,16 +1,31 @@
-{{ $v1  }}
+@if(isset($v1))
+    {{ $v1}}
+@endif
 <br />
-{{ $v2  }}
+@if(isset($v2))
+    {{ $v2  }}
+@endif
+<br />@if(isset($v3))
+    {{ $v3  }}
+@endif
 <br />
-{{ $v3  }}
+@if(isset($v4))
+    {{ $v4  }}
+@endif
 <br />
-{{ $v4  }}
+@if(isset($v5))
+    {{ $v5  }}
+@endif
 <br />
-{{ $v5  }}
+@if(isset($v6))
+    {{ $v6  }}
+@endif
 <br />
-{{ $v6  }}
+@if(isset($v7))
+    {{ $v7  }}
+@endif
 <br />
-{{ $v7  }}
-<br />
+@if(isset($v8))
 {{ $v8  }}
+@endif
 <br />
