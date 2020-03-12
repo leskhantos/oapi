@@ -54,8 +54,9 @@ class SpotRepository implements SpotRepositoryInterface
             ->whereMonth('guest_calls.created', $myDate['month'])
             ->whereYear('guest_calls.created', $myDate['year']);
 
-        if (isset($request->query)) {
-            $call = $call->where('phone', 'like', "%$request->query%")->orWhere('device_mac', 'like', "%$request->query%");
+        if (isset($request->search)) {
+            $call = $call->where('phone', 'like', "%$request->search%")
+                ->orWhere('device_mac', 'like', "%$request->search%");
         }
 
         $call = $call->orderBy('created', 'DESC')->paginate(15)->toArray();
@@ -75,8 +76,8 @@ class SpotRepository implements SpotRepositoryInterface
             ->whereMonth('dt_request', $myDate['month'])
             ->whereYear('dt_request', $myDate['year']);
 
-        if (isset($request->query)) {
-            $sms = $sms->where('phone', 'like', "%$request->query%");
+        if (isset($request->search)) {
+            $sms = $sms->where('phone', 'like', "%$request->search%");
         }
 
         $sms = $sms->orderBy('dt_request', 'DESC')->paginate(15)->toArray();
