@@ -14,20 +14,20 @@ class CreateUserAgentsTable extends Migration
     public function up()
     {
         Schema::create('user_agents', function (Blueprint $table) {
-            $table->bigIncrements('uid');
-            $table->string('info',300)->index();
-            $table->string('software',30)->nullable();
-            $table->string('software_name',30)->nullable();
-            $table->string('software_code',30)->nullable();
-            $table->string('software_version',30)->nullable();
-            $table->string('software_type',50)->nullable();
-            $table->string('engine_name',30)->nullable();
-            $table->string('engine_version',30)->nullable();
-            $table->string('hardware_type',50)->nullable();
-            $table->string('os',30)->nullable();
-            $table->string('os_name',30)->nullable();
-            $table->string('os_code',30)->nullable();
-            $table->string('os_version',30)->nullable();
+            $table->string('uid', 50)->index();
+            $table->string('info', 300)->index();
+            $table->string('software', 30)->nullable();
+            $table->string('software_name', 30)->nullable();
+            $table->string('software_code', 30)->nullable();
+            $table->string('software_version', 30)->nullable();
+            $table->string('software_type', 50)->nullable();
+            $table->string('engine_name', 30)->nullable();
+            $table->string('engine_version', 30)->nullable();
+            $table->string('hardware_type', 50)->nullable();
+            $table->string('os', 30)->nullable();
+            $table->string('os_name', 30)->nullable();
+            $table->string('os_code', 30)->nullable();
+            $table->string('os_version', 30)->nullable();
         });
     }
 
