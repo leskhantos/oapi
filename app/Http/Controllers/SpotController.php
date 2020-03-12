@@ -40,6 +40,11 @@ class SpotController extends Controller
         return $this->spotRepository->smsBySpot($id, $request);
     }
 
+    public function eventsBySpot($id)
+    {
+        return $this->spotRepository->eventsBySpot($id);
+    }
+
     public function create(Request $request)
     {
         return GuestCall::create($request->all());
@@ -58,6 +63,26 @@ class SpotController extends Controller
     public function store(SpotsStoreRequest $request)
     {
         return Spot::create($request->all());
+    }
+
+    public function saveLogsBySpot($id,Request $request)
+    {
+        $spot = Spot::findOrFail($id);
+        $name = strtolower($spot->ident);
+        $name .= ".log";
+        $way="/home/roman/valet/api.oyspot/www/data/spots/$name";
+        $array = $request->toArray();
+
+        $result="";
+        foreach ($array as $arr){
+            $result .= "$arr|";
+        }
+        $data = "$result\r\n";
+
+        \File::append("$way", "$data");
+        $contents =\File::get("$way");
+
+        return $contents;
     }
 
     public function update(SpotsUpdateRequest $request, $id)
