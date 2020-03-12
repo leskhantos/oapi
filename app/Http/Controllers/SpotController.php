@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Entities\GuestCall;
+use App\Entities\Sms;
 use App\Entities\Spot;
 use App\Http\Requests\Api\Spot\SpotsStoreRequest;
 use App\Http\Requests\Api\Spot\SpotsUpdateRequest;
@@ -42,6 +43,11 @@ class SpotController extends Controller
     public function create(Request $request)
     {
         return GuestCall::create($request->all());
+    }
+
+    public function test(Request $request)
+    {
+        return Sms::create($request->all());
     }
 
     public function show($id)
