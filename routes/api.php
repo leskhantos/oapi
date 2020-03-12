@@ -33,7 +33,7 @@ Route::post('add/session/spot', 'SessionController@addSessionSpot');
 Route::post('test/call', 'SpotController@create');
 Route::post('test/sms', 'SpotController@test');
 
-Route::post('log/{id}/spot','SpotController@saveLogsBySpot');
+Route::post('enter','SpotController@saveLogsBySpot');
 
 Route::post('add', 'GuestController@store');
 Route::get('company/{id}/guests', 'GuestController@guestByCompany');
@@ -79,3 +79,5 @@ Route::get('device/{id}/spots', 'DeviceController@spotsByDevice');
 Route::get('device/{id}/sessions', 'DeviceController@sessionByDevice');
 Route::get('device/{id}/phones', 'DeviceController@phoneByDevice');
 Route::get('device/{id}/events', 'DeviceController@eventsByDevice');
+
+Route::post('/test', 'TestController@index');

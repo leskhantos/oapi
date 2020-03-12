@@ -65,24 +65,26 @@ class SpotController extends Controller
         return Spot::create($request->all());
     }
 
-    public function saveLogsBySpot($id,Request $request)
+    public function saveLogsBySpot(Request $request)
     {
-        $spot = Spot::findOrFail($id);
-        $name = strtolower($spot->ident);
-        $name .= ".log";
-        $way="/home/roman/valet/api.oyspot/www/data/spots/$name";
-        $array = $request->toArray();
-
-        $result="";
-        foreach ($array as $arr){
-            $result .= "$arr|";
-        }
-        $data = "$result\r\n";
-
-        \File::append("$way", "$data");
-        $contents =\File::get("$way");
-
-        return $contents;
+//        $id = $request->id;
+//        $spot = Spot::findOrFail($id);
+//        $name = strtolower($spot->ident);
+//        $name .= ".log";
+//        $way="/home/roman/valet/api.oyspot/www/data/spots/$name";
+//        $array = $request->request;
+//
+//        $result="";
+//        foreach ($array as $arr){
+//            $result .= "$arr|";
+//        }
+//        $data = "$result\r\n";
+//
+//        \File::append("$way", "$data");
+//        $contents =\File::get("$way");
+//
+//        return $contents;
+        return view('test', $request->all());
     }
 
     public function update(SpotsUpdateRequest $request, $id)
