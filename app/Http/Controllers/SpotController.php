@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Entities\Device;
 use App\Entities\GuestCall;
+use App\Entities\GuestSms;
+use App\Entities\GuestVoucher;
 use App\Entities\SessionsAuth;
 use App\Entities\Sms;
 use App\Entities\Spot;
@@ -14,6 +16,7 @@ use App\Http\Requests\Api\Spot\SpotsStoreRequest;
 use App\Http\Requests\Api\Spot\SpotsUpdateRequest;
 use App\Repositories\Interfaces\SpotRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Storage;
 
 class SpotController extends Controller
@@ -71,7 +74,7 @@ class SpotController extends Controller
         return Spot::create($request->all());
     }
 
-    public function saveLogsBySpot(Request $request) // Тупо запись в файл данных
+    public function saveLogsBySpot(Request $request)
     {
         $date = new \DateTime();
         $ident = $request->v1;
@@ -87,7 +90,6 @@ class SpotController extends Controller
 
         $User['info'] = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_SPECIAL_CHARS);
         $DevInfoHash = md5($User['info']);
-
         $User['signature'] = md5($name . $mac . $ip . 'TooManySecrets');
 
         $array = $request->all();
@@ -104,7 +106,6 @@ class SpotController extends Controller
 //        Проверяем наличие записи DeviceInfo в таблице user - agents
 //        Есть - обновляем запись в devices
 //        Нет - добавляем с дефолтными значениями
-//    Есть - обновляем запись
 
         $userinfo = UserAgent::whereUid($DevInfoHash)->first();
         if ($userinfo) {
@@ -112,7 +113,6 @@ class SpotController extends Controller
         } else {
             UserAgent::create(['uid' => $DevInfoHash, 'info' => $User['info']]);
         }
-
 
 //  Проверяем наличие записи в sessions . auth(соответствие зоны, мака и сигнатуры, не истекший expiration)
         //    Есть - обновляем counter и авторизируем устройство
@@ -123,6 +123,7 @@ class SpotController extends Controller
             $count = $session->counter;
             $count = $count + 1;
             SessionsAuth::whereMac($mac)->update(['created' => $date, 'counter' => $count]);
+//            $this->auth(); как правильна
         }
 
 //  Проверяем наличие записи в stages
@@ -130,33 +131,57 @@ class SpotController extends Controller
 
         $stages = Stage::whereSpot_id($spot->id)->whereDevice_mac($mac)->first();
         if ($stages) {
-            return 123;
+            return $stages;
         }
+//    }
 
-        $vibor = [1, 2, 3];
-        $phone ="";  // ДОЛЖЕН ПРИЙТИ
+//      Блок авторизации
+
+//    public function auth($array)
+//    {
+        $date = new \DateTime();
+        $expiration = new \DateTime();
+        $expiration->modify('+6 month');// такое себе решение, тупо меняет число в месяце
+        $vibor = 4;
+        $phone = 8768768;
+
         switch ($vibor) {
-            case 1:
-                break;//SMS
-            case 2:
-                GuestCall::create(['phone' => 123]);
-                Stage::create(['created' => $date, 'spot_id' => $spot->id, 'device_mac' => $mac, 'phone' =>$phone]);
-                break;//CALL
-            case 3:
-                break;//VOUCHER
+            case 1://   Смс
+                $proverka = GuestSms::wherePhone($phone)->where('expiration', '>', $date)->first();
+                if ($proverka) {
+                    return 'cod est`';
+                    //сообщаем фронту, что данный гость уже имеет код?
+                } else {
+                    $code = rand(1000, 9999);
+                    GuestSms::create(['created' => $date, 'expiration' => $expiration, 'spot_id' => $spot->id,
+                        'phone' => $phone, 'device_mac' => $mac, 'code' => $code]);
+                    // отправляем СМС?
+                    return 'otpravil sms';
+                }
+                break;
+            case 2://   Звонки
+                GuestCall::create(['phone' => $phone]);
+                Stage::create(['created' => $date, 'spot_id' => $spot->id, 'device_mac' => $mac, 'phone' => $phone]);
+                break;
+            case 3://   Ваучеры
+                $voucher = GuestVoucher::whereDevice_mac($mac)->where('expiration', '>', $date)->first();
+                if ($voucher) {
+                    return ('авторизируем');
+                }
+                break;
         }
 
         $name = strtolower($spot->ident);
-        $name .= ".log";
-
-        $result = "";
+        $way = "device/$name.log";
+        $log = "";
         foreach ($array as $arr) {
-            $result .= "$arr|";
+            $log .= "$arr|";
         }
 
-        Storage::append($name, $result);
-
+//        Storage::append($way, $log);
 //        $contents =\File::get("$way");
+        $arr = Storage::get($way);
+//        dd($arr);
 
         return view('test', $request->all());
     }
