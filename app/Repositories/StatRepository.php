@@ -50,9 +50,9 @@ class StatRepository implements StatRepositoryInterface
             'session' => $sessions,
             'count_vouchers' => $count_vouchers,
         ];
-        $data += $sms;
-        $data += $call;
-        $data += $voucher;
+        $data['sms'] = $sms;
+        $data['call'] = $call;
+        $data['voucher'] = $voucher;
 
         return $data;
     }
@@ -123,13 +123,17 @@ class StatRepository implements StatRepositoryInterface
     //@return общую статистику
     public function counter($array)
     {
-        $result = [];
-        foreach ($array as $key => $value) {
-            foreach ($value as $k => $v) {
-                @$result[$k] += $v;
+        if (!empty($array)) {
+            $result = [];
+            foreach ($array as $key => $value) {
+                foreach ($value as $k => $v) {
+                    @$result[$k] += $v;
+                }
             }
-        }
 
-        return ($result);
+            return ($result);
+        } else {
+            return (0);
+        }
     }
 }
