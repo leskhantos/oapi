@@ -171,19 +171,23 @@ class SpotController extends Controller
                 break;
         }
 
-        $name = strtolower($spot->ident);
+//        $contents =\File::get("$way");
+        $arr = Storage::get($way);
+
+        return view('test', $request->all());
+    }
+
+    public function logs($array, $name)
+    {
+//        $name = strtolower($spot->ident);
         $way = "device/$name.log";
         $log = "";
         foreach ($array as $arr) {
             $log .= "$arr|";
         }
+        Storage::append($way, $log);
 
-//        Storage::append($way, $log);
-//        $contents =\File::get("$way");
-        $arr = Storage::get($way);
-//        dd($arr);
-
-        return view('test', $request->all());
+        return ('Log успешно сохранён');
     }
 
     public function update(SpotsUpdateRequest $request, $id)
