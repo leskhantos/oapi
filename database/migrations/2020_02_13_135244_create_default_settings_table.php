@@ -18,18 +18,18 @@ class CreateDefaultSettingsTable extends Migration
             $table->timestamp('created')->nullable();
             $table->integer('user_id')->references('id')->on('users');
             $table->string('redirect_url',200)->default('https://oy2b.ru/wifiok');
-            $table->integer('session_auto_timer')->nullable();
-            $table->integer('session_timer')->nullable();
-            $table->integer('wait_enter_timer')->nullable();
-            $table->integer('sms_phone_limit')->nullable();
-            $table->integer('sms_device_limit')->nullable();
-            $table->integer('sms_life_timer')->nullable();
-            $table->tinyInteger('sms_allow_country')->nullable();
-            $table->integer('call_wait_timer')->nullable();
+            $table->smallInteger('session_auto_timer')->nullable();
+            $table->smallInteger('session_timer')->nullable();
+            $table->tinyInteger('wait_enter_timer')->nullable();
+            $table->tinyInteger('sms_phone_limit')->nullable();
+            $table->tinyInteger('sms_device_limit')->nullable();
+            $table->tinyInteger('sms_life_timer')->nullable();
+            $table->boolean('sms_allow_country')->nullable();
+            $table->smallInteger('call_wait_timer')->nullable();
             $table->tinyInteger('call_allow_country')->nullable();
-            $table->integer('voucher_max_devices')->nullable();
-            $table->tinyInteger('monitoring_enabled')->nullable();
-            $table->integer('monitoring_alert_timer')->nullable();
+            $table->smallInteger('voucher_max_devices')->nullable();
+            $table->boolean('monitoring_enabled')->nullable();
+            $table->smallInteger('monitoring_alert_timer')->nullable();
         });
     }
 

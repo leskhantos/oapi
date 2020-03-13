@@ -14,10 +14,10 @@ class CreateSpotsTable extends Migration
     public function up()
     {
         Schema::create('spots', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->integer('company_id')->references('id')->on('companies');
-            $table->integer('type')->references('id')->on('spots_types');
             $table->string('address', 200);
+            $table->integer('type')->references('id')->on('spots_types');
             $table->string('ident', 150)->index();
             $table->json('settings')->nullable();
             $table->integer('page_id')->default(0);

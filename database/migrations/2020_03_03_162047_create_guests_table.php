@@ -14,7 +14,7 @@ class CreateGuestsTable extends Migration
     public function up()
     {
         Schema::create('guests', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->timestamp('datetime');
             $table->integer('company_id')->references('company_id')->on('spots');
             $table->integer('spot_id')->references('id')->on('spots');

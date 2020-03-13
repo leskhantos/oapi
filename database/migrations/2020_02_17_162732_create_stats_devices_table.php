@@ -14,7 +14,7 @@ class CreateStatsDevicesTable extends Migration
     public function up()
     {
         Schema::create('stats_devices', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->timestamp('date')->nullable()->index();
             $table->integer('company_id')->references('id')->on('companies');
             $table->integer('spot_id')->references('id')->on('spots');

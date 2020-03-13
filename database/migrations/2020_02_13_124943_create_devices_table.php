@@ -14,12 +14,12 @@ class CreateDevicesTable extends Migration
     public function up()
     {
         Schema::create('devices', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->timestamp('created');
-            $table->string('mac')->index();
-            $table->string('type')->nullable();
-            $table->string('os')->nullable();
-            $table->string('os_version')->nullable();
+            $table->string('mac',30)->index();
+            $table->string('type',15)->nullable();
+            $table->string('os',15)->nullable();
+            $table->string('os_version',20)->nullable();
             $table->smallInteger('screen_w')->nullable();
             $table->smallInteger('screen_h')->nullable();
             $table->string('info',300)->default('');
@@ -28,7 +28,7 @@ class CreateDevicesTable extends Migration
             $table->timestamp('last_online')->nullable();
             $table->timestamp('last_session')->nullable();
             $table->string('comment',300)->default('');
-            $table->tinyInteger('blocked') ->default(0);
+            $table->boolean('blocked') ->default(0);
         });
     }
 

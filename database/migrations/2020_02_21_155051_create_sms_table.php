@@ -14,11 +14,11 @@ class CreateSmsTable extends Migration
     public function up()
     {
         Schema::create('sms', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('uid')->nullable();
-            $table->integer('spot_ident');
+            $table->increments('id');
+            $table->string('uid',10)->nullable();
+            $table->string('spot_ident',50);
             $table->integer('spot_id');
-            $table->string('phone');
+            $table->string('phone',30);
             $table->string('device_mac',30);
             $table->string('message',100);
             $table->timestamp('dt_request')->nullable();
@@ -28,10 +28,10 @@ class CreateSmsTable extends Migration
             $table->string('region',150)->nullable();
             $table->string('operator',30)->nullable();
             $table->float('price')->default(0);
-            $table->string('sender')->nullable();
-            $table->string('status_code')->default(-1);
-            $table->string('status_text')->nullable();
-            $table->tinyInteger('status')->default(0);
+            $table->string('sender',20)->nullable();
+            $table->string('status_code',5)->default(-1);
+            $table->string('status_text',200)->nullable();
+            $table->boolean('status')->default(0);
         });
     }
 

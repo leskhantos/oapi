@@ -14,7 +14,7 @@ class CreateGuestVouchersTable extends Migration
     public function up()
     {
         Schema::create('guest_vouchers', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->timestamp('activated')->nullable();
             $table->timestamp('expiration')->nullable();
             $table->integer('voucher_id')->references('id')->on('vouchers');
