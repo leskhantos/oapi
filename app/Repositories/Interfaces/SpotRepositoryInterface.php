@@ -13,4 +13,6 @@ interface SpotRepositoryInterface
     public function spotTypesByCompany($spot_id);
 
     public function smsBySpot($id, Request $request);
+
+    public function eventsBySpot($id);
 }

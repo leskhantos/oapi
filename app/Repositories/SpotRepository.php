@@ -9,6 +9,7 @@ use App\Entities\Company;
 use App\Helpers\Helper;
 use App\Repositories\Interfaces\SpotRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SpotRepository implements SpotRepositoryInterface
 {
@@ -85,5 +86,29 @@ class SpotRepository implements SpotRepositoryInterface
         $meta = ['current_page' => $sms['current_page'], 'total' => $sms['total'], 'per_page' => $sms['per_page']];
 
         return response(['data' => $data, 'meta' => $meta]);
+    }
+
+    public function eventsBySpot($id)
+    {
+        $spot = Spot::findOrFail($id);
+        $name = strtolower($spot->ident);
+        $way = "device/$name.log";
+        $log = "";
+        Storage::get($way);
+
+//        $contents = \File::get("$way");
+        $array = file($way);
+        $result = [];
+        foreach ($array as $value) {
+            $stroka = str_replace("\r\n", 'Успех!', $value);
+            $slovo = explode("|", $stroka);
+            //
+            array_push($result, $slovo);
+        }
+
+
+
+        return $contents;
+//      ploho
     }
 }
