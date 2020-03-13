@@ -20,8 +20,8 @@ class CreateSessionsSpotsTable extends Migration
             $table->string('device_mac',30)->index();
             $table->bigInteger('bytes_in')->default(0);
             $table->bigInteger('bytes_out')->default(0);
-            $table->string('start');
-            $table->string('stop')->nullable();
+            $table->timestamp('start');
+            $table->timestamp('stop')->nullable();
             $table->tinyInteger('active')->default(1);
         });
     }
