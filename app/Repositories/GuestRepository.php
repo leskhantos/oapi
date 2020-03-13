@@ -16,7 +16,7 @@ class GuestRepository implements GuestRepositoryInterface
         $new = new Helper();
         $myDate = $new->currentDate($request);
         $company = Company::findOrFail($id);
-        $guests = Guest::select('guests.id', 'datetime', 'devices.type as type_device', 'os', 'device_mac', 'spots.type', 'data_auth', 'sessions')
+        $guests = Guest::select('guests.id','devices.id as id_device', 'datetime', 'devices.type as type_device', 'os', 'device_mac', 'spots.type', 'data_auth', 'sessions')
             ->leftJoin('devices', 'guests.device_mac', '=', 'devices.mac')
             ->leftJoin('spots', 'guests.spot_id', '=', 'spots.id')
             ->where('guests.spot_id', '=', $company->id)
