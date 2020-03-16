@@ -26,6 +26,16 @@ class VouchersController extends Controller
             }
             Voucher::create(['code' => $code, 'spot_id' => $id, 'list_id' => $list_id]);
         }
-        return Voucher::select('id', 'code')->where('list_id', $list_id)->get();
+        $voucher = Voucher::select('id', 'code')->where('list_id', $list_id)->get();
+
+        return $voucher;
+    }
+
+    public function showList($id)
+    {
+        $list = Voucher::select('list_id', 'dt_start', 'dt_end', 'can_used')
+            ->where('spot_id', $id)->distinct('list_id')->get();
+
+        return $list;
     }
 }

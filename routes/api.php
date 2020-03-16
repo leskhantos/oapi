@@ -33,6 +33,7 @@ Route::post('add/session/spot', 'SessionController@addSessionSpot');
 Route::post('test/call', 'SpotController@create');
 Route::post('test/sms', 'SpotController@test');
 Route::get('vouchers/{id}/generate','VouchersController@generateVouchers');
+Route::get('vouchers/{id}/list','VouchersController@showList');
 
 Route::post('enter','SpotController@saveLogsBySpot');
 
