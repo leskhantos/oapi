@@ -10,6 +10,7 @@ class VouchersController extends Controller
 {
     public function generateVouchers($id)
     {
+        Spot::findOrFail($id);
         $voucher = Voucher::max('list_id');
         $list_id = $voucher + 1;
         $number = 8;
