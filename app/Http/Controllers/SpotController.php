@@ -81,114 +81,115 @@ class SpotController extends Controller
         $name = $request->v2;
         $mac = $request->v3;
         $ip = $request->v4;
-        $spot = Spot::whereIdent($ident)->first();
-        if (!$spot) {
-            return response('F', 404);
-        }
-
-        $device = Device::whereMac($mac)->first();
-
-        $User['info'] = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_SPECIAL_CHARS);
-        $DevInfoHash = md5($User['info']);
-        $User['signature'] = md5($name . $mac . $ip . 'TooManySecrets');
-
-        $array = $request->all();
-
-//        Есть в devices по mac?
-//        Нет - записываем с дефолтными полями
-
-        if ($device) {
-            Device::whereMac($mac)->update(['created' => $date]);
-        } else {
-            Device::create(['created' => $date, 'mac' => $mac]);
-        }
-
-//        Проверяем наличие записи DeviceInfo в таблице user - agents
-//        Есть - обновляем запись в devices
-//        Нет - добавляем с дефолтными значениями
-
-        $userinfo = UserAgent::whereUid($DevInfoHash)->first();
-        if ($userinfo) {
-            UserAgent::whereUid($DevInfoHash)->update(['info' => $User['info']]);
-        } else {
-            UserAgent::create(['uid' => $DevInfoHash, 'info' => $User['info']]);
-        }
-
-//  Проверяем наличие записи в sessions . auth(соответствие зоны, мака и сигнатуры, не истекший expiration)
-        //    Есть - обновляем counter и авторизируем устройство
-
-        $session = SessionsAuth::whereSpot_id($spot->id)->whereDevice_mac($mac)
-            ->whereSignature($User['signature'])->where('expiration', '>', $date)->first();
-        if ($session) {
-            $count = $session->counter;
-            $count = $count + 1;
-            SessionsAuth::whereMac($mac)->update(['created' => $date, 'counter' => $count]);
-//            $this->auth(); как правильна
-        }
-
-//  Проверяем наличие записи в stages
-//    Есть - передаем фронту данные записи
-
-        $stages = Stage::whereSpot_id($spot->id)->whereDevice_mac($mac)->first();
-        if ($stages) {
-            return $stages;
-        }
-//    }
-
-//      Блок авторизации
-
-//    public function auth($array)
-//    {
-        $date = new \DateTime();
-        $expiration = new \DateTime();
-        $expiration->modify('+6 month');// такое себе решение, тупо меняет число в месяце
-        $vibor = 4;
-        $phone = 8768768;
-
-        switch ($vibor) {
-            case 1://   Смс
-                $proverka = GuestSms::wherePhone($phone)->where('expiration', '>', $date)->first();
-                if ($proverka) {
-                    return 'cod est`';
-                    //сообщаем фронту, что данный гость уже имеет код?
-                } else {
-                    $code = rand(1000, 9999);
-                    GuestSms::create(['created' => $date, 'expiration' => $expiration, 'spot_id' => $spot->id,
-                        'phone' => $phone, 'device_mac' => $mac, 'code' => $code]);
-                    // отправляем СМС?
-                    return 'otpravil sms';
-                }
-                break;
-            case 2://   Звонки
-                GuestCall::create(['phone' => $phone]);
-                Stage::create(['created' => $date, 'spot_id' => $spot->id, 'device_mac' => $mac, 'phone' => $phone]);
-                break;
-            case 3://   Ваучеры
-                $voucher = GuestVoucher::whereDevice_mac($mac)->where('expiration', '>', $date)->first();
-                if ($voucher) {
-                    return ('авторизируем');
-                }
-                break;
-        }
-
-//        $contents =\File::get("$way");
-        $arr = Storage::get($way);
-
+//        $spot = Spot::whereIdent($ident)->first();
+//        if (!$spot) {
+//            return response('F', 404);
+//        }
         return view('test', $request->all());
     }
 
-    public function logs($array, $name)
-    {
-//        $name = strtolower($spot->ident);
-        $way = "device/$name.log";
-        $log = "";
-        foreach ($array as $arr) {
-            $log .= "$arr|";
-        }
-        Storage::append($way, $log);
+//        $device = Device::whereMac($mac)->first();
+//
+//        $User['info'] = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_SPECIAL_CHARS);
+//        $DevInfoHash = md5($User['info']);
+//        $User['signature'] = md5($name . $mac . $ip . 'TooManySecrets');
+//
+//        $array = $request->all();
+//
+////        Есть в devices по mac?
+////        Нет - записываем с дефолтными полями
+//
+//        if ($device) {
+//            Device::whereMac($mac)->update(['created' => $date]);
+//        } else {
+//            Device::create(['created' => $date, 'mac' => $mac]);
+//        }
+//
+////        Проверяем наличие записи DeviceInfo в таблице user - agents
+////        Есть - обновляем запись в devices
+////        Нет - добавляем с дефолтными значениями
+//
+//        $userinfo = UserAgent::whereUid($DevInfoHash)->first();
+//        if ($userinfo) {
+//            UserAgent::whereUid($DevInfoHash)->update(['info' => $User['info']]);
+//        } else {
+//            UserAgent::create(['uid' => $DevInfoHash, 'info' => $User['info']]);
+//        }
+//
+////  Проверяем наличие записи в sessions . auth(соответствие зоны, мака и сигнатуры, не истекший expiration)
+//        //    Есть - обновляем counter и авторизируем устройство
+//
+//        $session = SessionsAuth::whereSpot_id($spot->id)->whereDevice_mac($mac)
+//            ->whereSignature($User['signature'])->where('expiration', '>', $date)->first();
+//        if ($session) {
+//            $count = $session->counter;
+//            $count = $count + 1;
+//            SessionsAuth::whereMac($mac)->update(['created' => $date, 'counter' => $count]);
+////            $this->auth(); как правильна
+//        }
+//
+////  Проверяем наличие записи в stages
+////    Есть - передаем фронту данные записи
+//
+//        $stages = Stage::whereSpot_id($spot->id)->whereDevice_mac($mac)->first();
+//        if ($stages) {
+//            return $stages;
+//        }
+////    }
+//
+////      Блок авторизации
+//
+////    public function auth($array)
+////    {
+//        $date = new \DateTime();
+//        $expiration = new \DateTime();
+//        $expiration->modify('+6 month');// такое себе решение, тупо меняет число в месяце
+//        $spot_type = 4;
+//        $phone = 8768768;
+//
+//        switch ($spot_type) {
+//            case 1://   Смс
+//                $proverka = GuestSms::wherePhone($phone)->where('expiration', '>', $date)->first();
+//                if ($proverka) {
+//                    return 'cod est`';
+//                    //сообщаем фронту, что данный гость уже имеет код?
+//                } else {
+//                    $code = rand(1000, 9999);
+//                    GuestSms::create(['created' => $date, 'expiration' => $expiration, 'spot_id' => $spot->id,
+//                        'phone' => $phone, 'device_mac' => $mac, 'code' => $code]);
+//                    // отправляем СМС?
+//                    return 'otpravil sms';
+//                }
+//                break;
+//            case 2://   Звонки
+//                GuestCall::create(['phone' => $phone]);
+//                Stage::create(['created' => $date, 'spot_id' => $spot->id, 'device_mac' => $mac, 'phone' => $phone]);
+//                break;
+//            case 3://   Ваучеры
+//                $voucher = GuestVoucher::whereDevice_mac($mac)->where('expiration', '>', $date)->first();
+//                if ($voucher) {
+//                    return ('авторизируем');
+//                }
+//                break;
+//        }
 
-        return ('Log успешно сохранён');
-    }
+//        $contents =\File::get("$way");
+//        $arr = Storage::get($way);
+//
+
+//
+//    public function logs($array, $name)
+//    {
+//        $name = strtolower($spot->ident);
+//        $way = "device/$ident.log";
+//        $log = "";
+//        foreach ($array as $arr) {
+//            $log .= "$arr|";
+//        }
+//        Storage::append($way, $log);
+//
+//        return ('Log успешно сохранён');
+//    }
 
     public function update(SpotsUpdateRequest $request, $id)
     {
