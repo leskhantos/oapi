@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Entities\Company;
 use App\Entities\Guests\Guest;
+use App\Entities\Spot;
 use App\Helpers\Helper;
 use App\Repositories\Interfaces\GuestRepositoryInterface;
 use Illuminate\Http\Request;
@@ -15,11 +16,11 @@ class GuestRepository implements GuestRepositoryInterface
     {
         $new = new Helper();
         $myDate = $new->currentDate($request);
-        $company = Company::findOrFail($id);
+        $spot = Spot::findOrFail($id);
         $guests = Guest::select('guests.id','devices.id as id_device', 'datetime', 'devices.type as type_device', 'os', 'device_mac', 'spots.type', 'data_auth', 'sessions')
             ->leftJoin('devices', 'guests.device_mac', '=', 'devices.mac')
             ->leftJoin('spots', 'guests.spot_id', '=', 'spots.id')
-            ->where('guests.spot_id', '=', $company->id)
+            ->where('guests.spot_id', '=', $spot->id)
             ->whereMonth('datetime', $myDate['month'])
             ->whereYear('datetime', $myDate['year'])->orderBy('sessions', 'DESC')
             ->get()->toArray();
