@@ -23,7 +23,7 @@ Route::put('put-users/{id}/pass', 'UsersController@updatePassword');
 
 Route::get('spots/types', 'SpotTypeController@index');
 
-Route::post('add/sms', 'StatController@addSms');     // ПЕРЕДЕЛАТЬ НАХОЙ
+Route::post('add/sms', 'StatController@addSms');
 Route::post('add/call', 'StatController@addCall');
 Route::post('add/guest', 'StatController@addGuest');
 Route::post('add/voucher', 'StatController@addVoucher');
@@ -32,6 +32,7 @@ Route::post('add/session/auth', 'SessionController@addSessionAuth');
 Route::post('add/session/spot', 'SessionController@addSessionSpot');
 Route::post('test/call', 'SpotController@create');
 Route::post('test/sms', 'SpotController@test');
+Route::get('vouchers/{id}/generate','VouchersController@generateVouchers');
 
 Route::post('enter','SpotController@saveLogsBySpot');
 
@@ -80,4 +81,4 @@ Route::get('device/{id}/sessions', 'DeviceController@sessionByDevice');
 Route::get('device/{id}/phones', 'DeviceController@phoneByDevice');
 Route::get('device/{id}/events', 'DeviceController@eventsByDevice');
 
-Route::post('/test', 'TestController@index');
+Route::post('/test/{id}', 'TestController@index');
