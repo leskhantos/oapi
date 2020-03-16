@@ -26,16 +26,52 @@ class VouchersController extends Controller
             }
             Voucher::create(['code' => $code, 'spot_id' => $id, 'list_id' => $list_id]);
         }
-        $voucher = Voucher::select('id', 'code')->where('list_id', $list_id)->get();
+        $vouchers = Voucher::select('id', 'code')->whereList_id($list_id)->get();
 
-        return $voucher;
+        return $vouchers;
+    }
+
+    public function getLastGenerate()
+    {
+        $voucher = Voucher::max('list_id');
+        return Voucher::whereList_id($voucher)->get();
     }
 
     public function showList($id)
     {
+        Spot::findOrFail($id);
         $list = Voucher::select('list_id', 'dt_start', 'dt_end', 'can_used')
-            ->where('spot_id', $id)->distinct('list_id')->get();
+            ->whereSpot_id($id)->distinct('list_id')->get();
 
         return $list;
+    }
+
+    public function getVouchersBySpot($id, Request $request)
+    {
+        $data = new \DateTime();
+        $activity = $request->activity;
+        Spot::findOrFail($id);
+        $vouchers = Voucher::select('id', 'room', 'dt_start', 'dt_end', 'can_used')->whereSpot_id($id);
+        switch ($activity) {
+            case 1://Active
+                $vouchers = $vouchers->where('dt_end', '>', $data);
+                break;
+            case 2://Passive
+                $vouchers = $vouchers->where('dt_end', '<', $data);
+                break;
+        }
+        $vouchers = $vouchers->get();
+        return $vouchers;
+    }
+
+    public function update($id, Request $request)
+    {
+        Voucher::findOrFail($id);
+        $voucher = Voucher::whereId($id)->where('dt_end', '!=', null)->get();
+        if (empty($voucher)) {
+            Voucher::whereId($id)->update($request->all());
+        } else {
+            return 'Активирован ранее';
+        }
     }
 }

@@ -32,8 +32,11 @@ Route::post('add/session/auth', 'SessionController@addSessionAuth');
 Route::post('add/session/spot', 'SessionController@addSessionSpot');
 Route::post('test/call', 'SpotController@create');
 Route::post('test/sms', 'SpotController@test');
+
 Route::get('vouchers/{id}/generate','VouchersController@generateVouchers');
 Route::get('vouchers/{id}/list','VouchersController@showList');
+Route::get('vouchers/{id}/spot','VouchersController@getVouchersBySpot');
+Route::put('vouchers/{id}','VouchersController@update');
 
 Route::post('enter','SpotController@saveLogsBySpot');
 
