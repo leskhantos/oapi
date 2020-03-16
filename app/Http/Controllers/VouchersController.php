@@ -10,14 +10,12 @@ class VouchersController extends Controller
 {
     public function generateVouchers($id)
     {
-        $voucher = Voucher::orderBy('list_id', 'DESC')->first();
-        $list_id = $voucher->list_id;
-        $list_id++;
-        $data = new \DateTime();
+        $voucher = Voucher::max('list_id');
+        $list_id = $voucher + 1;
         $number = 8;
         $arr = array('a', 'b', 'c', 'd', 'e', 'f', 'h', 'k', 'm', 'n', 'p', 'r', 's', 't',
             'v', 'x', 'y', 'z', '2', '3', '4', '5', '6', '7', '8', '9');
-        // Генерируем пароль
+        // Генерируем коды
         for ($i = 0; $i < 52; $i++) {
             $code = "";
             for ($j = 0; $j < $number; $j++) {
@@ -29,5 +27,4 @@ class VouchersController extends Controller
         }
         return Voucher::select('id', 'code')->where('list_id', $list_id)->get();
     }
-
 }
