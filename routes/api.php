@@ -60,7 +60,7 @@ Route::put('spot/{id}', 'SpotController@update');
 Route::post('company/spot', 'SpotController@store');
 
 Route::get('company/{id}/pages', 'CompaniesController@pagesByCompany');
-Route::post('page', 'PageController@store');
+Route::post('page', 'StyleController@store');
 
 Route::get('all/stats', 'StatController@getAllStat');
 Route::get('all/stats/month', 'StatController@getAllStatsPerMonth');
