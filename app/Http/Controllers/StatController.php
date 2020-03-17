@@ -8,18 +8,15 @@ use App\Entities\StatsGuest;
 use App\Entities\StatsSms;
 use App\Entities\StatsVoucher;
 use App\Repositories\Interfaces\StatMonthRepositoryInterface;
-use App\Repositories\Interfaces\StatRepositoryInterface;
 use Illuminate\Http\Request;
 
 
 class StatController extends Controller
 {
-    private $statRepository;
     private $statMonthRepository;
 
-    public function __construct(StatRepositoryInterface $statRepository, StatMonthRepositoryInterface $statMonthRepository)
+    public function __construct(StatMonthRepositoryInterface $statMonthRepository)
     {
-        $this->statRepository = $statRepository;
         $this->statMonthRepository = $statMonthRepository;
         parent::__construct();
     }
