@@ -49,9 +49,9 @@ class VouchersController extends Controller
         foreach ($array_list as $arr) {
             $active = $this->getVouchBySp($id)->where('dt_end', '!=', null)->where('list_id', '=', $arr['list_id'])->count();
             $inactive = $this->getVouchBySp($id)->where('dt_end', '=', null)->where('list_id', '=', $arr['list_id'])->count();
-//            $istekli = $this->getVouchBySp($id)->where('dt_end', '<', $data)->where('list_id', '=', $arr['list_id'])->count();
+            $istekli = $this->getVouchBySp($id)->where('dt_end', '<', $data)->where('list_id', '=', $arr['list_id'])->count();
 
-            $result[] = ['list_id' => $arr['list_id'], 'created' => $arr['created'], 'inactive' => $inactive, 'active' => $active];
+            $result[] = ['list_id' => $arr['list_id'], 'created' => $arr['created'], 'used' => $istekli, 'inactive' => $inactive, 'active' => $active];
         }
 
         return $result;
