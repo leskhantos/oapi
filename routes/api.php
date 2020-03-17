@@ -40,7 +40,6 @@ Route::put('vouchers/{id}','VouchersController@update');
 Route::get('list/{id}/vouchers','VouchersController@getVouchersByList');
 
 Route::post('enter','SpotController@saveLogsBySpot');
-Route::get('enter/test','SpotController@saveLogsBySpot');
 
 Route::post('add', 'GuestController@store');
 Route::get('company/{id}/guests', 'GuestController@guestByCompany');
@@ -89,6 +88,6 @@ Route::get('device/{id}/events', 'DeviceController@eventsByDevice');
 
 Route::post('/test/{id}', 'TestController@index');
 
-// Route::get('enter/test', function () {
-//     return view('spot-template');
-// });
+Route::get('enter/test', function () {
+    return view('spot-template');
+});

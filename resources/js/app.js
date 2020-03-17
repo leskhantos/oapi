@@ -1,6 +1,8 @@
-import Vue from 'vue';
-import Test from './components/test'
+import Vue from "vue";
+import SpotTemplate from "./components/spot-template";
 
-Vue.component('test', Test)
+import "bootstrap/dist/css/bootstrap.css";
 
-new Vue({ el: '#app' });
+Vue.component("spot-template", SpotTemplate);
+
+new Vue({ el: "#spot-template" });
