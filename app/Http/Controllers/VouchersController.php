@@ -14,7 +14,6 @@ class VouchersController extends Controller
         $data = new \DateTime();
         Spot::findOrFail($id);
         $voucher = Voucher::max('list_id');
-//        dd(Voucher::count());
         $list_id = $voucher + 1;
         $number = 8;
         $arr = array('a', 'b', 'c', 'd', 'e', 'f', 'h', 'k', 'm', 'n', 'p', 'r', 's', 't',
@@ -34,12 +33,6 @@ class VouchersController extends Controller
         return $vouchers;
     }
 
-    public function getLastGenerate()
-    {
-        $voucher = Voucher::max('list_id');
-        return Voucher::whereList_id($voucher)->get();
-    }
-
     public function showList($id)
     {
         $data = new \DateTime();
@@ -48,9 +41,9 @@ class VouchersController extends Controller
 
         $result = [];
         foreach ($array_list as $arr) {
-            $active = $this->getVouchBySp($id)->where('dt_end', '!=', null)->where('list_id', '=', $arr['list_id'])->count();
-            $inactive = $this->getVouchBySp($id)->where('dt_end', '=', null)->where('list_id', '=', $arr['list_id'])->count();
-            $istekli = $this->getVouchBySp($id)->where('dt_end', '<', $data)->where('list_id', '=', $arr['list_id'])->count();
+            $active = $this->getVoucher($id)->where('dt_end', '!=', null)->where('list_id', '=', $arr['list_id'])->count();
+            $inactive = $this->getVoucher($id)->where('dt_end', '=', null)->where('list_id', '=', $arr['list_id'])->count();
+            $istekli = $this->getVoucher($id)->where('dt_end', '<', $data)->where('list_id', '=', $arr['list_id'])->count();
 
             $result[] = ['list_id' => $arr['list_id'], 'created' => $arr['created'], 'used' => $istekli, 'inactive' => $inactive, 'active' => $active];
         }
@@ -58,7 +51,7 @@ class VouchersController extends Controller
         return $result;
     }
 
-    public function getVouchBySp($id)
+    public function getVoucher($id)
     {
         return Voucher::select('id', 'dt_start', 'dt_end')->whereSpot_id($id);
     }
@@ -97,7 +90,7 @@ class VouchersController extends Controller
         $voucher = Voucher::whereId($id)->where('dt_end', '!=', null)->first();
 
         if (empty($voucher)) {
-            Voucher::whereId($id)->update($request->all());
+            Voucher::whereId($id)->update($request->validated());
             return 12;
         } else {
             return 'Активирован ранее';
