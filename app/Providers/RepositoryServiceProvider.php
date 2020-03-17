@@ -41,9 +41,6 @@ class RepositoryServiceProvider extends ServiceProvider
             CompanyRepositoryInterface::class, CompanyRepository::class,
             );
         $this->app->bind(
-            StatRepositoryInterface::class, StatRepository::class,
-            );
-        $this->app->bind(
             StatMonthRepositoryInterface::class, StatMonthRepository::class,
             );
         $this->app->bind(
