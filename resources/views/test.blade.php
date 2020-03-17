@@ -43,6 +43,6 @@
         <test></test>
     </div>
 
-    <script src="{{ mix('js/app.js') }}"></script>
+    <script src="{{ mix('oyspot/js/app.js') }}"></script>
 </body>
 </html>
