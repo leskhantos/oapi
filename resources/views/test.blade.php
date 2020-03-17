@@ -5,7 +5,8 @@
 @if(isset($v2))
     {{ $v2  }}
 @endif
-<br />@if(isset($v3))
+<br />
+@if(isset($v3))
     {{ $v3  }}
 @endif
 <br />
