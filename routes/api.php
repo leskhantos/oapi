@@ -87,3 +87,7 @@ Route::get('device/{id}/phones', 'DeviceController@phoneByDevice');
 Route::get('device/{id}/events', 'DeviceController@eventsByDevice');
 
 Route::post('/test/{id}', 'TestController@index');
+
+// Route::get('enter/test', function () {
+//     return view('spot-template');
+// });
