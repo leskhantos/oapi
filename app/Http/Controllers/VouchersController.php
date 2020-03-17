@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Entities\Spot;
 use App\Entities\Voucher;
+use App\Http\Requests\Api\Vouchers\VoucherUpdate;
 use Illuminate\Http\Request;
 
 class VouchersController extends Controller
@@ -90,11 +91,11 @@ class VouchersController extends Controller
         return $vouchers;
     }
 
-    public function update($id, Request $request)
+    public function update($id, VoucherUpdate $request)
     {
         Voucher::findOrFail($id);
         $voucher = Voucher::whereId($id)->where('dt_end', '!=', null)->get()->toArray();
-//        dd($voucher);
+
         if (empty($voucher)) {
             Voucher::whereId($id)->update($request->all());
             return 12;
