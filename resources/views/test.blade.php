@@ -43,6 +43,6 @@
         <test></test>
     </div>
 
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="https://api.oyster.su/oyspot/js/app.js"></script>
 </body>
 </html>
