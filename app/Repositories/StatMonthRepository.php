@@ -3,19 +3,64 @@
 namespace App\Repositories;
 
 use App\Entities\Company;
+use App\Entities\Device;
 use App\Entities\Page;
+use App\Entities\SessionsAuth;
 use App\Entities\Spot;
 use App\Entities\StatsCall;
 use App\Entities\StatsDevice;
 use App\Entities\StatsGuest;
 use App\Entities\StatsSms;
 use App\Entities\StatsVoucher;
+use App\Entities\Voucher;
 use App\Helpers\Helper;
 use App\Repositories\Interfaces\StatMonthRepositoryInterface;
 use Illuminate\Http\Request;
 
 class StatMonthRepository implements StatMonthRepositoryInterface
 {
+    public function getAllStats(Request $request)
+    {
+        $new = new Helper();
+        $myDate = $new->currentDate($request);
+        $device = new Device();
+        $count_devices = $device->countDevices();
+        $count_new_device = $device->countDevicesForMonth();
+        $auth_guest = $device->countAuthUser();
+
+        $session = new SessionsAuth();
+        $sessions = $session->sessionAuth();
+
+        $count_spots = Spot::count();
+        $count_companies = Company::count();
+        $count_pages = Page::count();
+        $count_vouchers = Voucher::count();
+
+        $smss = $this->getSms($myDate)->get()->toArray();
+        $calls = $this->getCall($myDate)->get()->toArray();
+        $vouchers = $this->getVoucher($myDate)->get()->toArray();
+
+        $sms = $this->counter($smss);
+        $call = $this->counter($calls);
+        $voucher = $this->counter($vouchers);
+
+        $data = [
+            'count_company' => $count_companies,
+            'count_spot' => $count_spots,
+            'pages' => $count_pages,
+            'count_all_device' => $count_devices,
+            'count_new_device' => $count_new_device,
+            'auth_guest' => $auth_guest,
+            'session' => $sessions,
+            'count_vouchers' => $count_vouchers,
+        ];
+        $data['sms'] = $sms;
+        $data['call'] = $call;
+        $data['voucher'] = $voucher;
+
+        return $data;
+    }
+
     public function getAllStatsPerMonth(Request $request)
     {
         $new = new Helper();
@@ -80,13 +125,13 @@ class StatMonthRepository implements StatMonthRepositoryInterface
         $new = new Helper();
         $myDate = $new->currentDate($request);
         $company = Company::findOrFail($id);
-        $devices = $this->getDevice($myDate)->whereCompany_id($company->id) ->get()->toArray();
+        $devices = $this->getDevice($myDate)->whereCompany_id($company->id)->get()->toArray();
         $calls = $this->getCall($myDate)->whereCompanyId($company->id)->get()->toArray();
         $guests = $this->getGuest($myDate)->whereCompanyId($company->id)->get()->toArray();
 
-        $device = $this->counterMonth($devices, $myDate['day']);
-        $call = $this->counterMonth($calls, $myDate['day']);
-        $guest = $this->counterMonth($guests, $myDate['day']);
+        $device = $this->counter($devices);
+        $call = $this->counter($calls);
+        $guest = $this->counter($guests);
 
 //        $array = array_merge($devices, $calls, $guests);
 //        $result = $this->counter($array);
@@ -113,11 +158,11 @@ class StatMonthRepository implements StatMonthRepositoryInterface
                 break;
             case 2:// Звонки
                 $calls = $this->getCall($myDate)->whereSpotId($spot->id)->get()->toArray();
-                $stats = $this->counterMonth($calls, $myDate['day']);
+                $stats = $this->counter($calls);
                 break;
             case 3:// Ваучеры
                 $vouchers = $this->getVoucher($myDate)->whereSpotId($spot->id)->get()->toArray();
-                $stats = $this->counterMonth($vouchers, $myDate['day']);
+                $stats = $this->counter($vouchers);
                 break;
         }
 
@@ -166,6 +211,7 @@ class StatMonthRepository implements StatMonthRepositoryInterface
     //@param $number - колличество дней
     //@return фильтрованный массив со всей статистикой по дням
 
+
     public function counterMonth($array, $number)
     {
         if (!empty($array)) {
@@ -190,6 +236,22 @@ class StatMonthRepository implements StatMonthRepositoryInterface
                 $end += [$i => $result];
             }
             return ($end);
+        } else {
+            return (0);
+        }
+    }
+
+    public function counter($array)
+    {
+        if (!empty($array)) {
+            $result = [];
+            foreach ($array as $key => $value) {
+                foreach ($value as $k => $v) {
+                    @$result[$k] += $v;
+                }
+            }
+
+            return ($result);
         } else {
             return (0);
         }
