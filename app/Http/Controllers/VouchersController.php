@@ -94,7 +94,7 @@ class VouchersController extends Controller
     public function update($id, VoucherUpdate $request)
     {
         Voucher::findOrFail($id);
-        $voucher = Voucher::whereId($id)->where('dt_end', '!=', null)->get()->toArray();
+        $voucher = Voucher::whereId($id)->where('dt_end', '!=', null)->first();
 
         if (empty($voucher)) {
             Voucher::whereId($id)->update($request->all());
