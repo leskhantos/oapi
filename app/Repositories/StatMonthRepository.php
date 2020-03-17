@@ -6,6 +6,7 @@ use App\Entities\Company;
 use App\Entities\Page;
 use App\Entities\Spot;
 use App\Entities\StatsCall;
+use App\Entities\StatsDevice;
 use App\Entities\StatsGuest;
 use App\Entities\StatsSms;
 use App\Entities\StatsVoucher;
@@ -72,6 +73,57 @@ class StatMonthRepository implements StatMonthRepositoryInterface
         return response(['guests' => $guests, 'stats' => $stats, 'type' => $spot->type, 'days' => $myDate['day']]);
     }
 
+    //Круги
+
+    public function getStatsByCompany($id, Request $request)
+    {
+        $new = new Helper();
+        $myDate = $new->currentDate($request);
+        $company = Company::findOrFail($id);
+        $devices = $this->getDevice($myDate)->whereCompany_id($company->id) ->get()->toArray();
+        $calls = $this->getCall($myDate)->whereCompanyId($company->id)->get()->toArray();
+        $guests = $this->getGuest($myDate)->whereCompanyId($company->id)->get()->toArray();
+
+        $device = $this->counterMonth($devices, $myDate['day']);
+        $call = $this->counterMonth($calls, $myDate['day']);
+        $guest = $this->counterMonth($guests, $myDate['day']);
+
+//        $array = array_merge($devices, $calls, $guests);
+//        $result = $this->counter($array);
+
+        return response(['device' => $device, 'call' => $call, 'guest' => $guest]);
+    }
+
+    public function getStatsBySpot($id, Request $request)
+    {
+        $new = new Helper();
+        $myDate = $new->currentDate($request);
+        $spot = Spot::findOrFail($id);
+        $type = $spot->type;
+        $devices = $this->getDevice($myDate)->whereSpot_id($spot->id)->get()->toArray();
+        $guests = $this->getGuest($myDate)->whereSpotId($spot->id)->get()->toArray();
+
+        $device = $this->counterMonth($devices, $myDate['day']);
+        $guest = $this->counterMonth($guests, $myDate['day']);
+        $stats = [];
+        switch ($type) {
+            case 1:// Смс
+                $sms = $this->getSms($myDate)->whereSpotId($spot->id)->get()->toArray();
+                $stats = $this->counterMonth($sms, $myDate['day']);
+                break;
+            case 2:// Звонки
+                $calls = $this->getCall($myDate)->whereSpotId($spot->id)->get()->toArray();
+                $stats = $this->counterMonth($calls, $myDate['day']);
+                break;
+            case 3:// Ваучеры
+                $vouchers = $this->getVoucher($myDate)->whereSpotId($spot->id)->get()->toArray();
+                $stats = $this->counterMonth($vouchers, $myDate['day']);
+                break;
+        }
+
+        return response(['device' => $device, 'guest' => $guest, 'stats' => $stats, 'type' => $type]);
+    }
+
     public function getSms($myDate)
     {
         return StatsSms::select('date', 'all as all_sms', 'resend', 'delivered')
@@ -96,6 +148,16 @@ class StatMonthRepository implements StatMonthRepositoryInterface
     public function getGuest($myDate)
     {
         return StatsGuest::select('date', 'load', 'auth as auth_guests', 'new', 'old')
+            ->whereMonth('date', $myDate['month'])
+            ->whereYear('date', $myDate['year']);
+    }
+
+    public function getDevice($myDate)
+    {
+        return StatsDevice::select(
+            'android', 'ios', 'linux', 'windows', 'windows_phone', 'os_other', 'android_browser',
+            'edge', 'firefox', 'chrome', 'opera', 'safari', 'yandex_browser',
+            'webkit', 'browser_other', 'mobile', 'tablet', 'computer', 'type_other')
             ->whereMonth('date', $myDate['month'])
             ->whereYear('date', $myDate['year']);
     }

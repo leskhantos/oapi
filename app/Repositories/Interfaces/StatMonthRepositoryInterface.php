@@ -13,4 +13,8 @@ interface StatMonthRepositoryInterface
 
     public function getStatsBySpotPerMonth($spot_id, Request $request);
 
+    public function getStatsByCompany($company_id, Request $request);
+
+    public function getStatsBySpot($spot_id, Request $request);
+
 }

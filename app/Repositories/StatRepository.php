@@ -59,65 +59,7 @@ class StatRepository implements StatRepositoryInterface
 
     //Круги
 
-    public function getStatsByCompany($id)
-    {
-        $company = Company::findOrFail($id);
-        $devices = StatsDevice::select(
-            'android', 'ios', 'linux', 'windows', 'windows_phone', 'os_other', 'android_browser', 'edge',
-            'firefox', 'chrome', 'opera', 'safari', 'yandex_browser', 'webkit', 'browser_other',
-            'mobile', 'tablet', 'computer', 'type_other')->whereCompany_id($company->id)
-            ->get()->toArray();
 
-        $calls = StatsCall::select('requests', 'checked')
-            ->whereCompanyId($company->id)->get()->toArray();
-
-        $guests = StatsGuest::select('load', 'auth', 'new', 'old')
-            ->whereCompanyId($company->id)->get()->toArray();
-
-        $device = $this->counter($devices);
-        $call = $this->counter($calls);
-        $guest = $this->counter($guests);
-
-//        $array = array_merge($devices, $calls, $guests);
-//        $result = $this->counter($array);
-
-        return response(['device' => $device, 'call' => $call, 'guest' => $guest]);
-    }
-
-    public function getStatsBySpot($id)
-    {
-        $spot = Spot::findOrFail($id);
-        $type = $spot->type;
-        $devices = StatsDevice::select(
-            'android', 'ios', 'linux', 'windows', 'windows_phone', 'os_other', 'android_browser', 'edge',
-            'firefox', 'chrome', 'opera', 'safari', 'yandex_browser', 'webkit', 'browser_other',
-            'mobile', 'tablet', 'computer', 'type_other')->whereSpot_id($spot->id)->get()->toArray();
-        $guests = StatsGuest::select('load', 'auth', 'new', 'old')
-            ->whereSpotId($spot->id)->get()->toArray();
-
-        $device = $this->counter($devices);
-        $guest = $this->counter($guests);
-        $stats = [];
-        switch ($type) {
-            case 1:// Смс
-                $sms = StatsSms::select('all as all_sms', 'resend', 'delivered')
-                    ->whereSpotId($spot->id)->get()->toArray();
-                $stats = $this->counter($sms);
-                break;
-            case 2:// Звонки
-                $calls = StatsCall::select('requests', 'checked')
-                    ->whereSpotId($spot->id)->get()->toArray();
-                $stats = $this->counter($calls);
-                break;
-            case 3:// Ваучеры
-                $vouchers = StatsVoucher::select('all as all_vouchers', 'auth')
-                    ->whereSpotId($spot->id)->get()->toArray();
-                $stats = $this->counter($vouchers);
-                break;
-        }
-
-        return response(['device' => $device, 'guest' => $guest, 'stats' => $stats, 'type' => $type]);
-    }
 
     //@array $array - входной массив
     //@return общую статистику
