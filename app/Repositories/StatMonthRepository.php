@@ -148,13 +148,13 @@ class StatMonthRepository implements StatMonthRepositoryInterface
         $devices = $this->getDevice($myDate)->whereSpot_id($spot->id)->get()->toArray();
         $guests = $this->getGuest($myDate)->whereSpotId($spot->id)->get()->toArray();
 
-        $device = $this->counterMonth($devices, $myDate['day']);
-        $guest = $this->counterMonth($guests, $myDate['day']);
+        $device = $this->counter($devices);
+        $guest = $this->counter($guests);
         $stats = [];
         switch ($type) {
             case 1:// Смс
                 $sms = $this->getSms($myDate)->whereSpotId($spot->id)->get()->toArray();
-                $stats = $this->counterMonth($sms, $myDate['day']);
+                $stats = $this->counter($sms);
                 break;
             case 2:// Звонки
                 $calls = $this->getCall($myDate)->whereSpotId($spot->id)->get()->toArray();
