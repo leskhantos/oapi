@@ -41,11 +41,25 @@ class VouchersController extends Controller
 
     public function showList($id)
     {
+        $data = new \DateTime();
         Spot::findOrFail($id);
-        $list = Voucher::select('list_id', 'created', 'dt_start', 'dt_end', 'can_used')
-            ->whereSpot_id($id)->distinct()->get();
+        $array_list = Voucher::select('list_id', 'created')->whereSpot_id($id)->distinct()->get()->toArray();
 
-        return $list;
+        $result = [];
+        foreach ($array_list as $arr) {
+            $active = $this->getVouchBySp($id)->where('dt_end', '!=', null)->where('list_id', '=', $arr['list_id'])->count();
+            $inactive = $this->getVouchBySp($id)->where('dt_end', '=', null)->where('list_id', '=', $arr['list_id'])->count();
+//            $istekli = $this->getVouchBySp($id)->where('dt_end', '<', $data)->where('list_id', '=', $arr['list_id'])->count();
+
+            $result[] = ['list_id' => $arr['list_id'], 'created' => $arr['created'], 'inactive' => $inactive, 'active' => $active];
+        }
+
+        return $result;
+    }
+
+    public function getVouchBySp($id)
+    {
+        return Voucher::select('id', 'dt_start', 'dt_end')->whereSpot_id($id);
     }
 
     public function getVouchersBySpot($id, Request $request)
