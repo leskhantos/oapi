@@ -40,6 +40,7 @@ Route::put('vouchers/{id}','VouchersController@update');
 Route::get('list/{id}/vouchers','VouchersController@getVouchersByList');
 
 Route::post('enter','SpotController@saveLogsBySpot');
+Route::get('enter/test','SpotController@saveLogsBySpot');
 
 Route::post('add', 'GuestController@store');
 Route::get('company/{id}/guests', 'GuestController@guestByCompany');
