@@ -15,6 +15,6 @@ class DefaultSettingController extends Controller
 
     public function store(SettingsStoreRequest $request)
     {
-        return DefaultSetting::create($request->all());
+        return DefaultSetting::create($request->validated());
     }
 }

@@ -27,7 +27,7 @@ class UsersController extends Controller
 
     public function store(StoreUser $request)
     {
-        return User::create($request->all());
+        return User::create($request->validated());
     }
 
     public function show($id)
@@ -39,7 +39,7 @@ class UsersController extends Controller
     {
         if (auth()->user()->type == 'admin') {
             $user = User::findOrFail($id);
-            $user->update($request->all());
+            $user->update($request->validated());
             return response($user);
         }else{
             return response('No privileges',403);

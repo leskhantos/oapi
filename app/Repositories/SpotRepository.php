@@ -17,10 +17,10 @@ class SpotRepository implements SpotRepositoryInterface
     {
         $company = Company::findOrFail($id);
         $spot = Spot::
-        select('spots.id', 'spots.company_id', 'pages.name as page_name',
+        select('spots.id', 'spots.company_id', 'styles.name as page_name',
             'spots.last_active', 'spots.ident', 'address',
-            'spots.type', 'spots.page_id', 'spots.enabled')
-            ->leftJoin('pages', 'page_id', '=', 'pages.id')
+            'spots.type', 'spots.style_id as page_id', 'spots.enabled')
+            ->leftJoin('styles', 'style_id', '=', 'styles.id')
             ->where('spots.company_id', '=', $company->id)
             ->get();
 
@@ -91,24 +91,23 @@ class SpotRepository implements SpotRepositoryInterface
     public function eventsBySpot($id)
     {
         $spot = Spot::findOrFail($id);
+        $path = storage_path();
         $name = strtolower($spot->ident);
-        $way = "device/$name.log";
+        $way = "$path/app/device/$name.log";
         $log = "";
-        Storage::get($way);
 
-//        $contents = \File::get("$way");
+//      $array = Storage::get($way);
         $array = file($way);
+
         $result = [];
         foreach ($array as $value) {
-            $stroka = str_replace("\r\n", 'Успех!', $value);
+            $stroka = str_replace("\n", '', $value);
             $slovo = explode("|", $stroka);
-            //
+
             array_push($result, $slovo);
         }
+        dd($result);
 
-
-
-        return $contents;
-//      ploho
+        return response(['data'=>$result]);
     }
 }

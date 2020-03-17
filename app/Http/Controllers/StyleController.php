@@ -15,6 +15,6 @@ class StyleController extends Controller
 
     public function store(StoreRequest $request)
     {
-        return Style::create($request->all());
+        return Style::create($request->validated());
     }
 }

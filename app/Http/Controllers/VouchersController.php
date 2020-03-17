@@ -91,7 +91,8 @@ class VouchersController extends Controller
 
         if (empty($voucher)) {
             Voucher::whereId($id)->update($request->validated());
-            return 12;
+            $id = Voucher::whereId($id)->get();
+            return $id;
         } else {
             return 'Активирован ранее';
         }
