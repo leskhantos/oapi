@@ -64,9 +64,9 @@ class StatController extends Controller
         return $this->statMonthRepository->getStatsBySpotPerMonth($spot_id, $request);
     }
 
-    public function getAllStat()
+    public function getAllStat(Request $request)
     {
-        return $this->statRepository->getAllStats();
+        return $this->statMonthRepository->getAllStats($request);
     }
 
     public function getStatsByCompany($company_id, Request $request)
