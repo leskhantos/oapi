@@ -150,6 +150,7 @@ class StatMonthRepository implements StatMonthRepositoryInterface
 
         $device = $this->counter($devices);
         $guest = $this->counter($guests);
+        unset($guest['date']);
         $stats = [];
         switch ($type) {
             case 1:// Смс
