@@ -37,6 +37,7 @@ Route::get('vouchers/{id}/generate','VouchersController@generateVouchers');
 Route::get('vouchers/{id}/list','VouchersController@showList');
 Route::get('vouchers/{id}/spot','VouchersController@getVouchersBySpot');
 Route::put('vouchers/{id}','VouchersController@update');
+Route::get('list/{id}/vouchers','VouchersController@getVouchersByList');
 
 Route::post('enter','SpotController@saveLogsBySpot');
 
