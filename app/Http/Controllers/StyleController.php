@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Page;
+use App\Entities\Style;
 use App\Http\Requests\Api\Page\StoreRequest;
 
 
-class PageController extends Controller
+class StyleController extends Controller
 {
     public function show($id)
     {
-        return Page::where('pages.company_id', '=', $id)->get();
+        return Style::where('styles.company_id', '=', $id)->get();
     }
 
     public function store(StoreRequest $request)
     {
-        return Page::create($request->all());
+        return Style::create($request->all());
     }
 }

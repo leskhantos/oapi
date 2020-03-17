@@ -13,11 +13,10 @@ class CreatePagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('pages', function (Blueprint $table) {
+        Schema::create('styles', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('company_id')->references('id')->on('companies');
             $table->string('name',30);
-            $table->integer('type')->references('type')->on('spots');
             $table->string('title',20);
             $table->string('logo',40)->nullable();
             $table->json('background')->nullable();
@@ -34,6 +33,6 @@ class CreatePagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pages');
+        Schema::dropIfExists('styles');
     }
 }

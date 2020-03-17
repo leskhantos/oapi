@@ -4,12 +4,12 @@ namespace App\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Page extends Model
+class Style extends Model
 {
     public $timestamps = false;
 
     protected $fillable = [
-        'id','company_id', 'name', 'type', 'title', 'logo',
+        'id','company_id', 'name', 'title', 'logo',
         'background', 'style', 'banner', 'debug_key'
     ];
 

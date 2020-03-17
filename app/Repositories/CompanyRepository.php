@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Entities\Account;
 use App\Entities\Company;
 use App\Entities\Page;
+use App\Entities\Style;
 use App\Repositories\Interfaces\CompanyRepositoryInterface;
 
 class CompanyRepository implements CompanyRepositoryInterface
@@ -30,8 +31,8 @@ class CompanyRepository implements CompanyRepositoryInterface
     public function pagesByCompany($company_id)
     {
         $company = Company::findOrFail($company_id);
-        $pages = Page::select('name','address as spot','spots.type')->where('pages.company_id', '=', $company->id)
-            ->leftJoin('spots','spots.page_id','=','pages.id')
+        $pages = Style::select('name','address as spot','spots.type')->where('styles.company_id', '=', $company->id)
+            ->leftJoin('spots','spots.style_id','=','styles.id')
             ->get();
 
         return $pages;

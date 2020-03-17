@@ -20,7 +20,7 @@ class CreateSpotsTable extends Migration
             $table->integer('type')->references('id')->on('spots_types');
             $table->string('ident', 150)->index();
             $table->json('settings')->nullable();
-            $table->integer('page_id')->default(0);
+            $table->integer('style_id')->default(0);
             $table->timestamp('last_active')->nullable();
             $table->string('debug_key', 50)->nullable()->index();
             $table->boolean('enabled')->default(true);

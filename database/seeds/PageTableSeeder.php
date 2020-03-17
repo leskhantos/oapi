@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Entities\Page;
+use App\Entities\Style;
 
 class PageTableSeeder extends Seeder
 {
@@ -12,7 +12,7 @@ class PageTableSeeder extends Seeder
      */
     public function run()
     {
-        Page::truncate();
-        factory(Page::class,1)->create();
+        Style::truncate();
+        factory(Style::class,1)->create();
     }
 }
