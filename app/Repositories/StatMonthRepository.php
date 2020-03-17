@@ -12,6 +12,7 @@ use App\Entities\StatsDevice;
 use App\Entities\StatsGuest;
 use App\Entities\StatsSms;
 use App\Entities\StatsVoucher;
+use App\Entities\Style;
 use App\Entities\Voucher;
 use App\Helpers\Helper;
 use App\Repositories\Interfaces\StatMonthRepositoryInterface;
@@ -33,7 +34,7 @@ class StatMonthRepository implements StatMonthRepositoryInterface
 
         $count_spots = Spot::count();
         $count_companies = Company::count();
-        $count_pages = Page::count();
+        $count_pages = Style::count();
         $count_vouchers = Voucher::count();
 
         $smss = $this->getSms($myDate)->get()->toArray();
@@ -150,7 +151,6 @@ class StatMonthRepository implements StatMonthRepositoryInterface
 
         $device = $this->counter($devices);
         $guest = $this->counter($guests);
-        unset($guest['date']);
         $stats = [];
         switch ($type) {
             case 1:// Смс
@@ -247,6 +247,7 @@ class StatMonthRepository implements StatMonthRepositoryInterface
         if (!empty($array)) {
             $result = [];
             foreach ($array as $key => $value) {
+                unset($value['date']);
                 foreach ($value as $k => $v) {
                     @$result[$k] += $v;
                 }
