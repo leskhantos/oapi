@@ -135,8 +135,9 @@
     #agreement-text-block {
         background: #ffffff;
         color: #000000;
-        position: absolute;
-        top: 100%;
+        position: static;
+        top: 0;
+        right: 0;
         left: 0;
         width: 100%;
         height: auto;

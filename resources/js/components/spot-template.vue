@@ -4,6 +4,17 @@
         class="main d-flex flex-column justify-content-between"
         :style="mainStyle"
     >
+        <form id="login" name="login" action="http://login.site/login" method="post">
+            <input type="hidden" name="domain" value="">
+            <input type="hidden" name="popup" value="false">
+            <input type="hidden" name="dst" value="https://oy2b.ru/wifiok">
+            <input type="hidden" id="device" name="device" value="AA:CB:CC:DD:EE:FF">
+            <input type="hidden" id="phone-number" name="phone" value="">
+            <input type="hidden" id="username" name="username" value="">
+            <input type="hidden" id="password" name="password" value="0">
+            <input type="hidden" id="signature" name="signature" value="2ffecac3b2c9d5e617b6fe291b72a618">
+            <input type="hidden" id="spot" name="spot" value="bridge-ArtProcess-call">
+        </form>
         <div class="container text-center header">
             <img :src="wifi_image" class="img-fluid" />
         </div>
@@ -49,7 +60,7 @@
             </div>
         </div>
     </div>
-    <agreement v-else id="agreement" v-show="showAgreement" @close="showAgreement=false"/>
+    <agreement v-else  @close="showAgreement=false"/>
     </div>
 </template>
 
