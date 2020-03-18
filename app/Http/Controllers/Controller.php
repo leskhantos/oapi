@@ -11,7 +11,7 @@ class Controller extends BaseController
 {
     public function __construct()
     {
-        $this->middleware('auth:api')->except(['login', 'saveLogsBySpot']);
+        $this->middleware('auth:api,accounts_api')->except(['login', 'saveLogsBySpot']);
     }
 
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
