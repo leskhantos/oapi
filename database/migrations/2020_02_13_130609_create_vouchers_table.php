@@ -22,7 +22,7 @@ class CreateVouchersTable extends Migration
             $table->string('code',10)->unique()->index();
             $table->timestamp('dt_start')->nullable();
             $table->timestamp('dt_end')->nullable();
-            $table->smallInteger('can_used')->default(0);
+            $table->smallInteger('can_used')->default(6);
         });
     }
 
