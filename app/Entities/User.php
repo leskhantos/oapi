@@ -42,9 +42,7 @@ use Laravel\Passport\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User whereDisabled($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User whereLastIp($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User whereLastLogin($value)
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
  * @property-read int|null $permissions_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
  * @property-read int|null $roles_count
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User permission($permissions)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User role($roles, $guard = null)
@@ -67,6 +65,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'login', 'password', 'last_ip', 'last_online', 'type', 'enabled'
     ];
+
+    protected $hidden = ['password'];
 
     /**
      * The attributes that should be hidden for arrays.
