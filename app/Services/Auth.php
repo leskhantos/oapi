@@ -62,5 +62,17 @@ class Auth
         if (!AuthFacade::attempt($credentials)) {
             throw new InvalidLoginOrPassword();
         }
+
+        if(Auth::guard('user')->attempt($request->only('login','password'),$request->filled('remember'))){
+            //Authentication passed...
+            return 323;
+        }
+        if(Auth::guard('accounts')->attempt($request->only('email','password'),$request->filled('remember'))){
+            //Authentication passed...
+            return 123;
+        }
+        else {
+            throw new InvalidLoginOrPassword();
+        }
     }
 }

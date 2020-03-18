@@ -2,11 +2,15 @@
 
 namespace App\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Passport\HasApiTokens;
 
-class Account extends Model
+class Account extends Authenticatable
 {
+    use  Notifiable, HasApiTokens;
+
     public $timestamps = false;
 
     protected $fillable = ['company_id', 'email', 'last_ip', 'last_online', 'password'];
