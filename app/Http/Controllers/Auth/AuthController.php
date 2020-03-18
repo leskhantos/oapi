@@ -37,7 +37,7 @@ class AuthController extends Controller
         ])) {
             $user = $request->user();
         } else if (Auth::guard('accounts')->attempt([
-            'email' => $request->email,
+            'email' => $request->login,
             'password' => $request->password
         ])) {
             $user = Auth::guard('accounts')->user();
