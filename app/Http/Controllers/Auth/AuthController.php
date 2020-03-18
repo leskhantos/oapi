@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Services\Auth as AuthService;
 use Laravel\Passport\PersonalAccessTokenResult;
+use Illuminate\Support\Facades\Auth;
+use App\Exceptions\Http\Auth\InvalidLoginOrPassword;
 
 class AuthController extends Controller
 {
@@ -27,9 +29,29 @@ class AuthController extends Controller
      * @param LoginRequest $request
      * @return JsonResponse
      */
-    public function login(LoginRequest $request)
+    public function login(Request $request)
     {
-        $tokenResult = $this->authService->login($request);
+        if (Auth::attempt([
+            'login' => $request->login,
+            'password' => $request->password
+        ])) {
+            $user = $request->user();
+        } else if (Auth::guard('accounts')->attempt([
+            'email' => $request->email,
+            'password' => $request->password
+        ])) {
+            $user = Auth::guard('accounts')->user();
+        } else {
+            throw new InvalidLoginOrPassword();
+        }
+
+        $request->setUserResolver(function () use ($user) {
+            return $user;
+        });
+
+        $tokenResult = $user->createToken('Personal Access Token');
+        $token = $tokenResult->token;
+        $token->save();
 
         return $this->respondWithToken($tokenResult);
     }
