@@ -9,8 +9,7 @@ class Style extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'id','company_id', 'name', 'title', 'logo',
-        'background', 'style', 'banner', 'debug_key'
+        'id', 'company_id', 'name', 'title', 'logo', 'background', 'style', 'banner', 'debug_key'
     ];
 
     public function companies()

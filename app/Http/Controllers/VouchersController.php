@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Entities\GuestVoucher;
 use App\Entities\Spot;
 use App\Entities\Voucher;
 use App\Http\Requests\Api\Vouchers\VoucherUpdate;
@@ -33,20 +34,37 @@ class VouchersController extends Controller
         return $vouchers;
     }
 
+    function sort($array)
+    {
+        $uniq_list = [];
+        $uniq_arr = [];
+
+        foreach ($array as $arr) {
+            if (!in_array($arr['list_id'], $uniq_list)) {
+                $uniq_list[] = $arr['list_id'];
+                $uniq_arr[] = $arr;
+            }
+        }
+        return $uniq_arr;
+    }
+
     public function showList($id)
     {
         $data = new \DateTime();
         Spot::findOrFail($id);
+
         $array_list = Voucher::select('list_id', 'created_at')->whereSpot_id($id)->distinct()->get()->toArray();
+        $array = $this->sort($array_list);
 
         $result = [];
-        foreach ($array_list as $arr) {
+        foreach ($array as $arr) {
             $active = $this->getVoucher($id)->where('dt_end', '!=', null)->where('list_id', '=', $arr['list_id'])->count();
             $inactive = $this->getVoucher($id)->where('room', '=', null)->where('list_id', '=', $arr['list_id'])->count();
-            $istekli = $this->getVoucher($id)->where('dt_end', '<', $data)->where('list_id', '=', $arr['list_id'])->count();
+            $used = $this->getVoucher($id)->where('dt_end', '<', $data)->where('list_id', '=', $arr['list_id'])->count();
+//            $used = GuestVoucher::where('')->count();
             // использованный в гуест ваучерс появится
 
-            $result[] = ['list_id' => $arr['list_id'], 'created' => $arr['created_at'], 'used' => $istekli, 'inactive' => $inactive, 'active' => $active];
+            $result[] = ['list_id' => $arr['list_id'], 'created' => $arr['created_at'], 'used' => $used, 'inactive' => $inactive, 'active' => $active];
         }
 
         return $result;
@@ -97,7 +115,7 @@ class VouchersController extends Controller
         if (empty($voucher)) {
             Voucher::whereId($id)->update($request->validated());
             $id = Voucher::whereId($id)->get();
-            return response($id,200);
+            return response($id, 200);
         } else {
             return response('Активирован ранее', 402);
         }

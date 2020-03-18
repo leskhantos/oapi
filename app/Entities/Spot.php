@@ -10,8 +10,7 @@ class Spot extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'company_id', 'address', 'type', 'ident',
-        'last_activity', 'settings', 'style_id','enabled'
+        'company_id', 'address', 'type', 'ident', 'debug_key', 'last_activity', 'settings', 'style_id', 'enabled'
     ];
 
     public function company()
