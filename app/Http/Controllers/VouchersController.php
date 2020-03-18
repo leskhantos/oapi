@@ -26,7 +26,7 @@ class VouchersController extends Controller
                 $index = rand(0, count($arr) - 1);
                 $code .= $arr[$index];
             }
-            Voucher::create(['code' => $code,  'spot_id' => $id, 'list_id' => $list_id]);
+            Voucher::create(['code' => $code, 'spot_id' => $id, 'list_id' => $list_id]);
         }
         $vouchers = Voucher::select('id', 'code')->whereList_id($list_id)->get();
 
@@ -85,17 +85,20 @@ class VouchersController extends Controller
         return $vouchers;
     }
 
-    public function update($id, VoucherUpdate $request)
+    public function update($id, $spot_id, VoucherUpdate $request)
     {
-        Voucher::findOrFail($id);
-        $voucher = Voucher::whereId($id)->where('dt_end', '!=', null)->first();
+        $f = Voucher::where('spot_id', '=', $spot_id)->find($id);
+        if (!$f) {
+            return response('Некоректный id', 402);
+        }
+        $voucher = Voucher::whereId($id)->where('room', '!=', null)->first();
 
         if (empty($voucher)) {
             Voucher::whereId($id)->update($request->validated());
             $id = Voucher::whereId($id)->get();
-            return $id;
+            return response($id,200);
         } else {
-            return 'Активирован ранее';
+            return response('Активирован ранее', 402);
         }
     }
 }
