@@ -9,7 +9,7 @@
 </head>
 <body>
   <div id="spot-template">
-    <spot-template 
+    <spot-template
     />
   </div>
 

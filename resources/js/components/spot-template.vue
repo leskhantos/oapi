@@ -1,5 +1,6 @@
 <template>
-    <div
+    <div>
+    <div v-if="showAgreement===false"
         class="main d-flex flex-column justify-content-between"
         :style="mainStyle"
     >
@@ -34,7 +35,7 @@
               <img :src="banner_image" class="img-fluid" />
             </div>
         </div>
-        <div class="container footer">
+        <div class="container footer" @click="showAgreement=true">
             <div class="d-flex justify-content-center">
                 <div :style="{ width: '100px' }">
                     <img :src="oyLogo" class="img-fluid" />
@@ -48,12 +49,12 @@
             </div>
         </div>
     </div>
+    <agreement v-else id="agreement" v-show="showAgreement" @close="showAgreement=false"/>
+    </div>
 </template>
 
 <script>
-import tHeader from "./t-header";
-import tContent from "./t-content";
-import tFooter from "./t-footer";
+import agreement from "./agreement";
 import propsMixin from "../mixins/template-props";
 
 import wifi_image from "../assets/wifi.png";
@@ -67,7 +68,8 @@ export default {
         wifi_image: wifi_image,
         oyLogo: oyLogo,
         arrow: arrow,
-        banner_image: banner
+        banner_image: banner,
+        showAgreement:false
     }),
     computed: {
         mainStyle: function() {
@@ -78,9 +80,7 @@ export default {
         }
     },
     components: {
-        tHeader,
-        tContent,
-        tFooter
+        agreement
     }
 };
 </script>
