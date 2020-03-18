@@ -85,8 +85,9 @@ class VouchersController extends Controller
         return $vouchers;
     }
 
-    public function update($id, $spot_id, VoucherUpdate $request)
+    public function update($spot_id, VoucherUpdate $request)
     {
+        $id = $request->id;
         $f = Voucher::where('spot_id', '=', $spot_id)->find($id);
         if (!$f) {
             return response('Некоректный id', 402);
