@@ -26,7 +26,7 @@ class VouchersController extends Controller
                 $index = rand(0, count($arr) - 1);
                 $code .= $arr[$index];
             }
-            Voucher::create(['code' => $code, 'created' => $data, 'spot_id' => $id, 'list_id' => $list_id]);
+            Voucher::create(['code' => $code,  'spot_id' => $id, 'list_id' => $list_id]);
         }
         $vouchers = Voucher::select('id', 'code')->whereList_id($list_id)->get();
 
@@ -37,15 +37,16 @@ class VouchersController extends Controller
     {
         $data = new \DateTime();
         Spot::findOrFail($id);
-        $array_list = Voucher::select('list_id', 'created')->whereSpot_id($id)->distinct()->get()->toArray();
+        $array_list = Voucher::select('list_id', 'created_at')->whereSpot_id($id)->distinct()->get()->toArray();
 
         $result = [];
         foreach ($array_list as $arr) {
             $active = $this->getVoucher($id)->where('dt_end', '!=', null)->where('list_id', '=', $arr['list_id'])->count();
-            $inactive = $this->getVoucher($id)->where('dt_end', '=', null)->where('list_id', '=', $arr['list_id'])->count();
+            $inactive = $this->getVoucher($id)->where('room', '=', null)->where('list_id', '=', $arr['list_id'])->count();
             $istekli = $this->getVoucher($id)->where('dt_end', '<', $data)->where('list_id', '=', $arr['list_id'])->count();
+            // использованный в гуест ваучерс появится
 
-            $result[] = ['list_id' => $arr['list_id'], 'created' => $arr['created'], 'used' => $istekli, 'inactive' => $inactive, 'active' => $active];
+            $result[] = ['list_id' => $arr['list_id'], 'created' => $arr['created_at'], 'used' => $istekli, 'inactive' => $inactive, 'active' => $active];
         }
 
         return $result;

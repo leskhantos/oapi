@@ -9,8 +9,7 @@ class Voucher extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'created', 'spot_id', 'room', 'code',
-        'list_id', 'dt_start', 'dt_end', 'can_used'
+        'spot_id', 'room', 'code', 'list_id', 'dt_start', 'dt_end', 'can_used'
     ];
 
     public function spots()
