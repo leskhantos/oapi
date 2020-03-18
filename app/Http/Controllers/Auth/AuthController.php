@@ -53,7 +53,7 @@ class AuthController extends Controller
         $token = $tokenResult->token;
         $token->save();
 
-        return $this->respondWithToken($tokenResult);
+        return $this->respondWithToken($tokenResult, $user);
     }
 
     /**
@@ -78,10 +78,11 @@ class AuthController extends Controller
         return new JsonResponse($request->user());
     }
 
-    protected function respondWithToken(PersonalAccessTokenResult $tokenResult)
+    protected function respondWithToken(PersonalAccessTokenResult $tokenResult, $user)
     {
         return new JsonResponse([
             'access_token' => $tokenResult->accessToken,
+            'type' => $user->type,
             'token_type' => 'Bearer',
             'expires_at' => Carbon::parse($tokenResult->token->expires_at)
                 ->toDateTimeString()
