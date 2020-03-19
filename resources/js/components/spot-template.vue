@@ -4,18 +4,15 @@
         class="main d-flex flex-column justify-content-between"
         :style="mainStyle"
     >
-        <form id="login" name="login" action="http://login.site/login" method="post">
-            <input type="hidden" name="domain" value="">
-            <input type="hidden" name="popup" value="false">
-            <input type="hidden" name="dst" value="https://oy2b.ru/wifiok">
-            <input type="hidden" id="device" name="device" value="AA:CB:CC:DD:EE:FF">
-            <input type="hidden" id="phone-number" name="phone" value="">
-            <input type="hidden" id="username" name="username" value="">
-            <input type="hidden" id="password" name="password" value="0">
-            <input type="hidden" id="signature" name="signature" value="2ffecac3b2c9d5e617b6fe291b72a618">
-            <input type="hidden" id="spot" name="spot" value="bridge-ArtProcess-call">
-        </form>
-        <div class="container text-center header">
+        <actionForm :interface_name="this.v1"
+                    :hostname="this.v2"
+                    :mac="this.v3"
+                    :ip="this.v4"
+                    :username="this.v5"
+                    :link_login_only="this.v6"
+                    :link_orig="this.v7"
+                    :error="this.v8"/>
+        <div class="container text-center header" @click="show">
             <img :src="wifi_image" class="img-fluid" />
         </div>
         <div class="container content">
@@ -66,6 +63,7 @@
 
 <script>
 import agreement from "./agreement";
+import actionForm from "./actionForm";
 import propsMixin from "../mixins/template-props";
 
 import wifi_image from "../assets/wifi.png";
@@ -74,6 +72,42 @@ import arrow from "../assets/arrow.svg";
 import banner from "../assets/banner.jpg";
 
 export default {
+    props:{
+      v1:{
+          type: Number,
+          required: false
+      },
+        v2:{
+          type: Number,
+          required: false
+      },
+        v3:{
+          type: Number,
+          required: false
+      },
+        v4:{
+          type: Number,
+          required: false
+      },
+        v5:{
+          type: Number,
+          required: false
+      },
+        v6:{
+          type: Number,
+          required: false
+      },
+        v7:{
+          type: Number,
+          required: false
+      },
+        v8:{
+          type: Number,
+          required: false
+      },
+
+
+    },
     mixins: [propsMixin],
     data: () => ({
         wifi_image: wifi_image,
@@ -82,6 +116,11 @@ export default {
         banner_image: banner,
         showAgreement:false
     }),
+    methods:{
+      show(){
+          console.log(this.v1)
+      }
+    },
     computed: {
         mainStyle: function() {
             return {
@@ -91,7 +130,8 @@ export default {
         }
     },
     components: {
-        agreement
+        agreement,
+        actionForm
     }
 };
 </script>
