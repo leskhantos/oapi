@@ -90,13 +90,15 @@ Route::post('/test/{id}', 'TestController@index');
 
 Route::get('enter/test', function () {
     return view('spot-template', [
-        'v1' => '1',
-        'v2' => '2',
-        'v3' => '3',
-        'v4' => '4',
-        'v5' => '5',
-        'v6' => '6',
-        'v7' => '7',
-        'v8' => '8',
+        'data' => [
+            'v1' => '1',
+            'v2' => '2',
+            'v3' => '3',
+            'v4' => '4',
+            'v5' => '5',
+            'v6' => '6',
+            'v7' => '7',
+            'v8' => '8',
+        ]
     ]);
 });
