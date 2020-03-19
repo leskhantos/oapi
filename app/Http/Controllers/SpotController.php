@@ -74,7 +74,7 @@ class SpotController extends Controller
         return Spot::create($request->all());
     }
 
-    public function saveLogsBySpot(Request $request)
+    public function enter(Request $request)
     {
         $date = new \DateTime();
         $ident = $request->v1;
@@ -138,39 +138,42 @@ class SpotController extends Controller
 
 //      Блок авторизации
 
-//    public function auth($array)
-//    {
-//        $date = new \DateTime();
-//        $expiration = new \DateTime();
-//        $expiration->modify('+6 month');// такое себе решение, тупо меняет число в месяце
-//        $spot_type = 4;
-//        $phone = 8768768;
-//
-//        switch ($spot_type) {
-//            case 1://   Смс
-//                $proverka = GuestSms::wherePhone($phone)->where('expiration', '>', $date)->first();
-//                if ($proverka) {
-//                    return 'cod est`';
-//                    //сообщаем фронту, что данный гость уже имеет код?
-//                } else {
-//                    $code = rand(1000, 9999);
-//                    GuestSms::create(['created' => $date, 'expiration' => $expiration, 'spot_id' => $spot->id,
-//                        'phone' => $phone, 'device_mac' => $mac, 'code' => $code]);
-//                    // отправляем СМС?
-//                    return 'otpravil sms';
-//                }
-//                break;
-//            case 2://   Звонки
-//                GuestCall::create(['phone' => $phone]);
-//                Stage::create(['created' => $date, 'spot_id' => $spot->id, 'device_mac' => $mac, 'phone' => $phone]);
-//                break;
-//            case 3://   Ваучеры
-//                $voucher = GuestVoucher::whereDevice_mac($mac)->where('expiration', '>', $date)->first();
-//                if ($voucher) {
-//                    return ('авторизируем');
-//                }
-//                break;
-//        }
+    public function enterWithPhone(Request $request, $spot_id)
+    {
+        $spot = Spot::findOrFail($spot_id);
+        $phone = $request->phone;
+        $mac = $request->v3;
+        $date = new \DateTime();
+        $expiration = new \DateTime();
+        $expiration->modify('+6 month');// такое себе решение, тупо меняет число в месяце
+        $spot_type = $spot->type;
+
+        switch ($spot_type) {
+            case 1://   Смс
+                $proverka = GuestSms::wherePhone($phone)->where('expiration', '>', $date)->first();
+                if ($proverka) {
+                    return 'cod est`';
+                    //сообщаем фронту, что данный гость уже имеет код?
+                } else {
+                    $code = rand(1000, 9999);
+                    GuestSms::create(['created' => $date, 'expiration' => $expiration, 'spot_id' => $spot->id,
+                        'phone' => $phone, 'device_mac' => $mac, 'code' => $code]);
+                    // отправляем СМС?
+                    return 'otpravil sms';
+                }
+                break;
+            case 2://   Звонки
+                GuestCall::create(['phone' => $phone]);
+                Stage::create(['created' => $date, 'spot_id' => $spot->id, 'device_mac' => $mac, 'phone' => $phone]);
+                break;
+            case 3://   Ваучеры
+                $voucher = GuestVoucher::whereDevice_mac($mac)->where('expiration', '>', $date)->first();
+                if ($voucher) {
+                    return ('авторизируем');
+                }
+                break;
+        }
+    }
 //
 //        $contents = \File::get("$way");
 //        $arr = Storage::get($way);
