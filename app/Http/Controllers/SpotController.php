@@ -85,6 +85,7 @@ class SpotController extends Controller
         if (!$spot) {
             return response('F', 404);
         }
+        $type = $spot->type;
 
         $device = Device::whereMac($mac)->first();
 
@@ -93,6 +94,7 @@ class SpotController extends Controller
         $User['signature'] = md5($name . $mac . $ip . 'TooManySecrets');
 
         $array = $request->all();
+        $array['type'] = $type;
 
 //        Есть в devices по mac?
 //        Нет - записываем с дефолтными полями
@@ -169,10 +171,15 @@ class SpotController extends Controller
             case 3://   Ваучеры
                 $voucher = GuestVoucher::whereDevice_mac($mac)->where('expiration', '>', $date)->first();
                 if ($voucher) {
-                    return ('авторизируем');
+                    $this->auth();
                 }
                 break;
         }
+    }
+
+    public function auth()
+    {
+
     }
 //
 //        $contents = \File::get("$way");
