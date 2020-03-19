@@ -6,6 +6,7 @@ use App\Entities\Device;
 use App\Entities\GuestCall;
 use App\Entities\GuestSms;
 use App\Entities\GuestVoucher;
+use App\Entities\Radius;
 use App\Entities\SessionsAuth;
 use App\Entities\Sms;
 use App\Entities\Spot;
@@ -115,6 +116,7 @@ class SpotController extends Controller
         } else {
             UserAgent::create(['uid' => $DevInfoHash, 'info' => $User['info']]);
         }
+//        dd($User['signature']);
 
 //  Проверяем наличие записи в sessions . auth(соответствие зоны, мака и сигнатуры, не истекший expiration)
         //    Есть - обновляем counter и авторизируем устройство
@@ -122,10 +124,13 @@ class SpotController extends Controller
         $session = SessionsAuth::whereSpot_id($spot->id)->whereDevice_mac($mac)
             ->whereSignature($User['signature'])->where('expiration', '>', $date)->first();
         if ($session) {
+//            dd($session->expiration);
             $count = $session->counter;
             $count = $count + 1;
-            SessionsAuth::whereMac($mac)->update(['created' => $date, 'counter' => $count]);
-//            $this->auth(); как правильна
+            SessionsAuth::whereDevice_mac($mac)->update(['created' => $date, 'counter' => $count]);
+            $exp = $session->expiration->format('d F Y H:m');
+            $pass = md5('KotPrivetYaEtoOn');
+            $this->auth($name, $exp, $pass);
         }
 
 //  Проверяем наличие записи в stages
@@ -177,9 +182,11 @@ class SpotController extends Controller
         }
     }
 
-    public function auth()
+    public function auth($name, $exp, $pass)
     {
-
+        Radius::create(['username' => $name, 'attribute' => 'Expiration', 'op' => ':=', 'value' => $exp]);
+        Radius::create(['username' => $name, 'attribute' => 'Cleartext-Password', 'op' => ':=', 'value' => $pass]);
+        dd('done.');
     }
 //
 //        $contents = \File::get("$way");
