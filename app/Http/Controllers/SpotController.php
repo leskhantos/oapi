@@ -81,66 +81,65 @@ class SpotController extends Controller
         $name = $request->v2;
         $mac = $request->v3;
         $ip = $request->v4;
-//        $spot = Spot::whereIdent($ident)->first();
-//        if (!$spot) {
-//            return response('F', 404);
-//        }
-        return view('test', $request->all());
+        $spot = Spot::whereIdent($ident)->first();
+        if (!$spot) {
+            return response('F', 404);
+        }
+
+        $device = Device::whereMac($mac)->first();
+
+        $User['info'] = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_SPECIAL_CHARS);
+        $DevInfoHash = md5($User['info']);
+        $User['signature'] = md5($name . $mac . $ip . 'TooManySecrets');
+
+        $array = $request->all();
+
+//        Есть в devices по mac?
+//        Нет - записываем с дефолтными полями
+
+        if ($device) {
+            Device::whereMac($mac)->update(['created' => $date]);
+        } else {
+            Device::create(['created' => $date, 'mac' => $mac]);
+        }
+
+//        Проверяем наличие записи DeviceInfo в таблице user - agents
+//        Есть - обновляем запись в devices
+//        Нет - добавляем с дефолтными значениями
+
+        $userinfo = UserAgent::whereUid($DevInfoHash)->first();
+        if ($userinfo) {
+            UserAgent::whereUid($DevInfoHash)->update(['info' => $User['info']]);
+        } else {
+            UserAgent::create(['uid' => $DevInfoHash, 'info' => $User['info']]);
+        }
+
+//  Проверяем наличие записи в sessions . auth(соответствие зоны, мака и сигнатуры, не истекший expiration)
+        //    Есть - обновляем counter и авторизируем устройство
+
+        $session = SessionsAuth::whereSpot_id($spot->id)->whereDevice_mac($mac)
+            ->whereSignature($User['signature'])->where('expiration', '>', $date)->first();
+        if ($session) {
+            $count = $session->counter;
+            $count = $count + 1;
+            SessionsAuth::whereMac($mac)->update(['created' => $date, 'counter' => $count]);
+//            $this->auth(); как правильна
+        }
+
+//  Проверяем наличие записи в stages
+//    Есть - передаем фронту данные записи
+
+        $stages = Stage::whereSpot_id($spot->id)->whereDevice_mac($mac)->first();
+        if ($stages) {
+            return view('spot-template',['data' => $array, 'stages' => $stages]);
+        }
+        return view('spot-template',['data' => $array]);
     }
 
-//        $device = Device::whereMac($mac)->first();
-//
-//        $User['info'] = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_SPECIAL_CHARS);
-//        $DevInfoHash = md5($User['info']);
-//        $User['signature'] = md5($name . $mac . $ip . 'TooManySecrets');
-//
-//        $array = $request->all();
-//
-////        Есть в devices по mac?
-////        Нет - записываем с дефолтными полями
-//
-//        if ($device) {
-//            Device::whereMac($mac)->update(['created' => $date]);
-//        } else {
-//            Device::create(['created' => $date, 'mac' => $mac]);
-//        }
-//
-////        Проверяем наличие записи DeviceInfo в таблице user - agents
-////        Есть - обновляем запись в devices
-////        Нет - добавляем с дефолтными значениями
-//
-//        $userinfo = UserAgent::whereUid($DevInfoHash)->first();
-//        if ($userinfo) {
-//            UserAgent::whereUid($DevInfoHash)->update(['info' => $User['info']]);
-//        } else {
-//            UserAgent::create(['uid' => $DevInfoHash, 'info' => $User['info']]);
-//        }
-//
-////  Проверяем наличие записи в sessions . auth(соответствие зоны, мака и сигнатуры, не истекший expiration)
-//        //    Есть - обновляем counter и авторизируем устройство
-//
-//        $session = SessionsAuth::whereSpot_id($spot->id)->whereDevice_mac($mac)
-//            ->whereSignature($User['signature'])->where('expiration', '>', $date)->first();
-//        if ($session) {
-//            $count = $session->counter;
-//            $count = $count + 1;
-//            SessionsAuth::whereMac($mac)->update(['created' => $date, 'counter' => $count]);
-////            $this->auth(); как правильна
-//        }
-//
-////  Проверяем наличие записи в stages
-////    Есть - передаем фронту данные записи
-//
-//        $stages = Stage::whereSpot_id($spot->id)->whereDevice_mac($mac)->first();
-//        if ($stages) {
-//            return $stages;
-//        }
-////    }
-//
-////      Блок авторизации
-//
-////    public function auth($array)
-////    {
+//      Блок авторизации
+
+//    public function auth($array)
+//    {
 //        $date = new \DateTime();
 //        $expiration = new \DateTime();
 //        $expiration->modify('+6 month');// такое себе решение, тупо меняет число в месяце
@@ -172,29 +171,29 @@ class SpotController extends Controller
 //                }
 //                break;
 //        }
-
-//        $contents =\File::get("$way");
+//
+//        $contents = \File::get("$way");
 //        $arr = Storage::get($way);
 //
-
 //
-//    public function logs($array, $name)
-//    {
-//        $name = strtolower($spot->ident);
-//        $way = "device/$ident.log";
-//        $log = "";
-//        foreach ($array as $arr) {
-//            $log .= "$arr|";
+//        public function logs($array, $name)
+//        {
+//            $name = strtolower($spot->ident);
+//            $way = "device/$ident.log";
+//            $log = "";
+//            foreach ($array as $arr) {
+//                $log .= "$arr|";
+//            }
+//            Storage::append($way, $log);
+//
+//            return ('Log успешно сохранён');
 //        }
-//        Storage::append($way, $log);
-//
-//        return ('Log успешно сохранён');
-//    }
 
-    public function update(SpotsUpdateRequest $request, $id)
-    {
-        $spot = Spot::findOrFail($id);
-        $spot->update($request->all());
-        return $spot;
+        public
+        function update(SpotsUpdateRequest $request, $id)
+        {
+            $spot = Spot::findOrFail($id);
+            $spot->update($request->all());
+            return $spot;
+        }
     }
-}
