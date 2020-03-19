@@ -76,7 +76,6 @@ class SpotController extends Controller
         return Spot::create(array_merge($request->validated(), ['debug_key' => $debug]));
     }
 
-
     // Проводим проверку данных с микротика, передаём их на фронт.
     public function saveLogsBySpot(Request $request)
     {
@@ -96,10 +95,6 @@ class SpotController extends Controller
 
         $device = Device::whereMac($mac)->first();
 
-        $User['info'] = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_SPECIAL_CHARS);
-        $DevInfoHash = md5($User['info']);
-        $User['signature'] = md5($name . $mac . $ip . 'TooManySecrets');
-
 //        Есть в devices по mac?
 //        Нет - записываем с дефолтными полями
 
@@ -108,6 +103,10 @@ class SpotController extends Controller
         } else {
             Device::create(['created' => $date, 'mac' => $mac]);
         }
+
+        $User['info'] = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_SPECIAL_CHARS);
+        $DevInfoHash = md5($User['info']);
+        $User['signature'] = md5($name . $mac . $ip . 'TooManySecrets');
 
 //        Проверяем наличие записи DeviceInfo в таблице user - agents
 //        Есть - обновляем запись в devices
@@ -178,18 +177,15 @@ class SpotController extends Controller
                 if ($proverka) {
                     GuestCall::update(['phone' => $phone]);
                 }
-
                 break;
             case 3://   Ваучеры
                 $voucher = GuestVoucher::whereDevice_mac($mac)->where('expiration', '>', $date)->first();
-
                 if ($voucher) {
                     return ('авторизируем');
                 }
                 break;
         }
     }
-
 
     // тут происходит сама авторизация
 
@@ -201,28 +197,26 @@ class SpotController extends Controller
 //        $contents =\File::get("$way");
 //        $arr = Storage::get($way);
 
-//    }
-//
-////
-//    public function logs($array, $name)
-//    {
+    public function logs($array, $name)
+    {
 //        $name = strtolower($spot->ident);
-//        $way = "device/$name.log";
-//        $log = "";
-//        foreach ($array as $arr) {
-//            $log .= "$arr|";
-//        }
-//        Storage::append($way, $log);
+        $way = "device/$name.log";
+        $log = "";
+        foreach ($array as $arr) {
+            $log .= "$arr|";
+        }
+        Storage::append($way, $log);
 //
-//        return ('Log успешно сохранён');
-//    }
+        return response('Log успешно сохранён',200);
+    }
 
     function GetDevSignature($DevInfo = "")
     {
         preg_match('~\(([^)]+)\)~', $DevInfo, $matches);
         if (isset($matches[1])) return md5($matches[1]);
         $matches = explode(" ", $DevInfo);
-        if (isset($matches[0]) && strpos($DevInfo, " ")) return md5($matches[0]);
+        if (isset($matches[0]) && strpos($DevInfo, " "))
+            return md5($matches[0]);
         return md5($DevInfo);
     }
 
