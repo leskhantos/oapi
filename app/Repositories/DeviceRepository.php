@@ -35,7 +35,7 @@ class DeviceRepository implements DeviceRepositoryInterface
         }
         $devices = Device::select('last_session', 'companies.name', 'spots.address', 'screen_w', 'screen_h')
             ->join('spots', 'spots.id', '=', 'devices.spot_id')
-            ->join('companies', 'companies.id','=', 'spots.company_id')
+            ->join('companies', 'companies.id', '=', 'spots.company_id')
             ->where('devices.mac', '=', $device->mac)
             ->first()->toArray();
         $devices += ['count_auth' => $count_auth, 'count_finished' => $count_finished,
@@ -103,11 +103,27 @@ class DeviceRepository implements DeviceRepositoryInterface
             ->get();
     }
 
-    public function eventsByDevice($mac)
+    public function eventsByDevice($id)
     {
-        return ('fake');
-        //date
-        //event
-        //per month/year
+        $device = Device::findOrFail($id);
+//        $way = "/home/roman/valet/api.oyspot/www/data/devices/";
+////        $name = str_replace(':', '', $device->mac);
+//        $str = '13131:1313:1313:113';
+//        $name = str_replace(':', '', $str);
+//        $name .= ".loc";
+//
+//        $way .= "$name";
+//        $contents = \File::get("$way");
+//        $array = file($way);
+//        $ANTIDUPLICTED = "ACTIVATED";
+//
+//        $result = [];
+//        foreach ($array as $value) {
+//            $stroka = str_replace("\r\n", 'Успех!', $value);
+//            $slovo = explode("|", $stroka);
+//            array_push($result, $slovo);
+//        }
+//
+//        return $contents;
     }
 }

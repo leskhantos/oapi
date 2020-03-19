@@ -27,16 +27,13 @@ class CompaniesController extends Controller
 
     public function store(CompanyStoreRequest $request)
     {
-        return Company::create($request->all());
+        return Company::create($request->validated());
     }
 
     public function update(UpdateRequest $request, $id)
     {
         $company = Company::findOrFail($id);
-        $company->update([
-            'name' => $request->name,
-            'enabled' => $request->enabled
-        ]);
+        $company->update($request->validated());
         return $company;
     }
 
@@ -49,12 +46,12 @@ class CompaniesController extends Controller
 
     public function destroy($id)
     {
-        if(auth()->user()->type == 'admin') {
+        if (auth()->user()->type == 'admin') {
             Spot::where('company_id', '=', $id)->delete();
             Company::destroy($id);
             return response('Success');
-        }else{
-            return response('No privileges',403);
+        } else {
+            return response('No privileges', 403);
         }
     }
 
