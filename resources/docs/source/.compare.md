@@ -909,8 +909,8 @@ fetch(url, {
 
 <!-- END_a7b17a8464052c9cf4416713dfe75a21 -->
 
-<!-- START_d59ba0b521919188f0463f5b2817d0e1 -->
-## vouchers/{id}
+<!-- START_4550185136566199c775e921f8a11c8e -->
+## vouchers/{spot_id}
 > Example request:
 
 ```bash
@@ -943,10 +943,10 @@ fetch(url, {
 
 
 ### HTTP Request
-`PUT vouchers/{id}`
+`PUT vouchers/{spot_id}`
 
 
-<!-- END_d59ba0b521919188f0463f5b2817d0e1 -->
+<!-- END_4550185136566199c775e921f8a11c8e -->
 
 <!-- START_09c047e89ff9e1bac5bbe5dc83060b80 -->
 ## list/{id}/vouchers
