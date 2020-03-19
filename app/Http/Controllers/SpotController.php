@@ -131,9 +131,9 @@ class SpotController extends Controller
 
         $stages = Stage::whereSpot_id($spot->id)->whereDevice_mac($mac)->first();
         if ($stages) {
-            return view('spot-template',['data' => $array, 'stages' => $stages]);
+            return response(['stages' => $stages]);
         }
-        return view('spot-template',['data' => $array]);
+        return view('spot-template', ['data' => $array]);
     }
 
 //      Блок авторизации
@@ -189,11 +189,11 @@ class SpotController extends Controller
 //            return ('Log успешно сохранён');
 //        }
 
-        public
-        function update(SpotsUpdateRequest $request, $id)
-        {
-            $spot = Spot::findOrFail($id);
-            $spot->update($request->all());
-            return $spot;
-        }
+    public
+    function update(SpotsUpdateRequest $request, $id)
+    {
+        $spot = Spot::findOrFail($id);
+        $spot->update($request->all());
+        return $spot;
     }
+}
