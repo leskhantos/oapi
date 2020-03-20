@@ -143,9 +143,12 @@ class SpotController extends Controller
 
 //      Блок авторизации
 
-    public function enterWithPhone(Request $request, $spot_id)
+    public function enterWithPhone(Request $request, $ident)
     {
-        $spot = Spot::findOrFail($spot_id);
+        $spot = Spot::whereIdent($ident)->first();
+        if(!$spot){
+            return response('Fake ident',404);
+        }
         $phone = $request->phone;
         $mac = $request->v3;
         $date = new \DateTime();
