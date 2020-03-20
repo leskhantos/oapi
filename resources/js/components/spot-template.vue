@@ -9,28 +9,26 @@
                 <img :src="wifi_image" class="img-fluid"/>
             </div>
                 <div class="container content" v-if="!loading && !error" >
-                    <div class="text-center" v-if="data.type===1 || data.type===2">
-                        Для продолжения введите свой номер телефона
-                    </div>
-                    <div class="text-center" v-else>
-                        Для продолжения введите код с ваучера
-                    </div>
+                    <content-title v-if="(type===1 || type===2) && !smsInputShow" title='Для продолжения введите свой номер телефона'/>
+                    <content-title v-else-if="type===3 && !smsInputShow" title='Для продолжения введите код с ваучера'/>
+                    <content-title v-else title=' Для продолжения введите SMS'/>
                     <div class="mt-3">
-                        <div class="input-group input-group-sm flex-nowrap" v-if="data.type===1 || data.type===2">
+                        <div class="input-group input-group-sm flex-nowrap" v-if="(type===1 || type===2) && !smsInputShow">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">
-                                    <img :src="phone" class="img-fluid"/></span>
+                                    <img :src="phoneSvg" class="img-fluid"/></span>
                             </div>
                             <input
-                                type="text"
+                                type="tel"
                                 class="form-control form-control"
                                 placeholder="Номер телефона"
+                                v-model="phone"
                             />
                             <div class="input-group-append">
-                                <button class="btn btn-success">ОК</button>
+                                <button class="btn btn-success" @click="login">ОК</button>
                             </div>
                         </div>
-                        <div class="input-group input-group-sm flex-nowrap" v-else>
+                        <div class="input-group input-group-sm flex-nowrap" v-else-if="type===3 && !smsInputShow">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">
                                     <img :src="key" class="img-fluid"/></span>
@@ -44,8 +42,24 @@
                                 <button class="btn btn-success">ОК</button>
                             </div>
                         </div>
+                        <div class="input-group input-group-sm flex-nowrap" v-if="smsInputShow">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <img :src="smsSvg" class="img-fluid"/></span>
+                            </div>
+                            <input
+                                type="text"
+                                class="form-control form-control"
+                                placeholder="SMS"
+                                v-model="sms"
+                            />
+                            <div class="input-group-append">
+                                <button class="btn btn-success">ОК</button>
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="mt-3 text-center" v-if="data.type===1 || data.type===2" :style="{ fontSize: '10px' }">
+                    <div class="mt-3 text-center" v-if="type===1 || type===2" :style="{ fontSize: '10px' }">
                         Примеры ввода номера:<br/>
                         Россия: 79213334455<br/>
                         США: 19876543210
@@ -86,7 +100,9 @@
     import banner from "../assets/banner.jpg";
     import phone from "../assets/phone.svg"
     import key from "../assets/key.svg"
+    import smsSvg from "../assets/message-processing.svg"
     import axios from "axios"
+    import ContentTitle from "./content-title";
 
     export default {
         props: {
@@ -98,7 +114,7 @@
         mounted() {
             this.loading=true
             // setTimeout(()=> this.login(), 1000);
-            this.login()
+            this.enter()
         },
         mixins: [propsMixin],
         data: () => ({
@@ -106,23 +122,29 @@
             oyLogo: oyLogo,
             arrow: arrow,
             banner_image: banner,
-            phone: phone,
+            phoneSvg: phone,
             key: key,
+            smsSvg: smsSvg,
             showAgreement: false,
             error: null,
-            loading: null
+            loading: null,
+            phone: null,
+            smsInputShow:null,
+            sms: ''
+
         }),
         methods: {
-            async login() {
+            async enter() {
                 try {
-                    let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiM2Q1ZDhhNTdjNGRiZWI2M2QyNWY3MjE2M2Q3OTc3NWM2ODVjY2UwYzI3MzhhYmI3MGE3MjM5MGZkYmE3YzM2YzgxYWQzNWY4NjEzNjhkYzIiLCJpYXQiOjE1ODQ2OTQxNjIsIm5iZiI6MTU4NDY5NDE2MiwiZXhwIjoxNjE2MjMwMTYyLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.L7c4SS1m0IDRWlXQYL2t8XmMKSTpqEF0wxCo2D4ShwlYc_n2BowzJW83Bw6i6yQfRNNvnTsctLwt_8Lpfc8ijhyc8dHDjA24Ej1Q2P725Lzl0B1G33mrMrW2L--DCBtRmHNnTMaN3v5jcCkMtrerExqc0RFP60_XRYpfzhs0WV81yAoGmRLHzw9u036Fc7XbnUgVoshfKM7s7xVMKW1J8WNfvIbjf2awwYG-C0O9ukCawRA1J2PaqrMtijteYp5pZqvnA9fvLHRgsDTFf2-9Fog36Yfx8wf-6MO0e88S17Q8NIXCFPUtiePs_dTilWWWZ04mZFt_D4mMVYpUkZp2f53sBZ--YTy27D_xqL7ihcz2RKKRyS47zm4ewWb0-XhXr2y_WUX0Tv6qjByhtRryCNzN5h1xh9Ulb5e-LiEBZNWb0Hp2qpjI2lVCSfReF0thae5Ox6__Qny4V7iu-LoTN8MjavB8zjaVzDhdt2BcthNWyIERbr86gfy6sLPHq3zlMdT5N3U3pWS6N19v-Lbm_0wWcpruZCQxnrnBUu5DkTgLPS2DgIskthURkK7A78TawXqcAYIUqC_fw9qQUf6lXWWZOV_JSCO74963_296SyhIOEW8HWyWMLUxGUh02bv8AAZjxcND1eb1jIbbM6Qy8xWvTKcKuaezm02Q3lvF23Y'
+                    let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNTBlNDk4NDYxODE1NTMzMzgzZmNlZjA0N2NhMThkZTQyYjQ0YzEwNzBlZDQwYThkYTY5MTEzYWQ3ZThiOTNlOTllOGRiYTBmYjg2NWZkZjciLCJpYXQiOjE1ODQ3MDY1NDcsIm5iZiI6MTU4NDcwNjU0NywiZXhwIjoxNjE2MjQyNTQ3LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.JCFMCOdFnbSnd4wTNRvS6Rn78jp9kmJzsi-YjOxuMlnyQHppPFlyKTQMsSVBSamQXU5_UXF_SMz3jsZfvgcICFg876kP72mcYgFn_7Z7GfiP50H0ix-gaNnLGItv_7PylCwcXrSkNt9DnQu_1453Wni_bz_GGZiHl6MLdJAUKsrzkki_ieMbIaFITZMNFZcp9VVxh_PeIbsOIMb4LGK87Op9cURPnXe6bnCYLjnDQ2gqm-WBVmdT-6fqUaAJFKH7W7mzjgK1-e2PaJTxRU5miI2O4WfsJguaaQDtib46m3cciyriWSuWQs6WrOG8KC41pZQfa-umYy6Jxl8QYTOZApKq3QEaey0qPAfeXUkTw5sbNX7HYAwH-LeVCPJn-JroN9xRS8HvwQ45KrcsvkeWyJerMQmhCbdpz_XGOX1G7QRy7Rf8CPqrjzWlBtUIlz2yXOID46qyEC0RmkNQRh3uOqzJjvALi7Vd4KJnmw06O-brQzjpp-QiWjf0vmukNLGQSDO0-IPAh3EF9AxJdCc6eLB6bZuH5_a9WqDAhsonrlSg85a8UMOGToYgX26JgJy8rDPTpLPd0wR0qwzCgJxJTXXN8te8z_dQP4TkdZA64vt3DAAUng7oVyM_pGRv6Hv_EO-H1Hdqf1XtMv5yUz41N-aWh8ItAxlxL8YBuegErZM'
+
                     const config = {
                         headers: { Authorization: `Bearer ${token}` }
                     };
                     await axios.post(`https://api.oyspot.loc/enter`, {
-                        v1: 'sidorova.ru',
+                        v1: 'ersova.com',
                         v2: 3,
-                        v3: 12,
+                        v3: 1,
                         v4: 3,
                         v5: this.v5,
                         v6: this.v6,
@@ -132,12 +154,39 @@
                     this.loading=false
                     console.log(this.data)
 
-
                 } catch (e) {
                     console.log(e.response.status)
                     this.error=e.response.status
                     this.loading=false
                     console.log(this.data)
+                }
+            },
+            async login(){
+                try {
+                    let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNTBlNDk4NDYxODE1NTMzMzgzZmNlZjA0N2NhMThkZTQyYjQ0YzEwNzBlZDQwYThkYTY5MTEzYWQ3ZThiOTNlOTllOGRiYTBmYjg2NWZkZjciLCJpYXQiOjE1ODQ3MDY1NDcsIm5iZiI6MTU4NDcwNjU0NywiZXhwIjoxNjE2MjQyNTQ3LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.JCFMCOdFnbSnd4wTNRvS6Rn78jp9kmJzsi-YjOxuMlnyQHppPFlyKTQMsSVBSamQXU5_UXF_SMz3jsZfvgcICFg876kP72mcYgFn_7Z7GfiP50H0ix-gaNnLGItv_7PylCwcXrSkNt9DnQu_1453Wni_bz_GGZiHl6MLdJAUKsrzkki_ieMbIaFITZMNFZcp9VVxh_PeIbsOIMb4LGK87Op9cURPnXe6bnCYLjnDQ2gqm-WBVmdT-6fqUaAJFKH7W7mzjgK1-e2PaJTxRU5miI2O4WfsJguaaQDtib46m3cciyriWSuWQs6WrOG8KC41pZQfa-umYy6Jxl8QYTOZApKq3QEaey0qPAfeXUkTw5sbNX7HYAwH-LeVCPJn-JroN9xRS8HvwQ45KrcsvkeWyJerMQmhCbdpz_XGOX1G7QRy7Rf8CPqrjzWlBtUIlz2yXOID46qyEC0RmkNQRh3uOqzJjvALi7Vd4KJnmw06O-brQzjpp-QiWjf0vmukNLGQSDO0-IPAh3EF9AxJdCc6eLB6bZuH5_a9WqDAhsonrlSg85a8UMOGToYgX26JgJy8rDPTpLPd0wR0qwzCgJxJTXXN8te8z_dQP4TkdZA64vt3DAAUng7oVyM_pGRv6Hv_EO-H1Hdqf1XtMv5yUz41N-aWh8ItAxlxL8YBuegErZM'
+
+                    const config = {
+                        headers: { Authorization: `Bearer ${token}` }
+                    };
+                    const response = await axios.post(`https://api.oyspot.loc/enter/${this.data.v1}`, {
+                        v1: 'ersova.com',
+                        v2: 3,
+                        v3: 1,
+                        v4: 3,
+                        v5: this.v5,
+                        v6: this.v6,
+                        v7: this.v7,
+                        v8: this.v8,
+                        phone: this.phone,
+                    }, config)
+                    this.phone=null;
+                    if(response.data==='otpravil sms'){
+                        this.smsInputShow=response.data
+                    }
+                    // alert(response.data? response.data : 'success')
+                } catch (e) {
+                    console.log(e.response.status)
+                    this.error=e.response.status
                 }
             }
         },
@@ -148,8 +197,12 @@
                     color: this.textColor
                 };
             },
+            type:function () {
+                return this.data.type
+            }
         },
         components: {
+            ContentTitle,
             agreement,
             loader
         }
