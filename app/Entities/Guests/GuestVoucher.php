@@ -8,7 +8,6 @@ class GuestVoucher extends ParentGuest
 {
 
     protected $fillable =[
-        'activated','expiration','voucher_id',
-        'device_mac','spot_id'
+        'activated','expiration','voucher_id', 'device_mac','spot_id'
     ];
 }

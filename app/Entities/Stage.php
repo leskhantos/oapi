@@ -9,7 +9,7 @@ class Stage extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'spot_id', 'device_mac', 'phone'
+        'created', 'spot_id', 'device_mac', 'phone'
     ];
 
     public function spots()
