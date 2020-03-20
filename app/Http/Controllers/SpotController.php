@@ -194,7 +194,9 @@ class SpotController extends Controller
     {
         $pass = "$array->expiration.$array->device_mac";
         $username = "$array->device_mac.$array->expiration";
-        $exp = $array->expiration->format('d F Y H:m');
+        $date = new \DateTime($array->expiration);
+
+        $exp = $date->format('d F Y H:m');
         Radius::create(['username' => md5($username), 'attribute' => 'Cleartext-Password', 'op' => ':=', 'value' => md5($pass)]);
         Radius::create(['username' => md5($username), 'attribute' => 'Expiration', 'op' => ':=', 'value' => $exp]);
         dd('done.');
