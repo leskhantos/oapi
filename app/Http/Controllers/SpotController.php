@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Entities\Call;
 use App\Entities\Device;
 use App\Entities\GuestCall;
 use App\Entities\GuestSms;
@@ -77,6 +78,9 @@ class SpotController extends Controller
 
     public function enter(Request $request)
     {
+//        $text = "50:46:5D:6E:8C:20";
+//        $mac = strtolower($text);
+//        dd($mac);
         $date = new \DateTime();
         $ident = $request->v1;
         $name = $request->v2;
@@ -86,16 +90,14 @@ class SpotController extends Controller
         if (!$spot) {
             return response('F', 404);
         }
-        $type = $spot->type;
 
+        $type = $spot->type;
+        $request['type'] = $type;
         $device = Device::whereMac($mac)->first();
 
         $User['info'] = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_SPECIAL_CHARS);
         $DevInfoHash = md5($User['info']);
         $User['signature'] = md5($name . $mac . $ip . 'TooManySecrets');
-
-        $array = $request->all();
-        $array['type'] = $type;
 
 //        Есть в devices по mac?
 //        Нет - записываем с дефолтными полями
@@ -116,7 +118,6 @@ class SpotController extends Controller
         } else {
             UserAgent::create(['uid' => $DevInfoHash, 'info' => $User['info']]);
         }
-//        dd($User['signature']);
 
 //  Проверяем наличие записи в sessions . auth(соответствие зоны, мака и сигнатуры, не истекший expiration)
         //    Есть - обновляем counter и авторизируем устройство
@@ -124,23 +125,20 @@ class SpotController extends Controller
         $session = SessionsAuth::whereSpot_id($spot->id)->whereDevice_mac($mac)
             ->whereSignature($User['signature'])->where('expiration', '>', $date)->first();
         if ($session) {
-//            dd($session->expiration);
             $count = $session->counter;
             $count = $count + 1;
             SessionsAuth::whereDevice_mac($mac)->update(['created' => $date, 'counter' => $count]);
-            $exp = $session->expiration->format('d F Y H:m');
-            $pass = md5('KotPrivetYaEtoOn');
-            $this->auth($name, $exp, $pass);
+            $this->auth($session);
         }
 
-//  Проверяем наличие записи в stages
-//    Есть - передаем фронту данные записи
+//        Проверяем наличие записи в stages
+//        Есть - передаем фронту данные записи
 
         $stages = Stage::whereSpot_id($spot->id)->whereDevice_mac($mac)->first();
         if ($stages) {
             return response(['stages' => $stages]);
         }
-        return view('spot-template', ['data' => $array]);
+        return view('spot-template', ['data' => $request->all()]);
     }
 
 //      Блок авторизации
@@ -170,28 +168,37 @@ class SpotController extends Controller
                 }
                 break;
             case 2://   Звонки
-                GuestCall::create(['phone' => $phone]);
+                GuestCall::create(['created' => $date, 'expiration' => $expiration, 'phone' => $phone, 'device_mac' => $mac, 'spot_id' => $spot->id]);
                 Stage::create(['created' => $date, 'spot_id' => $spot->id, 'device_mac' => $mac, 'phone' => $phone]);
+
+                $calls = Call::where('phone', '=', $phone)->first();
+                if ($calls) {
+                    $guestcall = GuestCall::orderBy('created', 'DESC')->first();
+                    $this->auth($guestcall);
+                }
                 break;
             case 3://   Ваучеры
                 $voucher = GuestVoucher::whereDevice_mac($mac)->where('expiration', '>', $date)->first();
                 if ($voucher) {
-                    $this->auth();
+                    $this->auth($voucher);
                 }
                 break;
         }
+        //роверяем дозвоны по таблице calls. В случае обнаружения совпадения -
     }
 
-    public function auth($name, $exp, $pass)
+    public function auth($array)
     {
-        Radius::create(['username' => $name, 'attribute' => 'Expiration', 'op' => ':=', 'value' => $exp]);
-        Radius::create(['username' => $name, 'attribute' => 'Cleartext-Password', 'op' => ':=', 'value' => $pass]);
+        $pass = "$array->expiration.$array->device_mac";
+        $username = "$array->device_mac.$array->expiration";
+        $exp = $array->expiration->format('d F Y H:m');
+        Radius::create(['username' => md5($username), 'attribute' => 'Cleartext-Password', 'op' => ':=', 'value' => md5($pass)]);
+        Radius::create(['username' => md5($username), 'attribute' => 'Expiration', 'op' => ':=', 'value' => $exp]);
         dd('done.');
     }
 //
 //        $contents = \File::get("$way");
 //        $arr = Storage::get($way);
-//
 //
 //        public function logs($array, $name)
 //        {
@@ -206,8 +213,7 @@ class SpotController extends Controller
 //            return ('Log успешно сохранён');
 //        }
 
-    public
-    function update(SpotsUpdateRequest $request, $id)
+    public function update(SpotsUpdateRequest $request, $id)
     {
         $spot = Spot::findOrFail($id);
         $spot->update($request->all());
