@@ -92,7 +92,7 @@ Route::post('/test/{id}', 'TestController@index');
 Route::get('enter/test', function () {
     return view('spot-template', [
         'data' => [
-            'v1' => '1',
+            'v1' => 'ersova.com',
             'v2' => '2',
             'v3' => '3',
             'v4' => '4',
@@ -100,7 +100,7 @@ Route::get('enter/test', function () {
             'v6' => '6',
             'v7' => '7',
             'v8' => '8',
-            'type' => 3
+            'type' => 2
         ]
     ]);
 });
