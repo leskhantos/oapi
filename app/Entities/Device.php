@@ -9,7 +9,7 @@ class Device extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'created', 'mac', 'type', 'os', 'os_version', 'screen_w', 'screen_h', 'info',
+        'mac', 'type', 'os', 'os_version', 'screen_w', 'screen_h', 'info',
         'sessions', 'spot_id', 'last_online', 'last_session', 'comment', 'blocked'
     ];
 

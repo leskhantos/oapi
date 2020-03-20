@@ -15,7 +15,7 @@ class CreateGuestCallTable extends Migration
     {
         Schema::create('guest_calls', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamp('created')->nullable();
+            $table->timestamp('created')->useCurrent();
             $table->timestamp('expiration')->nullable();
             $table->string('phone',20)->nullable()->index();
             $table->string('device_mac',30)->index();

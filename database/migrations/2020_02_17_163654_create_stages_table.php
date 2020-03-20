@@ -14,7 +14,7 @@ class CreateStagesTable extends Migration
     public function up()
     {
         Schema::create('stages', function (Blueprint $table) {
-            $table->timestamp('created');
+            $table->timestamp('created')->useCurrent();
             $table->integer('spot_id')->references('id')->on('spots');
             $table->string('device_mac',17)->nullable()->index();
             $table->string('phone',20)->nullable();

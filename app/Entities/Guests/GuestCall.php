@@ -8,7 +8,6 @@ class GuestCall extends ParentGuest
 {
 
     protected $fillable =[
-        'created','expiration','phone',
-        'device_mac','spot_id','checked'
+        'expiration','phone', 'device_mac','spot_id','checked'
     ];
 }
