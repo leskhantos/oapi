@@ -78,13 +78,10 @@ class SpotController extends Controller
 
     public function enter(Request $request)
     {
-//        $text = "50:46:5D:6E:8C:20";
-//        $mac = strtolower($text);
-//        dd($mac);
         $date = new \DateTime();
         $ident = $request->v1;
         $name = $request->v2;
-        $mac = $request->v3;
+        $mac = strtolower($request->v3);
         $ip = $request->v4;
         $spot = Spot::whereIdent($ident)->first();
         if (!$spot) {
@@ -146,11 +143,11 @@ class SpotController extends Controller
     public function enterWithPhone(Request $request, $ident)
     {
         $spot = Spot::whereIdent($ident)->first();
-        if(!$spot){
-            return response('Fake ident',404);
+        if (!$spot) {
+            return response('Fake ident', 404);
         }
         $phone = $request->phone;
-        $mac = $request->v3;
+        $mac = strtolower($request->v3);
         $date = new \DateTime();
         $expiration = new \DateTime();
         $expiration->modify('+6 month');// такое себе решение, тупо меняет число в месяце
@@ -187,7 +184,6 @@ class SpotController extends Controller
                 }
                 break;
         }
-        //роверяем дозвоны по таблице calls. В случае обнаружения совпадения -
     }
 
     public function auth($array)
@@ -195,8 +191,8 @@ class SpotController extends Controller
         $pass = "$array->expiration.$array->device_mac";
         $username = "$array->device_mac.$array->expiration";
         $date = new \DateTime($array->expiration);
-
         $exp = $date->format('d F Y H:m');
+
         Radius::create(['username' => md5($username), 'attribute' => 'Cleartext-Password', 'op' => ':=', 'value' => md5($pass)]);
         Radius::create(['username' => md5($username), 'attribute' => 'Expiration', 'op' => ':=', 'value' => $exp]);
         dd('done.');
