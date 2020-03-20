@@ -100,6 +100,7 @@ Route::get('enter/test', function () {
             'v6' => '6',
             'v7' => '7',
             'v8' => '8',
+            'type' => 3
         ]
     ]);
 });
