@@ -15,7 +15,7 @@
                                       v-if="(type===1 || type===2) && !smsInputShow"
                                       @click="login" @sendEnter="login"
                                       type="text"/>
-                        <content-body src="key" placeholder="Код" v-model="code" type="text" v-else-if="type===3 && !smsInputShow" @click="sendCode"/>
+                        <content-body src="key" placeholder="Код" v-model="code" type="text" v-else-if="type===3 && !smsInputShow" @click="sendCode" @sendEnter="sendCode"/>
                         <transition name="slide-fade">
                             <content-body src="smsSvg" placeholder="SMS" v-model="sms" type="text"  v-if="smsInputShow"/>
                         </transition>
@@ -116,17 +116,41 @@
                         phone: this.phone,
                     }, config)
                     this.phone=null;
-                    if(response.data==='otpravil sms'){
+                    if(this.data.type===1){
                         this.smsInputShow=response.data
                     }
+
+                    console.log(response.data)
                     // alert(response.data? response.data : 'success')
                 } catch (e) {
                     console.log(e.response.status)
                     this.error=e.response.status
                 }
             },
-            sendCode(){
-                console.log(this.code)
+           async sendCode(){
+                try {
+                    let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNTBlNDk4NDYxODE1NTMzMzgzZmNlZjA0N2NhMThkZTQyYjQ0YzEwNzBlZDQwYThkYTY5MTEzYWQ3ZThiOTNlOTllOGRiYTBmYjg2NWZkZjciLCJpYXQiOjE1ODQ3MDY1NDcsIm5iZiI6MTU4NDcwNjU0NywiZXhwIjoxNjE2MjQyNTQ3LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.JCFMCOdFnbSnd4wTNRvS6Rn78jp9kmJzsi-YjOxuMlnyQHppPFlyKTQMsSVBSamQXU5_UXF_SMz3jsZfvgcICFg876kP72mcYgFn_7Z7GfiP50H0ix-gaNnLGItv_7PylCwcXrSkNt9DnQu_1453Wni_bz_GGZiHl6MLdJAUKsrzkki_ieMbIaFITZMNFZcp9VVxh_PeIbsOIMb4LGK87Op9cURPnXe6bnCYLjnDQ2gqm-WBVmdT-6fqUaAJFKH7W7mzjgK1-e2PaJTxRU5miI2O4WfsJguaaQDtib46m3cciyriWSuWQs6WrOG8KC41pZQfa-umYy6Jxl8QYTOZApKq3QEaey0qPAfeXUkTw5sbNX7HYAwH-LeVCPJn-JroN9xRS8HvwQ45KrcsvkeWyJerMQmhCbdpz_XGOX1G7QRy7Rf8CPqrjzWlBtUIlz2yXOID46qyEC0RmkNQRh3uOqzJjvALi7Vd4KJnmw06O-brQzjpp-QiWjf0vmukNLGQSDO0-IPAh3EF9AxJdCc6eLB6bZuH5_a9WqDAhsonrlSg85a8UMOGToYgX26JgJy8rDPTpLPd0wR0qwzCgJxJTXXN8te8z_dQP4TkdZA64vt3DAAUng7oVyM_pGRv6Hv_EO-H1Hdqf1XtMv5yUz41N-aWh8ItAxlxL8YBuegErZM'
+
+                    const config = {
+                        headers: { Authorization: `Bearer ${token}` }
+                    };
+                    const response = await axios.post(`https://api.oyspot.loc/enter/${this.data.v1}`, {
+                        v1: this.data.v1,
+                        v2: this.data.v2,
+                        v3: this.data.v3,
+                        v4: this.data.v4,
+                        v5: this.data.v5,
+                        v6: this.data.v6,
+                        v7: this.data.v7,
+                        v8: this.data.v8,
+                        code: this.code,
+                    }, config)
+                    this.code=null;
+                     console.log(response.data)
+                } catch (e) {
+                    console.log(e.response.status)
+                    this.error=e.response.status
+                }
             }
         },
         computed: {
