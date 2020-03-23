@@ -24,6 +24,8 @@ class EnterController extends Controller
         $name = $request->v2;
         $mac = strtolower($request->v3);
         $ip = $request->v4;
+        $height = $request->height;
+        $width = $request->witdth;
         $spot = Spot::whereIdent($ident)->first();
         if (!$spot) {
             return response('F', 404);
@@ -43,7 +45,7 @@ class EnterController extends Controller
         if ($device) {
             Device::whereMac($mac)->update(['created' => $date]);
         } else {
-            Device::create(['created' => $date, 'mac' => $mac]);
+            Device::create(['created' => $date, 'screen_h' => $height, 'screen_w' => $width, 'mac' => $mac]);
         }
 
 //        Проверяем наличие записи DeviceInfo в таблице user - agents
