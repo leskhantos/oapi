@@ -31,7 +31,8 @@
 </template>
 
 <script>
-    import axios from "axios"
+    import axios from "axios";
+    import VueScreenSize from 'vue-screen-size';
     import propsMixin from "../mixins/template-props";
 
     import agreement from "./agreement";
@@ -56,7 +57,7 @@
             // setTimeout(()=> this.login(), 1000);
             this.enter()
         },
-        mixins: [propsMixin],
+        mixins: [propsMixin, VueScreenSize.VueScreenSizeMixin],
         data: () => ({
             showAgreement: false,
             error: null,
@@ -86,6 +87,8 @@
                         v6: this.data.v6,
                         v7: this.data.v7,
                         v8: this.data.v8,
+                        screen_w: this.$vssWidth,
+                        screen_h: this.$vssHeight
                     }, config)
                     this.loading=false
                     console.log(this.data)
