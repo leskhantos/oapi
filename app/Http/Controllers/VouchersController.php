@@ -33,6 +33,8 @@ class VouchersController extends Controller
         return $vouchers;
     }
 
+    //Думаю что не нужно
+
     function sort($array)
     {
         $uniq_list = [];
