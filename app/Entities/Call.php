@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Call extends Model
 {
-    public $timestamps=false;
+    public $timestamps = false;
 
     protected $fillable = [
-        'phone','datetime'
+        'phone', 'created'
     ];
 }

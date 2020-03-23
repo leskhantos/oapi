@@ -14,3 +14,4 @@ yarn-error.log
 run.php
 add-company.php
 composer.lock
+/.phpstorm.meta.php

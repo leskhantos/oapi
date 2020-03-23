@@ -12,7 +12,26 @@ class SpotTypesTableSeeder extends Seeder
      */
     public function run()
     {
-        SpotsType::truncate();
-        factory(SpotsType::class, 3)->create();
+        $categories = [
+            [
+                'id' => 1,
+                'name' => 'Смс',
+                'code' => 060,
+            ],
+            [
+                'id' => 2,
+                'name' => 'Звонки',
+                'code' => 060,
+            ],
+            [
+                'id' => 3,
+                'name' => 'Ваучеры',
+                'code' => 070,
+            ]
+        ];
+
+        foreach ($categories as $category) {
+            SpotsType::create($category);
+        }
     }
 }
