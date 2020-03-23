@@ -5,104 +5,44 @@
              :style="mainStyle"
         >
             <loader v-if="loading"/>
-            <div class="container text-center header">
-                <img :src="wifi_image" class="img-fluid"/>
-            </div>
+            <logo/>
                 <div class="container content" v-if="!loading && !error" >
-                    <content-title v-if="(type===1 || type===2) && !smsInputShow" title='Для продолжения введите свой номер телефона'/>
+                    <content-title v-if="(type===1 || type===2) && !smsInputShow" v-model="phone" title='Для продолжения введите свой номер телефона'/>
                     <content-title v-else-if="type===3 && !smsInputShow" title='Для продолжения введите код с ваучера'/>
-                    <content-title v-else title=' Для продолжения введите SMS'/>
+                    <content-title v-else-if="smsInputShow" title=' Для продолжения введите SMS'/>
                     <div class="mt-3">
-                        <div class="input-group input-group-sm flex-nowrap" v-if="(type===1 || type===2) && !smsInputShow">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <img :src="phoneSvg" class="img-fluid"/></span>
-                            </div>
-                            <input
-                                type="tel"
-                                class="form-control form-control"
-                                placeholder="Номер телефона"
-                                v-model="phone"
-                            />
-                            <div class="input-group-append">
-                                <button class="btn btn-success" @click="login">ОК</button>
-                            </div>
-                        </div>
-                        <div class="input-group input-group-sm flex-nowrap" v-else-if="type===3 && !smsInputShow">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <img :src="key" class="img-fluid"/></span>
-                            </div>
-                            <input
-                                type="text"
-                                class="form-control form-control"
-                                placeholder="Код"
-                            />
-                            <div class="input-group-append">
-                                <button class="btn btn-success">ОК</button>
-                            </div>
-                        </div>
-                        <div class="input-group input-group-sm flex-nowrap" v-if="smsInputShow">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <img :src="smsSvg" class="img-fluid"/></span>
-                            </div>
-                            <input
-                                type="text"
-                                class="form-control form-control"
-                                placeholder="SMS"
-                                v-model="sms"
-                            />
-                            <div class="input-group-append">
-                                <button class="btn btn-success">ОК</button>
-                            </div>
-                        </div>
-
+                        <content-body src="phone" placeholder="Номер телефона" v-model="phone"
+                                      v-if="(type===1 || type===2) && !smsInputShow"
+                                      @click="login" @sendEnter="login"
+                                      type="text"/>
+                        <content-body src="key" placeholder="Код" v-model="code" type="text" v-else-if="type===3 && !smsInputShow" @click="sendCode"/>
+                        <transition name="slide-fade">
+                            <content-body src="smsSvg" placeholder="SMS" v-model="sms" type="text"  v-if="smsInputShow"/>
+                        </transition>
                     </div>
-                    <div class="mt-3 text-center" v-if="type===1 || type===2" :style="{ fontSize: '10px' }">
-                        Примеры ввода номера:<br/>
-                        Россия: 79213334455<br/>
-                        США: 19876543210
-                    </div>
-<!--                    <div class="mt-3">-->
-<!--                        <img :src="banner_image" class="img-fluid"/>-->
-<!--                    </div>-->
+                    <content-hints v-if="type===1 || type===2"/>
+                    <content-banner v-show="false" />
                 </div>
-                <div class="container content text-center" v-if="error">
-                    <h1>Ошибка: {{error}}</h1>
-                </div>
-            <div class="container footer" @click="showAgreement=true">
-                <div class="d-flex justify-content-center">
-                    <div :style="{ width: '100px' }">
-                        <img :src="oyLogo" class="img-fluid"/>
-                    </div>
-                </div>
-                <div class="text-center" :style="{ fontSize: '.8rem' }">Пользовательское соглашение</div>
-                <div class="d-flex justify-content-center">
-                    <div :style="{ width: '30px' }">
-                        <img :src="arrow" class="img-fluid"/>
-                    </div>
-                </div>
-            </div>
+                <error :error="error"/>
+            <pageFooter @click="showAgreement=true"/>
         </div>
-        <agreement v-else @close="showAgreement=false"/>
+            <agreement v-else @close="showAgreement=false"/>
     </div>
 </template>
 
 <script>
-    import agreement from "./agreement";
-    import loader from "./loader";
+    import axios from "axios"
     import propsMixin from "../mixins/template-props";
 
-    import wifi_image from "../assets/wifi.png";
-    import oyLogo from "../assets/logo.svg";
-    import arrow from "../assets/arrow.svg";
-    import banner from "../assets/banner.jpg";
-    import phone from "../assets/phone.svg"
-    import key from "../assets/key.svg"
-    import smsSvg from "../assets/message-processing.svg"
-    import axios from "axios"
+    import agreement from "./agreement";
+    import loader from "./loader";
     import ContentTitle from "./content-title";
+    import ContentBody from "./content-body";
+    import ContentHints from "./content-hints";
+    import Logo from "./header-logo";
+    import ContentBanner from "./content-banner";
+    import error from "./error"
+    import pageFooter from "./page-footer"
 
     export default {
         props: {
@@ -118,19 +58,13 @@
         },
         mixins: [propsMixin],
         data: () => ({
-            wifi_image: wifi_image,
-            oyLogo: oyLogo,
-            arrow: arrow,
-            banner_image: banner,
-            phoneSvg: phone,
-            key: key,
-            smsSvg: smsSvg,
             showAgreement: false,
             error: null,
             loading: null,
             phone: null,
             smsInputShow:null,
-            sms: ''
+            sms: '',
+            code: ''
 
         }),
         methods: {
@@ -141,15 +75,17 @@
                     const config = {
                         headers: { Authorization: `Bearer ${token}` }
                     };
+                    console.log(this.data)
+
                     await axios.post(`https://api.oyspot.loc/enter`, {
-                        v1: 'ersova.com',
-                        v2: 3,
-                        v3: 1,
-                        v4: 3,
-                        v5: this.v5,
-                        v6: this.v6,
-                        v7: this.v7,
-                        v8: this.v8,
+                        v1: this.data.v1,
+                        v2: this.data.v2,
+                        v3: this.data.v3,
+                        v4: this.data.v4,
+                        v5: this.data.v5,
+                        v6: this.data.v6,
+                        v7: this.data.v7,
+                        v8: this.data.v8,
                     }, config)
                     this.loading=false
                     console.log(this.data)
@@ -169,14 +105,14 @@
                         headers: { Authorization: `Bearer ${token}` }
                     };
                     const response = await axios.post(`https://api.oyspot.loc/enter/${this.data.v1}`, {
-                        v1: 'ersova.com',
-                        v2: 3,
-                        v3: 1,
-                        v4: 3,
-                        v5: this.v5,
-                        v6: this.v6,
-                        v7: this.v7,
-                        v8: this.v8,
+                        v1: this.data.v1,
+                        v2: this.data.v2,
+                        v3: this.data.v3,
+                        v4: this.data.v4,
+                        v5: this.data.v5,
+                        v6: this.data.v6,
+                        v7: this.data.v7,
+                        v8: this.data.v8,
                         phone: this.phone,
                     }, config)
                     this.phone=null;
@@ -188,6 +124,9 @@
                     console.log(e.response.status)
                     this.error=e.response.status
                 }
+            },
+            sendCode(){
+                console.log(this.code)
             }
         },
         computed: {
@@ -202,9 +141,15 @@
             }
         },
         components: {
+            ContentBanner,
+            Logo,
+            ContentHints,
+            ContentBody,
             ContentTitle,
             agreement,
-            loader
+            loader,
+            error,
+            pageFooter
         }
     };
 </script>
@@ -222,6 +167,16 @@
 
         .content {
             flex: 1;
+        }
+        .slide-fade-enter-active {
+            transition: all .3s ease;
+        }
+        .slide-fade-leave-active {
+            transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+        }
+        .slide-fade-enter, .slide-fade-leave-to {
+            transform: translateX(30px);
+            opacity: 0;
         }
     }
 </style>
