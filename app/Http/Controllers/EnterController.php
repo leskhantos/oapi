@@ -7,6 +7,7 @@ use App\Entities\DefaultSetting;
 use App\Entities\Device;
 use App\Entities\GuestCall;
 use App\Entities\GuestSms;
+use App\Entities\GuestVoucher;
 use App\Entities\Radius;
 use App\Entities\SessionsAuth;
 use App\Entities\Spot;
@@ -21,46 +22,37 @@ class EnterController extends Controller
 {
     public function enter(Request $request)
     {
-
         $date = new \DateTime();
         $ident = $request->v1;
         $name = $request->v2;
         $device_mac = $request->v3;
-        $mac = strtolower($request->v3);
-
         $ip = $request->v4;
         $height = $request->height;
         $width = $request->witdth;
         $spot = Spot::whereIdent($ident)->first();
-
-        $s = str_replace(':', '', $mac);
-        $ide = strtolower($ident);
-
-        $date_str = $date->format('Y-m-d H:m:s');
         //Любой девайс который законектился к нашей сети залетает в логи.
-        $this->addToLog("devices/" . $s . ".log", "$date_str|Resolution|$ident|$width x $height|");
-        $this->addToLog("spots/" . $ide . ".log", "$date_str|Resolution|$device_mac|$width x $height|");
-        $this->addToLog("events.log", "$date_str|Resolution|$ident|$device_mac|$width x $height|");
+        $status = "Resolution";
+        $temp = "$width x $height|";
+        $this->formationLog($ident, $status, $device_mac, $temp);
 
         if (!$spot) {
             return response('F', 404);
         }
-
         $type = $spot->type;
         $request['type'] = $type;
-        $device = Device::whereMac($mac)->first();
+        $device = Device::whereMac($device_mac)->first();
 
         $User['info'] = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_SPECIAL_CHARS);
         $DevInfoHash = md5($User['info']);
-        $User['signature'] = md5($name . $mac . $ip . 'TooManySecrets');
+        $User['signature'] = md5($name . $device_mac . $ip . 'TooManySecrets');
 
 //        Есть в devices по mac?
 //        Нет - записываем с дефолтными полями
 
         if ($device) {
-            Device::whereMac($mac)->update(['created' => $date]);
+            Device::whereMac($device_mac)->update(['created' => $date]);
         } else {
-            Device::create(['created' => $date, 'screen_h' => $height, 'screen_w' => $width, 'mac' => $mac]);
+            Device::create(['created' => $date, 'screen_h' => $height, 'screen_w' => $width, 'mac' => $device_mac]);
         }
 
 //        Проверяем наличие записи DeviceInfo в таблице user - agents
@@ -77,32 +69,32 @@ class EnterController extends Controller
 //  Проверяем наличие записи в sessions . auth(соответствие зоны, мака и сигнатуры, не истекший expiration)
         //    Есть - обновляем counter и авторизируем устройство
 
-        $session = SessionsAuth::whereSpot_id($spot->id)->whereDevice_mac($mac)
+        $session = SessionsAuth::whereSpot_id($spot->id)->whereDevice_mac($device_mac)
             ->whereSignature($User['signature'])->where('expiration', '>', $date)->first();
         if ($session) {
             $count = $session->counter;
             $count = $count + 1;
-            SessionsAuth::whereDevice_mac($mac)->update(['created' => $date, 'counter' => $count]);
-            $this->addToLog("devices/" . $s . ".log", "$date_str|SessionFound|$ident|" . $User['signature'] . "|");
-            $this->addToLog("spots/" . $ide . ".log", "$date_str|SessionFound|$device_mac|" . $User['signature'] . "|");
-            $this->addToLog("events.log", "$date_str|SessionFound|$ident|$device_mac|" . $User['signature'] . "|");
+            SessionsAuth::whereDevice_mac($device_mac)->update(['created' => $date, 'counter' => $count]);
+            $status = "SessionFound";
+            $temp = $User['signature'];
+            $this->formationLog($ident, $status, $device_mac, "$temp|");
             $this->auth($session);
         }
 
 //        Проверяем наличие записи в stages
 //        Есть - передаем фронту данные записи
 
-        $stages = Stage::whereSpot_id($spot->id)->whereDevice_mac($mac)->first();
+        $stages = Stage::whereSpot_id($spot->id)->whereDevice_mac($device_mac)->first();
         if ($stages) {
-            $Phone = "?";
-            $this->addToLog("devices/" . $s . ".log", "$date_str|StageCode|$ident|$Phone|");
-            $this->addToLog("spots/" . $ide . ".log", "$date_str|StageCode|$device_mac|$Phone");
-            $this->addToLog("events.log", "$date_str|StageCode|$ident|$device_mac|$Phone|");
+            $Phone = "?"; // на этом этапе у нас нет телефона
+            $status = "StageCode";
+            $temp = "$Phone|";
+            $this->formationLog($ident, $status, $device_mac, $temp);
             return response(['stages' => $stages]);
         }
-        $this->addToLog("devices/" . $s . ".log", "$date_str|StageBegin|$ident|");
-        $this->addToLog("spots/" . $ide . ".log", "$date_str|StageBegin|$device_mac|");
-        $this->addToLog("events.log", "$date_str|StageBegin|$ident|$device_mac|");
+        $status = "StageBegin";
+        $this->formationLog($ident, $status, $device_mac, "");
+
         return view('spot-template', ['data' => $request->all()]);
     }
 
@@ -112,26 +104,19 @@ class EnterController extends Controller
     {
         $date = new \DateTime();
         $device_mac = $request->v3;
-        $date_str = $date->format('Y-m-d H:m:s');
-        $mac = strtolower($request->v3);
-        $s = str_replace(':', '', $mac);  // mac мелкими буквами без двоеточий
-        $ide = strtolower($ident); // идент мелкими буквами.
 
         $spot = Spot::whereIdent($ident)->first();
         if (!$spot) {
             return response('Fake ident', 404);
         }
         //Начальная стадия, добавляем любой девайс который подключился к нашей
-        $this->addToLog("devices/" . $s . ".log", "$date_str|CheckPhone|$ident|");
-        $this->addToLog("spots/" . $ide . ".log", "$date_str|CheckPhone|$device_mac|");
-        $this->addToLog("events.log", "$date_str|CheckPhone|$ident|$device_mac|");
+        $status = "CheckPhone";
+        $this->formationLog($ident, $status, $device_mac, "");
         if (isset($request->phone)) {
             $phone = $this->checkCorrectPhoneNumber($request->phone);
             $phone_country = $this->checkPhoneCountry($phone);
         }
         $voucher_code = $request->code;
-        $mac = strtolower($request->v3);
-
         $expiration = new \DateTime();
         $expiration->modify('+6 month');// такое себе решение, тупо меняет число в месяце
         $spot_type = $spot->type;
@@ -141,62 +126,57 @@ class EnterController extends Controller
                 $proverka = GuestSms::wherePhone($phone)->where('expiration', '>', $date)->first();
                 if ($proverka) {
                     //Круто, должны перевести на другой эндпоинт
-
-                    $this->addToLog("devices/" . $s . ".log", "$date_str|HaveCode|$ident|");
-                    $this->addToLog("spots/" . $ide . ".log", "$date_str|HaveCode|$device_mac|");
-                    $this->addToLog("events.log", "$date_str|HaveCode|$ident|$device_mac|");
+                    $status = "HaveCode";
+                    $this->formationLog($ident, $status, $device_mac, "");
                     return 'You have a code';
                     //сообщаем фронту, что данный гость уже имеет код?
                 } else {
                     // Новый пользователь.
-
-                    $this->addToLog("devices/" . $s . ".log", "$date_str|NewPhone|$ident|");
-                    $this->addToLog("spots/" . $ide . ".log", "$date_str|NewPhone|$device_mac|");
-                    $this->addToLog("events.log", "$date_str|NewPhone|$ident|$device_mac|");
+                    $status = "NewPhone";
+                    $this->formationLog($ident, $status, $device_mac, "");
 
 //                    Лимиты смс, стоит узнать как правильно сделать.
 //                    $CountDaySMS['phone']=DefaultSetting::where('sms_phone_limit',$phone)->where('');
 //                    if ($CountDaySMS['phone']>=$LimitSMS || $CountDaySMS['mac']>=$LimitSMS ) {
-//                        $this->addToLog("devices/" . $s . ".log", "$date_str|LimitSMS|$ident|$phone");
-//                        $this->addToLog("spots/" . $ide . ".log", "$date_str|LimitSMS|$device_mac|$phone");
-//                        $this->addToLog("events.log", "$date_str|LimitSMS|$ident|$device_mac|$phone");
+//                    $status ="LimitSMS";
+//                    $this->formationLog($ident, $status, $device_mac,"$phone|");
 //                        echo "Limit";
 //                    }
 
-                    //типо нельзя отправлять сообщения на телефон другой страны
+//                    Типо нельзя отправлять сообщения на телефон другой страны
+                    $spot_country = "ru";
                     if ($spot_country == 'ru' && $phone_country == 'en') {
-                        $this->addToLog("devices/" . $s . ".log", "$date_str|LimitSMSCountry|$ident|$phone");
-                        $this->addToLog("spots/" . $ide . ".log", "$date_str|LimitSMSCountry|$device_mac|$phone");
-                        $this->addToLog("events.log", "$date_str|LimitSMSCountry|$ident|$device_mac|$phone");
+                        $status = "LimitSMSCountry";
+                        $this->formationLog($ident, $status, $device_mac, "$phone|");
                         echo "OnlyRus";
                     }
                     $code = rand(1000, 9999);
                     GuestSms::create(['created' => $date, 'expiration' => $expiration, 'spot_id' => $spot->id,
-                        'phone' => $phone, 'device_mac' => $mac, 'code' => $code]);
+                        'phone' => $phone, 'device_mac' => $device_mac, 'code' => $code]);
                     if ($phone_country == 'ru') {
                         $sms_message = "Ваш код: $code";
                     } else {
                         $sms_message = "Your code: $code";
                     }
                     //Тут функция для отправки СМС!
-                    $sms_answer = sendSms($phone, $sms_message);
+                    $sms_answer = $this->sendSms($phone, $sms_message);
                     if ($sms_answer == 'fail') {
-                        $this->addToLog("devices/" . $s . ".log", "$date_str|SmsTimeout|$ident|$phone|");
-                        $this->addToLog("spots/" . $ide . ".log", "$date_str|SmsTimeout|$device_mac|$phone|");
-                        $this->addToLog("events.log", "$date_str|SmsTimeout|$ident|$device_mac|$phone|");
+                        $status = "SmsTimeout";
+                        $this->formationLog($ident, $status, $device_mac, "$phone|");
                         return "SendSmsFail";
                     }
                     // отправляем СМС?
 //                    $UID=GetStringPart($SMS_answer,',',0);
-                    $this->addToLog("devices/" . $s . ".log", "$date_str|SmsSended|$ident|$UID|");
-                    $this->addToLog("spots/" . $ide . ".log", "$date_str|SmsSended|$device_mac|$UID|");
-                    $this->addToLog("events.log", "$date_str|SmsSended|$ident|$device_mac|$UID|");
+                    $status = "SmsSended";
+                    $UID = "";
+                    $temp = $UID;
+                    $this->formationLog($ident, $status, $device_mac, "$temp|");
                     return 'Send sms';
                 }
                 break;
             case 2://   Звонки
-                GuestCall::create(['created' => $date, 'expiration' => $expiration, 'phone' => $phone, 'device_mac' => $mac, 'spot_id' => $spot->id]);
-                Stage::create(['created' => $date, 'spot_id' => $spot->id, 'device_mac' => $mac, 'phone' => $phone]);
+                GuestCall::create(['created' => $date, 'expiration' => $expiration, 'phone' => $phone, 'device_mac' => $device_mac, 'spot_id' => $spot->id]);
+                Stage::create(['created' => $date, 'spot_id' => $spot->id, 'device_mac' => $device_mac, 'phone' => $phone]);
 
                 $calls = Call::where('phone', '=', $phone)->first();
                 if ($calls) {
@@ -206,14 +186,21 @@ class EnterController extends Controller
                 break;
             case 3://   Ваучеры
                 $voucher = Voucher::whereCode($voucher_code)->where('dt_end', '>', $date)
-                    ->where('can_used', '>', 0)
+//                    ->where('can_used', '>', 0)
                     ->first();
                 if ($voucher) {
+                    $test = GuestVoucher::whereVoucher_id($voucher->id)->count();
                     $can_used = $voucher->can_used;
-                    $new = $can_used - 1;
-                    $voucher->update(['can_used' => $new]);
-                    $this->auth($voucher);
+                    if ($can_used > $test) {
+                        GuestVoucher::create(['activated' => $date, 'expiration' => $expiration, 'voucher_id' => $voucher->id,
+                            'device_mac' => $device_mac, 'spot_id' => $spot->id]);
+                        $this->auth($voucher);
+                    } else {
+                        return 'Закончились ваучеры';
+                    }
                 } else {
+                    $status = "IncorrectVoucher";
+                    $this->formationLog($ident, $status, $device_mac, "");
                     return ('Voucher not found');
                 }
                 break;
@@ -222,14 +209,14 @@ class EnterController extends Controller
 
     public function auth($array)
     {
-        $pass = md5("$array->device_mac" . rand(1000, 9999));
-        $username = md5("$array->expiration" . rand(1000, 9999));
+        $pass = md5("$array->device_mac" . "$array->expiration" . rand(1000, 9999));
+        $username = md5("$array->expiration" . "$array->device_mac" . rand(1000, 9999));
         $date = new \DateTime($array->expiration);
         $exp = $date->format('d F Y H:m');
 
         Radius::create(['username' => $username, 'attribute' => 'Cleartext-Password', 'op' => ':=', 'value' => $pass]);
         Radius::create(['username' => $username, 'attribute' => 'Expiration', 'op' => ':=', 'value' => $exp]);
-        dd('done.');
+        return response(['user' => $username, 'password' => $pass]);
     }
 
 //        $contents = \File::get("$way");
@@ -244,7 +231,7 @@ class EnterController extends Controller
         return md5($DevInfo);
     }
 
-    function checkCorrectPhoneNumber($phone)
+    private function checkCorrectPhoneNumber($phone)
     {
         $onlyNumeralPattern = "/[^0-9]/i";
         $normalized_phone = preg_replace($onlyNumeralPattern, '', $phone);
@@ -257,7 +244,7 @@ class EnterController extends Controller
         return $normalized_phone;
     }
 
-    public function checkPhoneCountry($phone)
+    private function checkPhoneCountry($phone)
     {
         if (strlen($phone) === 11 && $phone[0] == '7' && $phone[1] == '9') {
             $phone_country = 'ru';
@@ -267,14 +254,31 @@ class EnterController extends Controller
         return $phone_country;
     }
 
-    public function addToLog($way, $array)
+    private function formationLog($ident, $status, $device_mac, $temp)
     {
+        $date = new \DateTime();
+        $date_str = $date->format('Y-m-d H:m:s');
+        $mac = strtolower($device_mac);
+        $device_name = str_replace(':', '', $mac);
+        $spot_name = strtolower($ident);
+        $this->addToLog("devices/" . $device_name . ".log", "$date_str|$status|$ident|$temp");
+        $this->addToLog("spots/" . $spot_name . ".log", "$date_str|$status|$device_mac|$temp");
+        $this->addToLog("events.log", "$date_str|$status|$ident|$device_mac|$temp");
+    }
+
+    private function addToLog($way, $array)
+    {
+        \Storage::append($way, $array);
 //        $name = strtolower($ident);
 //        $way = "device/$name.log";
 //        $log = "";
 //        foreach ($array as $arr) {
 //            $log .= "$arr|";
 //        }
-        \Storage::append($way, $array);
+    }
+
+    private function sendSms($phone, $sms_message)
+    {
+
     }
 }
