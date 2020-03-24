@@ -209,7 +209,7 @@ class EnterController extends Controller
         $pass = md5("$device_mac" . "$expiration" . rand(1000, 9999));
         $username = md5("$expiration" . "$device_mac" . rand(1000, 9999));
         $date = new \DateTime($expiration);
-        $exp = $date->format('d F Y H:m');
+        $exp = $date->format('d M Y H:m');
 
         Radius::create(['username' => $username, 'attribute' => 'Cleartext-Password', 'op' => ':=', 'value' => $pass]);
         Radius::create(['username' => $username, 'attribute' => 'Expiration', 'op' => ':=', 'value' => $exp]);
