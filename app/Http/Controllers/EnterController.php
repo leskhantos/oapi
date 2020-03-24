@@ -194,7 +194,7 @@ class EnterController extends Controller
                     if ($can_used > $test) {
                         GuestVoucher::create(['activated' => $date, 'expiration' => $expiration, 'voucher_id' => $voucher->id,
                             'device_mac' => $device_mac, 'spot_id' => $spot->id]);
-                        $this->auth($voucher);
+                        return $this->auth($voucher);
                     } else {
                         return 'Закончились ваучеры';
                     }
