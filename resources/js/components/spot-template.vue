@@ -146,7 +146,7 @@
             async auth(){
                 try {
                    const response = await axios.post('https://spot.oyster.su/login.php',{
-                        login: this.user,
+                        username: this.user,
                         password: this.password
                     })
                     console.log(response.data)
