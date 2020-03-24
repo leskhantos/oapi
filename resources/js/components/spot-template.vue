@@ -24,10 +24,6 @@
                     <content-banner v-show="false" />
                 </div>
                 <error :error="error"/>
-<!--            <form ref="form" @submit="auth" :action="this.data.v6">-->
-<!--                <input type="hidden" name="username" :value="user">-->
-<!--                <input type="hidden" name="password" :value="password">-->
-<!--            </form>-->
             <pageFooter @click="showAgreement=true"/>
         </div>
             <agreement v-else @close="showAgreement=false"/>
@@ -58,7 +54,6 @@
         },
         mounted() {
             this.loading=true
-            // setTimeout(()=> this.login(), 1000);
             this.enter()
         },
         mixins: [propsMixin, VueScreenSize.VueScreenSizeMixin],
@@ -93,15 +88,13 @@
                     console.log(this.data)
 
                 } catch (e) {
-                    console.log(e.response.status)
                     this.error=e.response.data
                     this.loading=false
-                    console.log(this.data)
                 }
             },
             async login(){
                 try {
-                    const response = await axios.post(`/${this.data.v1}`, {
+                    const response = await axios.post(`enter/${this.data.v1}`, {
                         v1: this.data.v1,
                         v2: this.data.v2,
                         v3: this.data.v3,
@@ -116,11 +109,7 @@
                     if(this.data.type===1){
                         this.smsInputShow=response.data
                     }
-
-                    console.log(response.data)
-                    // alert(response.data? response.data : 'success')
                 } catch (e) {
-                    console.log(e.response.status)
                     this.error=e.response.data
                 }
             },
@@ -138,23 +127,22 @@
                         code: this.code,
                     })
                     this.code=null;
-                     console.log(response.data.user);
                      this.user=response.data.user;
                      this.password=response.data.password;
                      this.auth()
+                    alert(this.user)
                 } catch (e) {
-                    console.log(e.response.status)
                     this.error=e.response.data
                 }
             },
             async auth(){
                 try {
-                    const response = await axios.post(`${this.data.v6}`,{
+                    alert('отправлено:'+this.data.v6);
+                     await axios.post(`${this.data.v6}`,{
                         username: this.user,
                         password: this.password
                     })
                     alert('отправлено:'+this.data.v6);
-                    console.log(response.data)
                 }catch(e){
                     alert('error:'+ e.response.data);
                     this.error=e.response.data
