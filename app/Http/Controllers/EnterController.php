@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Entities\Call;
-use App\Entities\DefaultSetting;
 use App\Entities\Device;
 use App\Entities\GuestCall;
 use App\Entities\GuestSms;
@@ -15,8 +14,6 @@ use App\Entities\Stage;
 use App\Entities\UserAgent;
 use App\Entities\Voucher;
 use Illuminate\Http\Request;
-
-const Resolution = "Resolution";
 
 class EnterController extends Controller
 {
@@ -42,9 +39,9 @@ class EnterController extends Controller
         $request['type'] = $type;
         $device = Device::whereMac($device_mac)->first();
 
-        $User['info'] = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_SPECIAL_CHARS);
-        $DevInfoHash = md5($User['info']);
-        $User['signature'] = md5($name . $device_mac . $ip . 'TooManySecrets');
+        $user['info'] = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_SPECIAL_CHARS);
+        $devInfoHash = md5($user['info']);
+        $user['signature'] = md5($name . $device_mac . $ip . 'TooManySecrets');
 
 //        Есть в devices по mac?
 //        Нет - записываем с дефолтными полями
@@ -59,26 +56,26 @@ class EnterController extends Controller
 //        Есть - обновляем запись в devices
 //        Нет - добавляем с дефолтными значениями
 
-        $userinfo = UserAgent::whereUid($DevInfoHash)->first();
+        $userinfo = UserAgent::whereUid($devInfoHash)->first();
         if ($userinfo) {
-            UserAgent::whereUid($DevInfoHash)->update(['info' => $User['info']]);
+            UserAgent::whereUid($devInfoHash)->update(['info' => $user['info']]);
         } else {
-            UserAgent::create(['uid' => $DevInfoHash, 'info' => $User['info']]);
+            UserAgent::create(['uid' => $devInfoHash, 'info' => $user['info']]);
         }
 
 //  Проверяем наличие записи в sessions . auth(соответствие зоны, мака и сигнатуры, не истекший expiration)
         //    Есть - обновляем counter и авторизируем устройство
 
         $session = SessionsAuth::whereSpot_id($spot->id)->whereDevice_mac($device_mac)
-            ->whereSignature($User['signature'])->where('expiration', '>', $date)->first();
+            ->whereSignature($user['signature'])->where('expiration', '>', $date)->first();
         if ($session) {
             $count = $session->counter;
             $count = $count + 1;
             SessionsAuth::whereDevice_mac($device_mac)->update(['created' => $date, 'counter' => $count]);
             $status = "SessionFound";
-            $temp = $User['signature'];
+            $temp = $user['signature'];
             $this->formationLog($ident, $status, $device_mac, "$temp|");
-            $this->auth($session);
+            return $this->auth($session);
         }
 
 //        Проверяем наличие записи в stages
@@ -180,8 +177,8 @@ class EnterController extends Controller
 
                 $calls = Call::where('phone', '=', $phone)->first();
                 if ($calls) {
-                    $guestcall = GuestCall::orderBy('created', 'DESC')->first();
-                    $this->auth($guestcall);
+                    $guest_call = GuestCall::orderBy('created', 'DESC')->first();
+                    return $this->auth($guest_call);
                 }
                 break;
             case 3://   Ваучеры
@@ -222,13 +219,13 @@ class EnterController extends Controller
 //        $contents = \File::get("$way");
 //        $arr = Storage::get($way);
 
-    function GetDevSignature($DevInfo = "")
+    function GetDevSignature($devInfo = "")
     {
-        preg_match('~\(([^)]+)\)~', $DevInfo, $matches);
+        preg_match('~\(([^)]+)\)~', $devInfo, $matches);
         if (isset($matches[1])) return md5($matches[1]);
-        $matches = explode(" ", $DevInfo);
-        if (isset($matches[0]) && strpos($DevInfo, " ")) return md5($matches[0]);
-        return md5($DevInfo);
+        $matches = explode(" ", $devInfo);
+        if (isset($matches[0]) && strpos($devInfo, " ")) return md5($matches[0]);
+        return md5($devInfo);
     }
 
     private function checkCorrectPhoneNumber($phone)
