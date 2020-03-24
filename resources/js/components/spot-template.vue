@@ -149,9 +149,10 @@
                         username: this.user,
                         password: this.password
                     })
-                    alert('отправлено');
+                    alert('отправлено:'+this.data.v6);
                     console.log(response.data)
                 }catch(e){
+                    alert('error:'+ e.response.data);
                     this.error=e.response.data
                 }
             }
