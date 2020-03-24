@@ -27,7 +27,6 @@
             <form ref="form" @submit="auth" :action="this.data.v6">
                 <input type="hidden" name="username" :value="user">
                 <input type="hidden" name="password" :value="password">
-                <input type="submit" @click="auth" >
             </form>
             <pageFooter @click="showAgreement=true"/>
         </div>
