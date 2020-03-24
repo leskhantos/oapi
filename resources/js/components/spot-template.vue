@@ -65,7 +65,9 @@
             phone: null,
             smsInputShow:null,
             sms: '',
-            code: ''
+            code: '',
+            user: '',
+            password:''
 
         }),
         methods: {
@@ -88,7 +90,7 @@
 
                 } catch (e) {
                     console.log(e.response.status)
-                    this.error=e.response.status
+                    this.error=e.response.data
                     this.loading=false
                     console.log(this.data)
                 }
@@ -115,12 +117,12 @@
                     // alert(response.data? response.data : 'success')
                 } catch (e) {
                     console.log(e.response.status)
-                    this.error=e.response.status
+                    this.error=e.response.data
                 }
             },
            async sendCode(){
                 try {
-                    const response = await axios.post(`/${this.data.v1}`, {
+                    const response = await axios.post(`test/${this.data.v1}`, {
                         v1: this.data.v1,
                         v2: this.data.v2,
                         v3: this.data.v3,
@@ -132,10 +134,24 @@
                         code: this.code,
                     })
                     this.code=null;
-                     console.log(response.data)
+                     console.log(response.data.user);
+                     this.user=response.data.user;
+                     this.password=response.data.password;
+                     this.auth()
                 } catch (e) {
                     console.log(e.response.status)
-                    this.error=e.response.status
+                    this.error=e.response.data
+                }
+            },
+            async auth(){
+                try {
+                   const response = await axios.post('https://spot.oyster.su/login.php',{
+                        login: this.user,
+                        password: this.password
+                    })
+                    console.log(response.data)
+                }catch(e){
+                    this.error=e.response.data
                 }
             }
         },
