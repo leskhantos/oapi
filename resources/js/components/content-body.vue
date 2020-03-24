@@ -57,5 +57,10 @@
 </script>
 
 <style scoped>
-
+    .form-control:focus {
+        box-shadow: none;
+    }
+    .btn-success:focus{
+        box-shadow: none;
+    }
 </style>
