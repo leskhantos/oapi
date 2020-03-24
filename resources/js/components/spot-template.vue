@@ -24,11 +24,10 @@
                     <content-banner v-show="false" />
                 </div>
                 <error :error="error"/>
-            <form ref="form" @submit="auth" :action="this.data.v6">
-                <input type="hidden" name="username" :value="user">
-                <input type="hidden" name="password" :value="password">
-                <input type="submit" @click="auth" >
-            </form>
+<!--            <form ref="form" @submit="auth" :action="this.data.v6">-->
+<!--                <input type="hidden" name="username" :value="user">-->
+<!--                <input type="hidden" name="password" :value="password">-->
+<!--            </form>-->
             <pageFooter @click="showAgreement=true"/>
         </div>
             <agreement v-else @close="showAgreement=false"/>
@@ -127,7 +126,7 @@
             },
            async sendCode(){
                 try {
-                    const response = await axios.post(`test/${this.data.v1}`, {
+                    const response = await axios.post(`enter/${this.data.v1}`, {
                         v1: this.data.v1,
                         v2: this.data.v2,
                         v3: this.data.v3,
@@ -151,11 +150,10 @@
             },
             async auth(){
                 try {
-                    this.$refs.form.submit()
-                    // const response = await axios.post(`${this.data.v6}`,{
-                   //      username: this.user,
-                   //      password: this.password
-                   //  })
+                    const response = await axios.post(`${this.data.v6}`,{
+                        username: this.user,
+                        password: this.password
+                    })
                     alert('отправлено:'+this.data.v6);
                     console.log(response.data)
                 }catch(e){
