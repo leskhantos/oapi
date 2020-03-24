@@ -7,7 +7,7 @@
     <link rel="icon" href="{{ env('APP_URL') . env('APP_RESOURCES_DIR') . 'favicon-16x16.png' }}" type="image/png" sizes="16x16"/>
     <link rel="icon" href="{{ env('APP_URL') . env('APP_RESOURCES_DIR') . 'favicon-32x32.png' }}" type="image/png" sizes="32x32"/>
     <link rel="icon" href="{{ env('APP_URL') . env('APP_RESOURCES_DIR') . 'favicon-96x96.png' }}" type="image/png" sizes="96x96"/>
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <link rel="stylesheet" href="{{ env('APP_URL') . env('APP_RESOURCES_DIR') . 'css/app.css' }}">
   <title>HotSpot</title>
 </head>
 <body>
