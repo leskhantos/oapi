@@ -138,7 +138,7 @@
             async auth(){
                 try {
                     alert('отправлено:'+this.data.v6);
-                    const response = await axios.post(`${this.data.v6}`,{
+                     await axios.post(`${this.data.v6}`,{
                         username: this.user,
                         password: this.password
                     })
