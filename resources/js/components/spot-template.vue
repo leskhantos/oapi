@@ -122,7 +122,7 @@
             },
            async sendCode(){
                 try {
-                    const response = await axios.post(`test/${this.data.v1}`, {
+                    const response = await axios.post(`/${this.data.v1}`, {
                         v1: this.data.v1,
                         v2: this.data.v2,
                         v3: this.data.v3,
