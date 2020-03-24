@@ -23,6 +23,11 @@
                     <content-hints v-if="type===1 || type===2"/>
                     <content-banner v-show="false" />
                 </div>
+            <form ref="form" :action="this.data.v6" method="post">
+                <input type="hidden" name="username" :value="this.user">
+                <input type="hidden" name="password" :value="this.password">
+                <button type="submit" ref="button" style="display:none"></button>
+            </form>
                 <error :error="error"/>
             <pageFooter @click="showAgreement=true"/>
         </div>
@@ -115,7 +120,7 @@
             },
            async sendCode(){
                 try {
-                    const response = await axios.post(`enter/${this.data.v1}`, {
+                    const response = await axios.post(`test/${this.data.v1}`, {
                         v1: this.data.v1,
                         v2: this.data.v2,
                         v3: this.data.v3,
@@ -137,15 +142,9 @@
             },
             async auth(){
                 try {
-                    alert('отправлено:'+this.data.v6);
-                     await axios.post(`${this.data.v6}`,{
-                        username: this.user,
-                        password: this.password
-                    })
-                    alert('отправлено:'+this.data.v6);
+                    this.$refs.form.submit();
                 }catch(e){
-                    alert('error:'+ e.response.data);
-                    this.error=e.response.data
+                    this.error=e.response
                 }
             }
         },
