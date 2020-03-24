@@ -39,6 +39,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapAuthRoutes();
         $this->mapUsersRoutes();
         $this->mapAccountsRoutes();
+        $this->mapMikrotikRoutes();
     }
 
     protected function mapAuthRoutes()
@@ -47,6 +48,13 @@ class RouteServiceProvider extends ServiceProvider
             ->prefix('auth')
             ->namespace($this->auth_namespace)
             ->group(base_path('routes/api/auth.php'));
+    }
+
+    protected function mapMikrotikRoutes()
+    {
+        Route::middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/api/mikrotik.php'));
     }
 
     protected function mapUsersRoutes()

@@ -21,9 +21,6 @@ Route::get('vouchers/{id}/spot','VouchersController@getVouchersBySpot');
 Route::put('vouchers/{spot_id}','VouchersController@update');
 Route::get('list/{id}/vouchers','VouchersController@getVouchersByList');
 
-Route::post('enter','EnterController@enter');
-Route::post('enter/{spot_id}','EnterController@enterWithPhone');
-
 Route::post('add', 'GuestController@store');
 Route::get('company/{id}/guests', 'GuestController@guestByCompany');
 Route::get('guest/{id}/spot', 'GuestController@guestBySpot');
