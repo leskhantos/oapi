@@ -75,7 +75,7 @@ class EnterController extends Controller
             $status = "SessionFound";
             $temp = $user['signature'];
             $this->formationLog($ident, $status, $device_mac, "$temp|");
-            return $this->auth($session);
+            return $this->auth($device_mac, $session->expiration);
         }
 
 //        Проверяем наличие записи в stages
@@ -178,7 +178,7 @@ class EnterController extends Controller
                 $calls = Call::where('phone', '=', $phone)->first();
                 if ($calls) {
                     $guest_call = GuestCall::orderBy('created', 'DESC')->first();
-                    return $this->auth($guest_call);
+                    return $this->auth($device_mac, $guest_call->expiration);
                 }
                 break;
             case 3://   Ваучеры
@@ -191,7 +191,7 @@ class EnterController extends Controller
                     if ($can_used > $test) {
                         GuestVoucher::create(['activated' => $date, 'expiration' => $expiration, 'voucher_id' => $voucher->id,
                             'device_mac' => $device_mac, 'spot_id' => $spot->id]);
-                        return $this->auth($voucher);
+                        return $this->auth($device_mac, $voucher->dt_end);
                     } else {
                         return 'Закончились ваучеры';
                     }
@@ -204,11 +204,11 @@ class EnterController extends Controller
         }
     }
 
-    public function auth($array)
+    public function auth($device_mac, $expiration)
     {
-        $pass = md5("$array->device_mac" . "$array->dt_end" . rand(1000, 9999));
-        $username = md5("$array->dt_end" . "$array->device_mac" . rand(1000, 9999));
-        $date = new \DateTime($array->dt_end);
+        $pass = md5("$device_mac" . "$expiration" . rand(1000, 9999));
+        $username = md5("$expiration" . "$device_mac" . rand(1000, 9999));
+        $date = new \DateTime($expiration);
         $exp = $date->format('d F Y H:m');
 
         Radius::create(['username' => $username, 'attribute' => 'Cleartext-Password', 'op' => ':=', 'value' => $pass]);
