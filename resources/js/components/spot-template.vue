@@ -141,7 +141,6 @@
                      console.log(response.data.user);
                      this.user=response.data.user;
                      this.password=response.data.password;
-                     alert(this.user)
                      this.auth()
                 } catch (e) {
                     console.log(e.response.status)
