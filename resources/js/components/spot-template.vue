@@ -71,7 +71,7 @@
         methods: {
             async enter() {
                 try {
-                    await axios.post(`${process.env.APP_URL}/enter`, {
+                    await axios.post(``, {
                         v1: this.data.v1,
                         v2: this.data.v2,
                         v3: this.data.v3,
@@ -95,7 +95,7 @@
             },
             async login(){
                 try {
-                    const response = await axios.post(`${process.env.APP_URL}enter/${this.data.v1}`, {
+                    const response = await axios.post(`/${this.data.v1}`, {
                         v1: this.data.v1,
                         v2: this.data.v2,
                         v3: this.data.v3,
@@ -120,7 +120,7 @@
             },
            async sendCode(){
                 try {
-                    const response = await axios.post(`${process.env.APP_URL}/enter/${this.data.v1}`, {
+                    const response = await axios.post(`/${this.data.v1}`, {
                         v1: this.data.v1,
                         v2: this.data.v2,
                         v3: this.data.v3,
