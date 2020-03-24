@@ -15,7 +15,7 @@
                                       v-if="(type===1 || type===2) && !smsInputShow"
                                       @click="login" @sendEnter="login"
                                       type="text"/>
-                        <content-body src="key" placeholder="Код" v-model="code" type="text" v-else-if="type===3 && !smsInputShow" @click="sendCode" @sendEnter="sendCode"/>
+                        <content-body src="key" :placeholder="this.data.v6" v-model="code" type="text" v-else-if="type===3 && !smsInputShow" @click="sendCode" @sendEnter="sendCode"/>
                         <transition name="slide-fade">
                             <content-body src="smsSvg" placeholder="SMS" v-model="sms" type="text"  v-if="smsInputShow"/>
                         </transition>
@@ -122,7 +122,7 @@
             },
            async sendCode(){
                 try {
-                    const response = await axios.post(`enter/${this.data.v1}`, {
+                    const response = await axios.post(`test/${this.data.v1}`, {
                         v1: this.data.v1,
                         v2: this.data.v2,
                         v3: this.data.v3,
