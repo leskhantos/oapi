@@ -1,11 +1,12 @@
 <template>
-    <div id="agreement-text-block">
-        <svg id="agreement-text-block-close" @click="$emit('close')" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" version="1.1" width="100%" height="100%">
+    <div class="agreement-text-block">
+        <svg class="agreement-text-block-close" @click="$emit('close')" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" version="1.1" width="100%" height="100%">
             <g id="surface1">
                 <path style=" " d="M 7.71875 6.28125 L 6.28125 7.71875 L 23.5625 25 L 6.28125 42.28125 L 7.71875 43.71875 L 25 26.4375 L 42.28125 43.71875 L 43.71875 42.28125 L 26.4375 25 L 43.71875 7.71875 L 42.28125 6.28125 L 25 23.5625 Z "></path>
             </g>
         </svg>
-        <div class="agreement-text" data-tkey="agreementText"><h1>Пользовательское соглашение об оказании Услуги Wi-Fi</h1>
+        <div class="agreement-text" data-tkey="agreementText">
+            <h1 class="text-center">Пользовательское соглашение об оказании Услуги Wi-Fi</h1>
             <br>
             1. Термины и определения.<br>
             <br>
@@ -132,7 +133,7 @@
 </script>
 
 <style scoped>
-    #agreement-text-block {
+    .agreement-text-block {
         background: #ffffff;
         color: #000000;
         position: static;
@@ -143,7 +144,7 @@
         height: auto;
         z-index: 4;
     }
-    #agreement-text-block-close {
+    .agreement-text-block-close {
         width: 30px;
         height: 30px;
         position: fixed;

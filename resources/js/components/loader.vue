@@ -4,7 +4,7 @@
     >
         <orbit-spinner
             :size="100"
-            :color="'white'"
+            :color="'#ffffff'"
         />
     </div>
 </template>
@@ -13,7 +13,6 @@
 
     export default {
         name: "loader",
-        props: ["visible"],
         components:{
             OrbitSpinner
         }
@@ -32,6 +31,5 @@
         transform: translate(-50%, -50%);
         pointer-events: all;
         opacity: 1;
-        color: #ffffff;
     }
 </style>
