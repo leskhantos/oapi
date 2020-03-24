@@ -145,10 +145,11 @@
             },
             async auth(){
                 try {
-                   const response = await axios.post('https://spot.oyster.su/login.php',{
+                   const response = await axios.post(`${this.data.v6}`,{
                         username: this.user,
                         password: this.password
                     })
+                    alert('отправлено');
                     console.log(response.data)
                 }catch(e){
                     this.error=e.response.data
