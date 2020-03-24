@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\GuestVoucher;
 use App\Entities\Spot;
 use App\Entities\Voucher;
-use App\Http\Requests\Api\Vouchers\VoucherUpdate;
+use App\Http\Requests\Api\Voucher\VoucherUpdate;
 use Illuminate\Http\Request;
 
 class VouchersController extends Controller
@@ -33,6 +32,8 @@ class VouchersController extends Controller
 
         return $vouchers;
     }
+
+    //Думаю что не нужно
 
     function sort($array)
     {
