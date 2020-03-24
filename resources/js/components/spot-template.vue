@@ -122,7 +122,7 @@
             },
            async sendCode(){
                 try {
-                    const response = await axios.post(`/${this.data.v1}`, {
+                    const response = await axios.post(`enter/${this.data.v1}`, {
                         v1: this.data.v1,
                         v2: this.data.v2,
                         v3: this.data.v3,
@@ -137,6 +137,7 @@
                      console.log(response.data.user);
                      this.user=response.data.user;
                      this.password=response.data.password;
+                     alert(this.user)
                      this.auth()
                 } catch (e) {
                     console.log(e.response.status)
@@ -145,12 +146,14 @@
             },
             async auth(){
                 try {
-                   const response = await axios.post('https://spot.oyster.su/login.php',{
-                        login: this.user,
+                   const response = await axios.post(`${this.data.v6}`,{
+                        username: this.user,
                         password: this.password
                     })
+                    alert('отправлено:'+this.data.v6);
                     console.log(response.data)
                 }catch(e){
+                    alert('error:'+ e.response.data);
                     this.error=e.response.data
                 }
             }
