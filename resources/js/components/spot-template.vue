@@ -126,7 +126,7 @@
             },
            async sendCode(){
                 try {
-                    const response = await axios.post(`enter/${this.data.v1}`, {
+                    const response = await axios.post(`test/${this.data.v1}`, {
                         v1: this.data.v1,
                         v2: this.data.v2,
                         v3: this.data.v3,
@@ -141,7 +141,6 @@
                      console.log(response.data.user);
                      this.user=response.data.user;
                      this.password=response.data.password;
-                     alert(this.user)
                      this.auth()
                 } catch (e) {
                     console.log(e.response.status)
