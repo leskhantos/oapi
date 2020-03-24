@@ -24,8 +24,6 @@ class VoucherUpdate extends ApiRequest
     public function rules()
     {
         return [
-            'dt_end' => 'required|date',
-            'dt_start' => 'required|date',
             'room' => 'required|string',
             'can_used' => 'int',
         ];
