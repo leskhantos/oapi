@@ -26,7 +26,7 @@ class VouchersController extends Controller
                 $index = rand(0, count($arr) - 1);
                 $code .= $arr[$index];
             }
-            Voucher::create(['code' => $code, 'spot_id' => $id, 'list_id' => $list_id, 'can_used' => 5]);
+            Voucher::create(['code' => $code, 'spot_id' => $id, 'list_id' => $list_id, 'can_used' => 6]);
         }
         $vouchers = Voucher::select('id', 'code')->whereList_id($list_id)->get();
 
