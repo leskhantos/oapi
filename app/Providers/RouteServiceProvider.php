@@ -15,6 +15,7 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     protected $namespace = 'App\Http\Controllers';
+    protected $auth_namespace = 'App\Http\Controllers\Auth';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -35,8 +36,30 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
+        $this->mapAuthRoutes();
+        $this->mapUsersRoutes();
+        $this->mapAccountsRoutes();
+    }
+
+    protected function mapAuthRoutes()
+    {
         Route::middleware('api')
+            ->prefix('auth')
+            ->namespace($this->auth_namespace)
+            ->group(base_path('routes/api/auth.php'));
+    }
+
+    protected function mapUsersRoutes()
+    {
+        Route::middleware(['api', 'auth:api'])
             ->namespace($this->namespace)
-            ->group(base_path('routes/api.php'));
+            ->group(base_path('routes/api/users_routes.php'));
+    }
+
+    protected function mapAccountsRoutes()
+    {
+        Route::middleware(['api', 'auth:accounts_api'])
+            ->namespace($this->namespace)
+            ->group(base_path('routes/api/accounts_routes.php'));
     }
 }
