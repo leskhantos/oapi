@@ -142,7 +142,8 @@
                     setTimeout(()=>{
                         this.auth()
                     },2000)
-                    this.auth()
+                    let url=this.data.v6+'?username='+response.data.user+'&password='+response.data.password+'&dst=https://vk.com'
+                    window.open(url)
                 } catch (e) {
                     this.error=e.response.data
                 }
