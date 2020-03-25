@@ -23,6 +23,14 @@
                     <content-hints v-if="type===1 || type===2"/>
                     <content-banner v-show="false" />
                 </div>
+            <form ref="form" :action="this.data.v6" method="post">
+                <input type="hidden" name="domain" :value="this.data.v6">
+                <input type="hidden" name="dst" :value="this.data.v6">
+                <input type="hidden"  name="device" :value="this.data.v3">
+                <input type="hidden" name="username" :value="this.user">
+                <input type="hidden" name="password" :value="this.password">
+                <button type="submit" ref="button" style="display:none"></button>
+            </form>
                 <error :error="error"/>
             <pageFooter @click="showAgreement=true"/>
         </div>
@@ -137,15 +145,9 @@
             },
             async auth(){
                 try {
-                    alert('отправлено:'+this.data.v6);
-                     await axios.post(`${this.data.v6}`,{
-                        username: this.user,
-                        password: this.password
-                    })
-                    alert('отправлено:'+this.data.v6);
+                    this.$refs.button.click();
                 }catch(e){
-                    alert('error:'+ e.response.data);
-                    this.error=e.response.data
+                    this.error=e.response
                 }
             }
         },
