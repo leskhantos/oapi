@@ -24,9 +24,7 @@
                     <content-banner v-show="false" />
                 </div>
             <form ref="form" name="login" :action="this.data.v6" method="post">
-                <input type="hidden" name="domain" :value="this.data.v7">
                 <input type="hidden" name="dst" :value="this.data.v7">
-                <input type="hidden"  name="device" :value="this.data.v3">
                 <input type="hidden" name="username" :value="this.user">
                 <input type="hidden" name="password" :value="this.password">
                 <button type="submit" ref="button" style="display:none"></button>
@@ -93,8 +91,10 @@
                         screen_h: this.$vssHeight
                     })
                     this.loading=false
+                    if(this.data.v8){
+                        this.error=this.data.v8
+                    }
                     console.log(this.data)
-
                 } catch (e) {
                     this.error=e.response.data
                     this.loading=false
@@ -140,8 +140,6 @@
                     setTimeout(()=>{
                         this.auth()
                     },1000)
-                    // let url=this.data.v6+'?username='+response.data.user+'&password='+response.data.password+'&dst=https://vk.com'
-                    // window.open(url)
                 } catch (e) {
                     this.error=e.response.data
                 }
