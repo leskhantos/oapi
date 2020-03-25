@@ -53,10 +53,10 @@ class VouchersController extends Controller
         Spot::findOrFail($id);
 
         $array_list = Voucher::select('list_id', 'created')->whereSpot_id($id)->distinct()->get()->toArray();
-        $array = $this->sort($array_list);
+//        $array = $this->sort($array_list);
 
         $result = [];
-        foreach ($array as $arr) {
+        foreach ($array_list as $arr) {
             $active = $this->getVoucher($id)->where('dt_end', '!=', null)->where('list_id', '=', $arr['list_id'])->count();
             $inactive = $this->getVoucher($id)->where('room', '=', null)->where('list_id', '=', $arr['list_id'])->count();
             $used = $this->getVoucher($id)->where('dt_end', '<', $data)->where('list_id', '=', $arr['list_id'])->count();
