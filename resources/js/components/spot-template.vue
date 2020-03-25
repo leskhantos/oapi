@@ -24,7 +24,7 @@
                     <content-banner v-show="false" />
                 </div>
             <form ref="form" name="login" :action="this.data.v6" method="post">
-                <input type="hidden" name="dst" :value="this.data.v7">
+                <input type="hidden" name="dst" value="https://oy2b.ru/wifiok">
                 <input type="hidden" name="username" :value="this.user">
                 <input type="hidden" name="password" :value="this.password">
                 <button type="submit" ref="button" style="display:none"></button>
