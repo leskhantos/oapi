@@ -54,7 +54,7 @@ Route::get('spot/{id}/stats', 'StatController@getStatsBySpot');
 Route::get('spot/{id}/session', 'SessionController@sessionBySpot');
 
 Route::post('device', 'DeviceController@store'); //возможно не нужны
-Route::post('account', 'AccountsController@store');
+Route::post('account', 'UsersController@storeAccount');
 
 Route::get('settings', 'DefaultSettingController@index');
 Route::post('settings', 'DefaultSettingController@store');
@@ -67,5 +67,3 @@ Route::get('device/{id}/phones', 'DeviceController@phoneByDevice');
 Route::get('device/{id}/events', 'DeviceController@eventsByDevice');
 
 // Route::post('/test/{id}', 'TestController@index');
-
-

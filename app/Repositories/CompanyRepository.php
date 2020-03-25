@@ -4,8 +4,8 @@ namespace App\Repositories;
 
 use App\Entities\Account;
 use App\Entities\Company;
-use App\Entities\Page;
 use App\Entities\Style;
+use App\Entities\User;
 use App\Repositories\Interfaces\CompanyRepositoryInterface;
 
 class CompanyRepository implements CompanyRepositoryInterface
@@ -23,9 +23,9 @@ class CompanyRepository implements CompanyRepositoryInterface
     public function accountsByCompany($company_id)
     {
         $company = Company::findOrFail($company_id);
-        $account = Account::select('email', 'last_ip', 'last_online')
-            ->where('accounts.company_id', '=', $company->id)->get();
-        return $account;
+        $user = User::select('login', 'last_ip', 'last_online')
+            ->where('users.id_company', '=', $company->id)->get();
+        return $user;
     }
 
     public function pagesByCompany($company_id)

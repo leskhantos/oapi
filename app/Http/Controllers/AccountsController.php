@@ -8,9 +8,6 @@ use App\Http\Requests\Api\Account\AccountStoreRequest;
 class AccountsController extends Controller
 {
 
-    public function store(AccountStoreRequest $request)
-    {
-        return Account::create($request->all());
-    }
+
 
 }

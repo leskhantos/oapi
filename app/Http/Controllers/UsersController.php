@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Api\Account\AccountStoreRequest;
 use App\Http\Requests\Api\User\UserUpdate;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Entities\User;
@@ -30,6 +31,12 @@ class UsersController extends Controller
         return User::create($request->validated());
     }
 
+    public function storeAccount(AccountStoreRequest $request)
+    {
+//        dd($request->validated());
+        return User::create(array_merge($request->validated(), ['type' => 'client','name'=>'gosha']));
+    }
+
     public function show($id)
     {
         return $this->userRepository->getUserById($id);
@@ -41,8 +48,8 @@ class UsersController extends Controller
             $user = User::findOrFail($id);
             $user->update($request->validated());
             return response($user);
-        }else{
-            return response('No privileges',403);
+        } else {
+            return response('No privileges', 403);
         }
     }
 

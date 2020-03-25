@@ -19,11 +19,12 @@ class AccountStoreRequest extends ApiRequest
     public function rules()
     {
         return [
-            'company_id' => 'required|exists:companies,id',
-            'email' => 'required|email|max:250|min:5|unique:accounts,email',
-            'password' => 'required|string|max:200|min:5',
-            'last_ip' => 'string|max:16',
-            'last_online' => 'date',
+            'id_company' => 'required|exists:companies,id',
+            'login' => 'required|email|max:250|min:5|unique:users,login',
+            'password' => 'required|string|min:5|max:45',
+            'last_online' => 'date|min:5',
+            'last_ip' => 'string|min:7',
+            'enabled' => 'boolean'
         ];
     }
 }
