@@ -54,7 +54,7 @@ class VouchersController extends Controller
         $data = new \DateTime();
         Spot::findOrFail($id);
 
-        $array_list = Voucher::select('list_id', 'created_at')->whereSpot_id($id)->distinct()->get()->toArray();
+        $array_list = Voucher::select('list_id', 'created')->whereSpot_id($id)->distinct()->get()->toArray();
         $array = $this->sort($array_list);
 
         $result = [];
