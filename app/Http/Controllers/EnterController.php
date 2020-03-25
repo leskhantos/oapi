@@ -239,8 +239,8 @@ class EnterController extends Controller
         $date = new \DateTime($expiration);
         $exp = $date->format('d M Y H:m');
 
-//        Radius::create(['username' => $username, 'attribute' => 'Cleartext-Password', 'op' => ':=', 'value' => $pass]);
-//        Radius::create(['username' => $username, 'attribute' => 'Expiration', 'op' => ':=', 'value' => $exp]);
+        Radius::create(['username' => $username, 'attribute' => 'Cleartext-Password', 'op' => ':=', 'value' => $pass]);
+        Radius::create(['username' => $username, 'attribute' => 'Expiration', 'op' => ':=', 'value' => $exp]);
         return (['user' => $username, 'password' => $pass]);
     }
 

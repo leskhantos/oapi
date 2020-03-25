@@ -11,7 +11,6 @@ class VouchersController extends Controller
 {
     public function generateVouchers($id)
     {
-        $data = new \DateTime();
         Spot::findOrFail($id);
         $voucher = Voucher::max('list_id');
         $list_id = $voucher + 1;
@@ -53,10 +52,10 @@ class VouchersController extends Controller
         Spot::findOrFail($id);
 
         $array_list = Voucher::select('list_id', 'created')->whereSpot_id($id)->distinct()->get()->toArray();
-//        $array = $this->sort($array_list);
+        $array = $this->sort($array_list);
 
         $result = [];
-        foreach ($array_list as $arr) {
+        foreach ($array as $arr) {
             $active = $this->getVoucher($id)->where('dt_end', '!=', null)->where('list_id', '=', $arr['list_id'])->count();
             $inactive = $this->getVoucher($id)->where('room', '=', null)->where('list_id', '=', $arr['list_id'])->count();
             $used = $this->getVoucher($id)->where('dt_end', '<', $data)->where('list_id', '=', $arr['list_id'])->count();
@@ -114,7 +113,7 @@ class VouchersController extends Controller
         $voucher = Voucher::whereId($id)->where('room', '!=', null)->first();
 
         if (empty($voucher)) {
-            Voucher::whereId($id)->update(array_merge($request->validated(), ['dt_start' => $date, 'dt_end' => $expiration]));
+            Voucher::whereId($id)->update(array_merge($request->validated(),['dt_start'=>$date,'dt_end'=>$expiration]));
             $id = Voucher::whereId($id)->get();
             return response($id, 200);
         } else {
