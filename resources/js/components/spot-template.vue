@@ -137,13 +137,11 @@
                     this.code=null;
                      this.user=response.data.user;
                      this.password=response.data.password;
-                    alert('login:' +this.user)
-                    alert('password:' +this.password)
                     setTimeout(()=>{
                         this.auth()
-                    },2000)
-                    let url=this.data.v6+'?username='+response.data.user+'&password='+response.data.password+'&dst=https://vk.com'
-                    window.open(url)
+                    },1000)
+                    // let url=this.data.v6+'?username='+response.data.user+'&password='+response.data.password+'&dst=https://vk.com'
+                    // window.open(url)
                 } catch (e) {
                     this.error=e.response.data
                 }
