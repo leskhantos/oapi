@@ -5,14 +5,17 @@ namespace App\Http\Controllers;
 use App\Entities\Call;
 use App\Entities\Device;
 use App\Entities\GuestCall;
+use App\Entities\Guests\Guest;
 use App\Entities\GuestSms;
 use App\Entities\GuestVoucher;
 use App\Entities\Radius;
 use App\Entities\SessionsAuth;
 use App\Entities\Spot;
 use App\Entities\Stage;
+use App\Entities\StatsGuest;
 use App\Entities\UserAgent;
 use App\Entities\Voucher;
+use App\Services\Auth;
 use Illuminate\Http\Request;
 
 class EnterController extends Controller
@@ -22,16 +25,15 @@ class EnterController extends Controller
         $date = new \DateTime();
         $ident = $request->v1;
         $name = $request->v2;
-        $device_mac =strtoupper($request->v3);
+        $device_mac = strtoupper($request->v3);
         $ip = $request->v4;
-        $height = $request->height;
-        $width = $request->witdth;
+        $height = $request->screen_h;
+        $width = $request->screen_w;
         $spot = Spot::whereIdent($ident)->first();
         //Любой девайс который законектился к нашей сети залетает в логи.
         $status = "Resolution";
         $temp = "$width x $height|";
         $this->formationLog($ident, $status, $device_mac, $temp);
-
         if (!$spot) {
             return response('F', 404);
         }
@@ -100,23 +102,33 @@ class EnterController extends Controller
     public function enterWithPhone(Request $request, $ident)
     {
         $date = new \DateTime();
+        $day = $date->format('Y-m-d 00:00:00');
+        $name = $request->v2;
         $device_mac = $request->v3;
-
+        $ip = $request->v4;
         $spot = Spot::whereIdent($ident)->first();
         if (!$spot) {
             return response('Fake ident', 404);
         }
+        $spot_id = $spot->id;
         //Начальная стадия, добавляем любой девайс который подключился к нашей
+
         $status = "CheckPhone";
         $this->formationLog($ident, $status, $device_mac, "");
         if (isset($request->phone)) {
             $phone = $this->checkCorrectPhoneNumber($request->phone);
             $phone_country = $this->checkPhoneCountry($phone);
         }
+        $user['info'] = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_SPECIAL_CHARS);
+        $devInfoHash = md5($user['info']);
+        $user['signature'] = md5($name . $device_mac . $ip . 'TooManySecrets');
         $voucher_code = $request->code;
         $expiration = new \DateTime();
         $expiration->modify('+6 month');// такое себе решение, тупо меняет число в месяце
         $spot_type = $spot->type;
+        $arrayForSession = ['spot_id' => $spot_id, 'date' => $date, 'expiration' => $expiration, 'device_mac' => $device_mac, 'signature' => $user['signature']];
+        $arrayForGuest = ['company_id' => $spot->company_id, 'spot_id' => $spot_id, 'spot_type' => $spot_type, 'device_mac' => $device_mac];
+//        $arrayForStats = ['date' => $day, 'company_id' => $spot->company_id, 'spot_id' => $spot_id, 'load' => 1, 'auth' => 2, 'new' => 1, 'old' => 2];
 
         switch ($spot_type) {
             case 1://   Смс
@@ -178,7 +190,9 @@ class EnterController extends Controller
                 $calls = Call::where('phone', '=', $phone)->first();
                 if ($calls) {
                     $guest_call = GuestCall::orderBy('created', 'DESC')->first();
-                    return $this->auth($device_mac, $guest_call->expiration);
+                    $auth = $this->auth($device_mac, $guest_call->expiration);
+                    $this->createSession($arrayForSession);
+                    return $auth;
                 }
                 break;
             case 3://   Ваучеры
@@ -191,14 +205,28 @@ class EnterController extends Controller
                     if ($can_used > $test) {
                         GuestVoucher::create(['activated' => $date, 'expiration' => $expiration, 'voucher_id' => $voucher->id,
                             'device_mac' => $device_mac, 'spot_id' => $spot->id]);
-                        return $this->auth($device_mac, $voucher->dt_end);
+                        $auth = $this->auth($device_mac, $voucher->dt_end);
+                        if (isset($auth['user']) && isset($auth['password'])) {
+                            //Если сессия есть чтоб не делать дубли, потому можно удалить
+                            $session = SessionsAuth::whereSpot_id($spot->id)->whereDevice_mac($device_mac)
+                                ->whereSignature($user['signature'])->where('expiration', '>', $date)->first();
+                            if (!$session) {
+                                $this->createSession($arrayForSession);
+                            }
+                            //
+                            $this->createGuests($arrayForGuest, $voucher->id);
+//                            $arrayForStats['auth'] = 1;
+//                            $this->createStats($arrayForStats);
+                            return response($auth);
+                        } else
+                            return response('user || password incorrect', 404);
                     } else {
-                        return response('Закончились ваучеры',404);
+                        return response('Закончились ваучеры', 404);
                     }
                 } else {
                     $status = "IncorrectVoucher";
                     $this->formationLog($ident, $status, $device_mac, "");
-                    return response('Voucher not found',404);
+                    return response('Voucher not found', 404);
                 }
                 break;
         }
@@ -211,9 +239,9 @@ class EnterController extends Controller
         $date = new \DateTime($expiration);
         $exp = $date->format('d M Y H:m');
 
-        Radius::create(['username' => $username, 'attribute' => 'Cleartext-Password', 'op' => ':=', 'value' => $pass]);
-        Radius::create(['username' => $username, 'attribute' => 'Expiration', 'op' => ':=', 'value' => $exp]);
-        return response(['user' => $username, 'password' => $pass]);
+//        Radius::create(['username' => $username, 'attribute' => 'Cleartext-Password', 'op' => ':=', 'value' => $pass]);
+//        Radius::create(['username' => $username, 'attribute' => 'Expiration', 'op' => ':=', 'value' => $exp]);
+        return (['user' => $username, 'password' => $pass]);
     }
 
 //        $contents = \File::get("$way");
@@ -227,6 +255,39 @@ class EnterController extends Controller
         if (isset($matches[0]) && strpos($devInfo, " ")) return md5($matches[0]);
         return md5($devInfo);
     }
+
+    private function createSession($session_array)
+    {
+        SessionsAuth::create($session_array);
+    }
+
+    private function createGuests($guest_array, $data_auth)
+    {
+        Guest::create(array_merge($guest_array, ['data_auth' => $data_auth]));
+    }
+
+    //ужс
+//    private function createStats($stat_array)
+//    {
+//        $guest_this_day = StatsGuest::whereDate($stat_array['day'])->whereSpot_id($stat_array['spot_id'])->first();
+//        $old = $guest_this_day->old;
+//        $auth = $guest_this_day->auth;
+//        if (isset($stat_array['old'])) {
+//            $stat_array['old'] = $old + $stat_array['old'];
+//        }
+//        if ($guest_this_day) {
+//            if (isset($stat_array['auth'])) {
+//                $stat_array['auth'] = $auth + $stat_array['auth'];
+//            }
+//            StatsGuest::update(['auth' => $stat_array['auth'], 'old' => $stat_array['old']]);
+//        } else {
+//            $new = $guest_this_day->new;
+//            if (isset($stat_array['new'])) {
+//                $stat_array['new'] = $new + $stat_array['new'];
+//            }
+//            StatsGuest::create($stat_array);
+//        }
+//    }
 
     private function checkCorrectPhoneNumber($phone)
     {
@@ -272,6 +333,11 @@ class EnterController extends Controller
 //        foreach ($array as $arr) {
 //            $log .= "$arr|";
 //        }
+    }
+
+    private function guestWasHere()
+    {
+
     }
 
     private function sendSms($phone, $sms_message)
