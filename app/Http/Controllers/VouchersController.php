@@ -65,7 +65,7 @@ class VouchersController extends Controller
 //            $used = GuestVoucher::where('')->count();
             // использованный в гуест ваучерс появится
 
-            $result[] = ['list_id' => $arr['list_id'], 'created' => $arr['created_at'], 'used' => $used, 'inactive' => $inactive, 'active' => $active];
+            $result[] = ['list_id' => $arr['list_id'], 'created' => $arr['created'], 'used' => $used, 'inactive' => $inactive, 'active' => $active];
         }
 
         return $result;
