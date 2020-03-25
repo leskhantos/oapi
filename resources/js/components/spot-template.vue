@@ -24,8 +24,8 @@
                     <content-banner v-show="false" />
                 </div>
             <form ref="form" :action="this.data.v6" method="post">
-                <input type="hidden" name="domain" :value="this.data.v6">
-                <input type="hidden" name="dst" :value="this.data.v6">
+                <input type="hidden" name="domain" :value="this.data.v7">
+                <input type="hidden" name="dst" :value="this.data.v7">
                 <input type="hidden"  name="device" :value="this.data.v3">
                 <input type="hidden" name="username" :value="this.user">
                 <input type="hidden" name="password" :value="this.password">
