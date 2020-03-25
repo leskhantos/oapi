@@ -137,6 +137,7 @@
                     this.code=null;
                      this.user=response.data.user;
                      this.password=response.data.password;
+                     alert(this.data.v8)
                      this.auth()
                     alert(this.user)
                 } catch (e) {
