@@ -193,12 +193,12 @@ class EnterController extends Controller
                             'device_mac' => $device_mac, 'spot_id' => $spot->id]);
                         return $this->auth($device_mac, $voucher->dt_end);
                     } else {
-                        return 'Закончились ваучеры';
+                        return response('Закончились ваучеры');
                     }
                 } else {
                     $status = "IncorrectVoucher";
                     $this->formationLog($ident, $status, $device_mac, "");
-                    return ('Voucher not found');
+                    return response('Voucher not found',404);
                 }
                 break;
         }
