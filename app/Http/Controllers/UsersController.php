@@ -34,7 +34,7 @@ class UsersController extends Controller
     public function storeAccount(AccountStoreRequest $request)
     {
 //        dd($request->validated());
-        return User::create(array_merge($request->validated(), ['type' => 'client','name'=>'gosha']));
+        return User::create(array_merge($request->validated(), ['type' => 'client']));
     }
 
     public function show($id)

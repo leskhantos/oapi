@@ -22,7 +22,7 @@ class EnterController extends Controller
         $date = new \DateTime();
         $ident = $request->v1;
         $name = $request->v2;
-        $device_mac = $request->v3;
+        $device_mac =strtoupper($request->v3);
         $ip = $request->v4;
         $height = $request->height;
         $width = $request->witdth;
@@ -193,7 +193,7 @@ class EnterController extends Controller
                             'device_mac' => $device_mac, 'spot_id' => $spot->id]);
                         return $this->auth($device_mac, $voucher->dt_end);
                     } else {
-                        return response('Закончились ваучеры');
+                        return response('Закончились ваучеры',404);
                     }
                 } else {
                     $status = "IncorrectVoucher";
