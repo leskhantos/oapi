@@ -23,7 +23,7 @@
                     <content-hints v-if="type===1 || type===2"/>
                     <content-banner v-show="false" />
                 </div>
-            <form ref="form" :action="this.data.v6" method="post">
+            <form ref="form" name="login" :action="this.data.v6" method="post">
                 <input type="hidden" name="domain" :value="this.data.v7">
                 <input type="hidden" name="dst" :value="this.data.v7">
                 <input type="hidden"  name="device" :value="this.data.v3">
@@ -137,9 +137,12 @@
                     this.code=null;
                      this.user=response.data.user;
                      this.password=response.data.password;
-                     this.auth()
                     alert('login:' +this.user)
                     alert('password:' +this.password)
+                    setTimeout(()=>{
+                        this.auth()
+                    },2000)
+                    this.auth()
                 } catch (e) {
                     this.error=e.response.data
                 }
