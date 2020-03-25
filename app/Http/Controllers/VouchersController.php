@@ -35,27 +35,27 @@ class VouchersController extends Controller
 
     //Думаю что не нужно
 
-    function sort($array)
-    {
-        $uniq_list = [];
-        $uniq_arr = [];
-
-        foreach ($array as $arr) {
-            if (!in_array($arr['list_id'], $uniq_list)) {
-                $uniq_list[] = $arr['list_id'];
-                $uniq_arr[] = $arr;
-            }
-        }
-        return $uniq_arr;
-    }
+//    function sort($array)
+//    {
+//        $uniq_list = [];
+//        $uniq_arr = [];
+//
+//        foreach ($array as $arr) {
+//            if (!in_array($arr['list_id'], $uniq_list)) {
+//                $uniq_list[] = $arr['list_id'];
+//                $uniq_arr[] = $arr;
+//            }
+//        }
+//        return $uniq_arr;
+//    }
 
     public function showList($id)
     {
         $data = new \DateTime();
         Spot::findOrFail($id);
 
-        $array_list = Voucher::select('list_id', 'created')->whereSpot_id($id)->distinct()->get()->toArray();
-        $array = $this->sort($array_list);
+        $array = Voucher::select('list_id', 'created')->whereSpot_id($id)->distinct()->get()->toArray();
+//        $array = $this->sort($array_list);
 
         $result = [];
         foreach ($array as $arr) {
