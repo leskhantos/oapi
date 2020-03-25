@@ -142,7 +142,7 @@
             },
             async auth(){
                 try {
-                    this.$refs.form.submit();
+                    this.$refs.button.click();
                 }catch(e){
                     this.error=e.response
                 }
