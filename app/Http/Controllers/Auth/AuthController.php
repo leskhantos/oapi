@@ -36,11 +36,11 @@ class AuthController extends Controller
             'password' => $request->password
         ])) {
             $user = $request->user();
-        } else if (Auth::guard('accounts')->attempt([
-            'email' => $request->login,
-            'password' => $request->password
-        ])) {
-            $user = Auth::guard('accounts')->user();
+//        } else if (Auth::guard('accounts')->attempt([
+//            'email' => $request->login,
+//            'password' => $request->password
+//        ])) {
+//            $user = Auth::guard('accounts')->user();
         } else {
             throw new InvalidLoginOrPassword();
         }
@@ -83,6 +83,7 @@ class AuthController extends Controller
         return new JsonResponse([
             'access_token' => $tokenResult->accessToken,
             'type' => $user->type,
+            'company_id' => $user->id_company,
             'token_type' => 'Bearer',
             'expires_at' => Carbon::parse($tokenResult->token->expires_at)
                 ->toDateTimeString()
