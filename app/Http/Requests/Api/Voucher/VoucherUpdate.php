@@ -26,6 +26,8 @@ class VoucherUpdate extends ApiRequest
         return [
             'room' => 'required|string',
             'can_used' => 'int',
+            'dt_start' => 'date',
+            'dt_end' => 'date',
         ];
     }
 }

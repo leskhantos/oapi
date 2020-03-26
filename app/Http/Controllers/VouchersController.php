@@ -102,9 +102,6 @@ class VouchersController extends Controller
 
     public function update($spot_id, VoucherUpdate $request)
     {
-        $date = new \DateTime();
-        $expiration = new \DateTime();
-        $expiration->modify('+6 month');
         $id = $request->id;
         $f = Voucher::where('spot_id', '=', $spot_id)->find($id);
         if (!$f) {
@@ -113,7 +110,7 @@ class VouchersController extends Controller
         $voucher = Voucher::whereId($id)->where('room', '!=', null)->first();
 
         if (empty($voucher)) {
-            Voucher::whereId($id)->update(array_merge($request->validated(),['dt_start'=>$date,'dt_end'=>$expiration]));
+            Voucher::whereId($id)->update($request->validated());
             $id = Voucher::whereId($id)->get();
             return response($id, 200);
         } else {
