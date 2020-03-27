@@ -23,6 +23,6 @@ class DefaultSettingController extends Controller
     {
         $settings = DefaultSetting::findOrFail($id);
         $settings->update($request->validated());
-        return response($settings);
+        return $settings;
     }
 }
