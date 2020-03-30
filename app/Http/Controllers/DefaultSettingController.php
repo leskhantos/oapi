@@ -19,7 +19,7 @@ class DefaultSettingController extends Controller
         return DefaultSetting::create($request->validated());
     }
 
-    public function put(SettingsUpdateRequest $request, $id)
+    public function update($id, SettingsUpdateRequest $request)
     {
         $settings = DefaultSetting::findOrFail($id);
         $settings->update($request->validated());

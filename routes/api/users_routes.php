@@ -58,7 +58,7 @@ Route::post('account', 'UsersController@storeAccount');
 
 Route::get('settings', 'DefaultSettingController@index');
 Route::post('settings', 'DefaultSettingController@store');
-Route::put('settings/{id}', 'DefaultSettingController@put');
+Route::put('settings/{id}', 'DefaultSettingController@update');
 
 
 Route::get('device/{id}', 'DeviceController@show');

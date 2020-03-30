@@ -13,7 +13,7 @@ class SettingsUpdateRequest extends ApiRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
