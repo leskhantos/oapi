@@ -7,8 +7,8 @@ use Faker\Generator as Faker;
 
 $factory->define(Style::class, function (Faker $faker) {
     return [
-        'company_id' =>1,
-        'name'=>$faker->name,
+        'company_id' =>rand(1,3),
+        'name'=>$faker->word,
         'title'=>$faker->title,
     ];
 });

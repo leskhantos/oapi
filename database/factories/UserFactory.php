@@ -2,10 +2,8 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Entities\Company;
 use App\Entities\User;
 use Faker\Generator as Faker;
-use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +18,10 @@ use Illuminate\Support\Str;
 
 $factory->define(User::class, function (Faker $faker) {
     return [
+        'type'=>'client',
         'name' => $faker->firstName,
-        'login' => 'pbragina',
+        'id_company' => rand(1,3),
+        'login' => $faker->freeEmail, //login
         'password' => 'password', // password
         'last_online' => $faker->date(),
         'last_ip' =>  $faker->ipv4 ,

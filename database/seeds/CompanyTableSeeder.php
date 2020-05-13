@@ -13,6 +13,6 @@ class CompanyTableSeeder extends Seeder
     public function run()
     {
         Company::truncate();
-        factory(Company::class, 1)->create();
+        factory(Company::class, 3)->create();
     }
 }
