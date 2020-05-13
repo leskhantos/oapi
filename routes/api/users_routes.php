@@ -3,7 +3,7 @@
 Route::apiResource('users', 'UsersController')->except('destroy');
 Route::put('put-users/{id}/pass', 'UsersController@updatePassword');
 
-Route::get('spots/types', 'SpotTypeController@index');
+Route::apiResource('spot/types', 'SpotTypeController')->only('index');
 
 Route::post('add/sms', 'StatController@addSms');
 Route::post('add/call', 'StatController@addCall');
@@ -27,17 +27,14 @@ Route::get('guest/{id}/spot', 'GuestController@guestBySpot');
 
 Route::get('spot/{id}/call', 'SpotController@callBySpot');
 Route::get('spot/{id}/sms', 'SpotController@smsBySpot');
-Route::get('spots/types/{id}/company', 'SpotController@spotTypesByCompany');
+Route::get('spot/types/{id}/company', 'SpotController@spotTypesByCompany');
 Route::get('spot/{id}/event', 'SpotController@eventsBySpot');
 
-Route::get('companies', 'CompaniesController@index');
-Route::apiResource('company', 'CompaniesController')->except('index');
+Route::apiResource('companies', 'CompaniesController');
 Route::get('company/{id}/accounts', 'CompaniesController@accountsByCompany');
 
 Route::get('company/{id}/spots', 'SpotController@spotsByCompany');
-Route::get('spot/{id}', 'SpotController@show');
-Route::put('spot/{id}', 'SpotController@update');
-Route::post('company/spot', 'SpotController@store');
+Route::apiResource('spots', 'SpotController');
 
 Route::get('company/{id}/pages', 'CompaniesController@pagesByCompany');
 Route::post('page', 'StyleController@store');
@@ -56,9 +53,7 @@ Route::get('spot/{id}/session', 'SessionController@sessionBySpot');
 Route::post('device', 'DeviceController@store'); //возможно не нужны
 Route::post('account', 'UsersController@storeAccount');
 
-Route::get('settings', 'DefaultSettingController@index');
-Route::post('settings', 'DefaultSettingController@store');
-Route::put('settings/{id}', 'DefaultSettingController@put');
+Route::apiResource('settings', 'DefaultSettingController')->except('destroy');
 
 
 Route::get('device/{id}', 'DeviceController@show');
