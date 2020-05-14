@@ -2,6 +2,7 @@
 
 Route::apiResource('users', 'UsersController');
 Route::put('put-users/{id}/pass', 'UsersController@updatePassword');
+Route::put('put-accounts/{id}/pass', 'UsersController@updateAccountPassword');
 
 Route::apiResource('spot/types', 'SpotTypeController')->only('index');
 

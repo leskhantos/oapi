@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Api\Account\AccountStoreRequest;
+use App\Http\Requests\Api\User\UpdateAccountPassword;
 use App\Http\Requests\Api\User\UserUpdate;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Entities\User;
@@ -70,12 +71,21 @@ class UsersController extends Controller
         if (Hash::check($pass, $user->password)) {
             $user->update([
                 'password' => $request->password,
-                'last_online' => $request->last_online,
-                'last_ip' => $request->last_ip]);
+            ]);
             return response($user, 200);
         } else
             return response([
                 'password' => ['The oldPassword is invalid']
             ], 422);
+    }
+
+    public function updateAccountPassword(UpdateAccountPassword $request, $id)
+    {
+        $user = User::find($id);
+        $user->update([
+                'password' => $request->password,
+               ]);
+            return response($user, 200);
+
     }
 }
