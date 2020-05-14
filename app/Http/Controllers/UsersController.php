@@ -53,6 +53,14 @@ class UsersController extends Controller
         }
     }
 
+    public function destroy($id){
+        $user = User::findOrFail($id);
+        if ($user->type=='client'){
+            $user->delete();
+        }
+        return response('deleted',204);
+    }
+
     public function updatePassword(UpdatePassword $request)
     {
         $id = auth()->user()->id;

@@ -1,6 +1,6 @@
 <?php
 
-Route::apiResource('users', 'UsersController')->except('destroy');
+Route::apiResource('users', 'UsersController');
 Route::put('put-users/{id}/pass', 'UsersController@updatePassword');
 
 Route::apiResource('spot/types', 'SpotTypeController')->only('index');
