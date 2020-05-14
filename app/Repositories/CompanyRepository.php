@@ -23,7 +23,7 @@ class CompanyRepository implements CompanyRepositoryInterface
     public function accountsByCompany($company_id)
     {
         $company = Company::findOrFail($company_id);
-        $user = User::select('login', 'last_ip', 'last_online')
+        $user = User::select('id','login', 'last_ip', 'last_online')
             ->where('users.id_company', '=', $company->id)->get();
         return $user;
     }
