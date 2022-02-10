@@ -23,7 +23,7 @@
         "bootstrap": "^4.4.1",
         "dotenv": "^8.2.0",
         "epic-spinners": "^1.1.0",
-        "node-sass": "^4.13.1",
+        "node-sass": "^7.0.0",
         "vue": "^2.6.11",
         "vue-screen-size": "^1.0.0",
         "vue-wait": "^1.4.8",
